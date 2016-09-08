@@ -233,8 +233,8 @@ export default class GeometryCalculator {
     const px = Math.round(geom.head.x/this._cellSize)
     const py = Math.round(geom.head.y/this._cellSize)
 
-    for (let x=px-1;x<=px+1;++x) {
-      for (let y=py-1;y<=py+1;++y) {
+    for (let x=px-2;x<=px+2;++x) {
+      for (let y=py-2;y<=py+2;++y) {
         this._bitArray.set(new Point(x, y))
       }
     }
@@ -288,6 +288,7 @@ export default class GeometryCalculator {
 
   _dijkstra(fromPin, toPin) {
     const queue = [];
+    const visitedNear = [];
 
     const sx = Math.round(fromPin.head.x/this._cellSize);
     const sy = Math.round(fromPin.head.y/this._cellSize);
@@ -302,9 +303,17 @@ export default class GeometryCalculator {
     start_coord.distance = 0;
     queue.push(start_coord);
 
+    let best = null;
+
     while (queue.length>0) {
       var coord = queue.pop();
       //console.log("Visiting %o and %s, %s", coord, tx, ty);
+
+      if (best==null
+        || this._manhattanDistance(coord.x, coord.y, tx, ty)
+        <this._manhattanDistance(best.x, best.y, tx, ty)) {
+        best = coord;
+      }
 
       if(coord.x==tx && coord.y==ty) {
           return coord;
@@ -329,22 +338,20 @@ export default class GeometryCalculator {
       }
 
       neighbors.forEach((n, i) => {
-          // console.log("Checking neighbour %o on index %s", n, i);
+          const isNearTarget = (Math.abs(n.x-sx)<=2 && Math.abs(n.y-sy)<=2)
+          || (Math.abs(n.x-tx)<=2 && Math.abs(n.y-ty)<=2);
 
           if(!this._bitArray.get(new Point(n.x, n.y))
-          || (Math.abs(n.x-sx)<=1 && Math.abs(n.y-sy)<=1)
-          || (Math.abs(n.x-tx)<=1 && Math.abs(n.y-ty)<=1)) {
+          || (isNearTarget && !visitedNear.includes(n.x+"_"+n.y))) {
             for(var j = 0;j < queue.length;j++) {
                 var qitem = queue[j];
                 if(qitem.x==n.x && qitem.y==n.y) {
                     n = qitem;
-                    // console.log("Found same");
                     break;
                 }
             }
 
             if(j == queue.length) {
-              //console.log("Adding item");
               queue.push(n);
             }
 
@@ -364,23 +371,25 @@ export default class GeometryCalculator {
                 n.prev = coord;
                 n.remBends = remBends
                 n.heuristic = this._manhattanDistance(n.x, n.y, tx, ty)+remBends;
-                //n.heuristic = 0;
                 n.dir = i;
             }
           }
       })
 
-      //console.log("hug");
-
       queue.sort(function(a, b) {
           return (b.cost+b.heuristic)-(a.cost+a.heuristic);
       });
 
+      const isNearTarget = (Math.abs(coord.x-sx)<=2 && Math.abs(coord.y-sy)<=2)
+      || (Math.abs(coord.x-tx)<=2 && Math.abs(coord.y-ty)<=2);
+
+      if (isNearTarget) {
+        visitedNear.push(coord.x+"_"+coord.y);
+      }
+
       this._bitArray.set(new Point(coord.x, coord.y))
     }
 
-    //console.log("bug");
-
-    return null;
+    return best;
   }
 }

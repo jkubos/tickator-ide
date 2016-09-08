@@ -19,4 +19,12 @@ export default class Point {
   toString() {
     return `[${this.x}, ${this.y}]`
   }
+
+  distanceTo(other) {
+    if (!other instanceof Point) {
+      throw `Trying to get distance between point and ${typeof other}`
+    }
+
+    return Math.sqrt(Math.pow(this.x-other.x, 2)+Math.pow(this.y-other.y, 2))
+  }
 }

@@ -13,18 +13,36 @@ export default class Dispatcher {
     console.log(command);
 
     let changed = false;
-    if (command.command=="component.move.begin") {
-      this._context = command.id
-    } else if (command.command=="component.move.end") {
 
-      this._data.xxx.components.filter(c=>c.id==this._context).forEach(c=>{
-        c.positionX = command.position.x
-        c.positionY = command.position.y
-        changed = true;
+    if (command.command=="mouse.down") {
+      command.selectedObjects.forEach(o=>{
+        if (o.type=='component' && o.semantics=='body') {
+          this._context = o.id
+        }
       })
+    } else if (command.command=="mouse.move") {
+      if (this._context) {
+        this._data.xxx.components.filter(c=>c.id==this._context).forEach(c=>{
+          c.positionX = command.position.x
+          c.positionY = command.position.y
+          changed = true;
+        })
+      }
+    } else if (command.command=="mouse.up") {
+      if (this._context) {
+        this._data.xxx.components.filter(c=>c.id==this._context).forEach(c=>{
+          c.positionX = command.position.x
+          c.positionY = command.position.y
+          changed = true;
+        })
+
+        this._context = null
+      }
     }
 
-    this._onChangeCallbacks.forEach(c=>c())
+    if (changed) {
+      this._onChangeCallbacks.forEach(c=>c())
+    }
   }
 
   onChange(callback) {

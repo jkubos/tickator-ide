@@ -6,6 +6,7 @@ import Wire from "./wire"
 import BitArrayVisualization from "./bit_array_visualization"
 import GeometryCalculator from "../geom/geometry_calculator"
 import Point from "../geom/point"
+import Line from "../geom/line"
 
 export class WorkArea extends React.Component {
 
@@ -43,8 +44,9 @@ export class WorkArea extends React.Component {
         viewBox={"0 0 "+this.props.size.width+" "+this.props.size.height}
         style={{background: "white"}}
         ref={element=>this._element=element}
-        onMouseDown={e=>this.onMouseDown(e)}
-        onMouseUp={e=>this.onMouseUp(e)} >
+        onMouseDown={e=>this._onMouseEvent("mouse.down", e)}
+        onMouseUp={e=>this._onMouseEvent("mouse.up", e)}
+        onMouseMove={e=>this._onMouseEvent("mouse.move", e)} >
 
         {wires}
         {components}
@@ -54,42 +56,70 @@ export class WorkArea extends React.Component {
     </div>
   }
 
-  onMouseDown(e) {
+  _onMouseEvent(command, e) {
     const point = this._clickPoint(e)
-    const shape = this._findShape(point)
+    const selectedObjects = this._findSelectedObjects(point)
 
-    if (shape && shape.type=="component") {
-      this.context.dispatcher.dispatch({
-        command: "component.move.begin",
-        id: shape.id,
-        position: point
-      });
-    }
+    this.context.dispatcher.dispatch({
+      command: command,
+      selectedObjects: selectedObjects,
+      position: point
+    });
   }
 
-  onMouseUp(e) {
-    const point = this._clickPoint(e)
-    // const shape = this._findShape(point)
+  _findSelectedObjects(position) {
+    const res = []
 
-    // if (shape && shape.type=="component") {
-      this.context.dispatcher.dispatch({
-        command: "component.move.end",
-        // id: shape.id,
-        position: point
-      });
-    // }
-  }
+    Object.keys(this._geometry).forEach((k, v)=>{
+      const g = this._geometry[k]
 
-  _findShape(position) {
-    const found = Object.keys(this._geometry).filter(k=>{
-      if (this._geometry[k].type=="component") {
-        return this._geometry[k].bbox.contains(position)
+      if (g.type=="component") {
+        if (g.bbox.contains(position)) {
+          res.push({
+            id: k,
+            type: g.type,
+            semantics: 'body'
+          })
+        }
+      } else if (g.type=="pin") {
+        if (g.head.distanceTo(position)<=g.radius+5) {
+          res.push({
+            id: k,
+            type: g.type,
+            semantics: 'head'
+          })
+        }
+      } else if (g.type=="wire") {
+        if (g.points.length>=2) {
+          if (g.points[0].distanceTo(position)<=10) {
+            res.push({
+              id: k,
+              type: g.type,
+              semantics: 'connector_from'
+            })
+          } else if (g.points[g.points.length-1].distanceTo(position)<=10) {
+            res.push({
+              id: k,
+              type: g.type,
+              semantics: 'connector_to'
+            })
+          } else {
+            for (let i=0;i+1<g.points.length;++i) {
+              const line = new Line(g.points[i], g.points[i+1])
+              if (line.distanceTo(position)<=10) {
+                res.push({
+                  id: k,
+                  type: g.type,
+                  semantics: 'wire'
+                })
+              }
+            }
+          }
+        }
       }
-
-      return false
     })
 
-    return found.length>0 ? this._geometry[found[0]] : null
+    return res
   }
 
   _clickPoint(e) {
