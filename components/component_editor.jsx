@@ -16,14 +16,14 @@ export default class ComponentEditor extends React.Component {
 
     return <div style={style}>
       <WorkArea
-        data={this.props.componentData}
+        data={this.context.store.getState().scene}
+        dynamic={this.context.store.getState().dynamic}
         size={this.props.area.size()} />
     </div>
   }
 }
 
 ComponentEditor.propTypes = {
-  componentData: React.PropTypes.object,
   top: React.PropTypes.number,
   left: React.PropTypes.number,
   width: React.PropTypes.number,
@@ -34,5 +34,5 @@ ComponentEditor.defaultProps = {
 };
 
 ComponentEditor.contextTypes = {
-  dispatcher: React.PropTypes.object.isRequired
+  store: React.PropTypes.object.isRequired
 };

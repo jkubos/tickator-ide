@@ -21,7 +21,7 @@ export default class GeometryCalculator {
       geometry[comp.id] = this._prepareComponentGeometry(comp);
 
       (comp.pins || []).forEach(pin=>{
-        geometry[pin.id] = this._preparePinGeometry(geometry[comp.id], pin)
+        geometry[pin.id] = this._preparePinGeometry(geometry[comp.id], pin, comp)
       })
     })
 
@@ -47,7 +47,7 @@ export default class GeometryCalculator {
     }
   }
 
-  _preparePinGeometry(compGeometry, pin) {
+  _preparePinGeometry(compGeometry, pin, comp) {
     const mount = this._calculatePinMountPosition(compGeometry, pin)
     const dir = this._calculatePinDirection(pin)
     const [textDir, textAlignVertical, textAlignHorizontal] = this._calculatePinLabelPosition(pin)
@@ -59,6 +59,7 @@ export default class GeometryCalculator {
     return {
       type: "pin",
       id: pin.id,
+      componentId: comp.id,
       mount: mount,
       radius: this._pinRadius,
       head: head,

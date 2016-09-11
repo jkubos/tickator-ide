@@ -6,6 +6,10 @@ export default class Line {
     this.to = to;
   }
 
+  length() {
+    return Math.sqrt(Math.pow(this.from.x-this.to.x, 2) + Math.pow(this.from.y-this.to.y, 2))
+  }
+
   distanceTo(point) {
     if (!point instanceof Point) {
       throw `Trying to get distance between line and ${typeof other}`

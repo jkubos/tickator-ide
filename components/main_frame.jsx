@@ -16,26 +16,25 @@ export default class MainFrame extends React.Component {
 
     return <div style={style}>
         <ComponentEditor
-          componentData={this.props.dispatcher.data().xxx}
           area={new Rectangle(200, 10, this.props.width-200-10, this.props.height-10-10)}
           />
       </div>;
   }
 
   getChildContext() {
-    return {dispatcher: this.props.dispatcher};
+    return {store: this.props.store};
   }
 }
 
 MainFrame.propTypes = {
   width: React.PropTypes.number.isRequired,
   height: React.PropTypes.number.isRequired,
-  dispatcher: React.PropTypes.object.isRequired
+  store: React.PropTypes.object.isRequired
 };
 
 MainFrame.defaultProps = {
 };
 
 MainFrame.childContextTypes = {
-  dispatcher: React.PropTypes.object.isRequired
+  store: React.PropTypes.object.isRequired
 };

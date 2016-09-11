@@ -42,7 +42,7 @@ export class WorkArea extends React.Component {
         width={this.props.size.width}
         height={this.props.size.height}
         viewBox={"0 0 "+this.props.size.width+" "+this.props.size.height}
-        style={{background: "white"}}
+        style={{background: "white", cursor: this.props.dynamic.cursor}}
         ref={element=>this._element=element}
         onMouseDown={e=>this._onMouseEvent("mouse.down", e)}
         onMouseUp={e=>this._onMouseEvent("mouse.up", e)}
@@ -56,12 +56,12 @@ export class WorkArea extends React.Component {
     </div>
   }
 
-  _onMouseEvent(command, e) {
+  _onMouseEvent(type, e) {
     const point = this._clickPoint(e)
     const selectedObjects = this._findSelectedObjects(point)
 
-    this.context.dispatcher.dispatch({
-      command: command,
+    this.context.store.dispatch({
+      type: type,
       selectedObjects: selectedObjects,
       position: point
     });
@@ -82,11 +82,22 @@ export class WorkArea extends React.Component {
           })
         }
       } else if (g.type=="pin") {
-        if (g.head.distanceTo(position)<=g.radius+5) {
+        if (g.head.distanceTo(position)<=g.radius) {
           res.push({
             id: k,
             type: g.type,
             semantics: 'head'
+          })
+        }
+
+        const line = new Line(g.headTouch, g.mount)
+
+        if (line.distanceTo(position)<=2) {
+          res.push({
+            id: k,
+            type: g.type,
+            semantics: 'stick',
+            componentBbox: this._geometry[g.componentId].bbox
           })
         }
       } else if (g.type=="wire") {
@@ -132,11 +143,13 @@ export class WorkArea extends React.Component {
 }
 
 WorkArea.propTypes = {
+  data: React.PropTypes.object.isRequired,
+  dynamic: React.PropTypes.object.isRequired
 };
 
 WorkArea.defaultProps = {
 };
 
 WorkArea.contextTypes = {
-  dispatcher: React.PropTypes.object.isRequired
+  store: React.PropTypes.object.isRequired
 };
