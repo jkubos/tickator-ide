@@ -2,16 +2,18 @@ import React from 'react'
 import ReactDOM from 'react-dom'
 import jquery from 'jquery'
 import { createStore } from 'redux'
-import deepFreeze from 'deep-freeze'
 
-require("jquery")
-require("bootstrap-webpack")
-require("font-awesome/css/font-awesome.css")
+require('expose?$!expose?jQuery!jquery')
 require("./main.less");
 
-import initData from './data'
+import {initData, fillDatabase} from './data'
 import MainFrame from './components/main_frame'
 import dynamicRenderingReducer from './reducers/dynamic_rendering'
+
+import Database from './utils/database'
+
+const db = new Database()
+fillDatabase(db)
 
 /* ########################################################################## */
 const registeredReducers = [
@@ -39,7 +41,7 @@ function rootReducer(state, action) {
 }
 /* ########################################################################## */
 
-let store = createStore(rootReducer, initData)
+let store = createStore(rootReducer, initData())
 
 function render() {
   ReactDOM.render(

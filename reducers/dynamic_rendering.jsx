@@ -1,4 +1,4 @@
-import {lookupInScene} from "../utils/store_helpers"
+import {lookupInScene, generateUUID} from "../utils/store_helpers"
 import Line from "../geom/line"
 import Point from "../geom/point"
 
@@ -7,10 +7,12 @@ export default function dynamicRenderingReducer(state, action) {
     case 'mouse.down':
       action.selectedObjects.forEach(o=>{
         if (o.type=='pin' && o.semantics=='head') {
-          state.dynamic.cursor = 'crosshair'
+          state.dynamic.movedObject = {
+            id: o.id,
+            type: 'wire'
+          }
         } if (o.type=='pin' && o.semantics=='stick') {
           const pin = lookupInScene(state.scene, o.id)
-          state.dynamic.cursor = pin.side=='left' || pin.side=='right' ? 'row-resize' : 'col-resize'
           state.dynamic.movedObject = {
             id: o.id,
             type: 'pin',
@@ -23,7 +25,6 @@ export default function dynamicRenderingReducer(state, action) {
         } else if (o.type=='component' && o.semantics=='body') {
           const comp = lookupInScene(state.scene, o.id)
 
-          state.dynamic.cursor = 'move'
           state.dynamic.movedObject = {
             id: o.id,
             type: 'component',
@@ -42,15 +43,48 @@ export default function dynamicRenderingReducer(state, action) {
         if (state.dynamic.movedObject.type=='component') {
           o.positionX = action.position.x
           o.positionY = action.position.y
-        } else if (state.dynamic.movedObject.type=='pin'){
+        } else if (state.dynamic.movedObject.type=='pin') {
+          const pin = lookupInScene(state.scene, o.id)
+          state.dynamic.cursor = pin.side=='left' || pin.side=='right' ? 'row-resize' : 'col-resize'
           movePinPosition(state.dynamic.movedObject.componentBbox, o, action.position)
+        } else if (state.dynamic.movedObject.type=='wire') {
+          //
         } else {
           throw `Uknown moved object ${state.dynamic.movedObject.type}`
         }
+      } else {
+        state.dynamic.cursor = 'default'
+
+        action.selectedObjects.forEach(o=>{
+          if (o.type=='pin' && o.semantics=='head') {
+            state.dynamic.cursor = 'crosshair'
+          } if (o.type=='pin' && o.semantics=='stick') {
+            const pin = lookupInScene(state.scene, o.id)
+            state.dynamic.cursor = pin.side=='left' || pin.side=='right' ? 'row-resize' : 'col-resize'
+          } else if (o.type=='component' && o.semantics=='body') {
+            state.dynamic.cursor = 'move'
+          }
+        })
       }
 
       break;
     case 'mouse.up':
+
+      if (state.dynamic.movedObject && state.dynamic.movedObject.type=='wire') {
+        const o = lookupInScene(state.scene, state.dynamic.movedObject.id)
+
+        action.selectedObjects.forEach(s=>{
+          if (s.type=='pin' && s.semantics=='head') {
+            state.scene.wires.push({
+              id: generateUUID(),
+              type: "wire",
+              from: o.id,
+              to: s.id
+            })
+          }
+        })
+      }
+
       state.dynamic.cursor = 'default'
       state.dynamic.movedObject = undefined
 
