@@ -1,6 +1,7 @@
 import React from 'react';
 
 import ComponentEditor from "./component_editor"
+import NamespaceTree from '../src/ui/namespace-tree/namespace-tree'
 import Rectangle from "../geom/rectangle"
 
 export default class MainFrame extends React.Component {
@@ -16,7 +17,10 @@ export default class MainFrame extends React.Component {
 
     return <div style={style}>
         <ComponentEditor
-          area={new Rectangle(200, 10, this.props.width-200-10, this.props.height-10-10)}
+          area={new Rectangle(400, 10, this.props.width-400-10, this.props.height-10-10)}
+          />
+        <NamespaceTree
+          area={new Rectangle(10, 10, 380, this.props.height-10-10)}
           />
       </div>;
   }

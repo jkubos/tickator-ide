@@ -7,10 +7,10 @@ export default class ComponentEditor extends React.Component {
 
     const style = {
       position: "absolute",
-      top: this.props.top,
-      left: this.props.left,
-      width: this.props.width,
-      height: this.props.height,
+      top: this.props.area.y,
+      left: this.props.area.x,
+      width: this.props.area.width,
+      height: this.props.area.height,
       background: "green"
     }
 

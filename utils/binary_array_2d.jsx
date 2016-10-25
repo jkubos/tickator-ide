@@ -13,6 +13,8 @@ export default class BinaryArray2D {
     }
   }
 
+
+
   snapshot() {
     this._snapshot = this._data.slice()
   }

@@ -1,0 +1,3 @@
+export const ACTION = {
+  ADD_NAMESPACE_NODE: 'ADD_NAMESPACE_NODE'
+}

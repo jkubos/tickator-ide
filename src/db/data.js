@@ -1,15 +1,13 @@
 
+import {DB_CONST} from "../const/db"
+
 export function fillDatabase(db) {
   db.clean()
-  db.set('c1', {
-    id: 'c1',
-    type: 'component',
-    label: "compare",
-    pins: [
-    ],
-    wires: [
-    ],
-    subcomponents: [
+  db.set({
+    id: DB_CONST.ROOT_NAMESPACE_ID,
+    type: 'namespace',
+    label: '',
+    children: [
     ]
   })
 }
@@ -58,8 +56,8 @@ export function initData() {
           id: "b",
           type: "component",
           label: "print",
-          positionX: 400,
-          positionY: 200,
+          positionX: 250,
+          positionY: 100,
           pins: [
             {
               id: "b0",
@@ -83,8 +81,8 @@ export function initData() {
           id: "a",
           type: "component",
           label: "counter",
-          positionX: 600,
-          positionY: 50,
+          positionX: 400,
+          positionY: 70,
           pins: [
             {
               id: "a0",
@@ -116,8 +114,8 @@ export function initData() {
           id: "d",
           type: "component",
           label: "test",
-          positionX: 800,
-          positionY: 100,
+          positionX: 400,
+          positionY: 300,
           pins: [
             {
               id: "d0",
@@ -149,7 +147,7 @@ export function initData() {
           id: "e",
           type: "component",
           label: "test 2",
-          positionX: 800,
+          positionX: 300,
           positionY: 400,
           pins: [
             {

@@ -1,70 +1,31 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
 import jquery from 'jquery'
-import { createStore } from 'redux'
-
 require('expose?$!expose?jQuery!jquery')
-require("./main.less");
 
-import {initData, fillDatabase} from './data'
-import MainFrame from './components/main_frame'
-import dynamicRenderingReducer from './reducers/dynamic_rendering'
+import TickletRepository from './src/tickator/ticklet_repository'
+import Dispatcher from './src/tickator/dispatcher'
+import Ticklet from './src/tickator/ticklet'
 
-import Database from './utils/database'
+import SumTicklet from './src/ticklets/sum'
+import ConstTicklet from './src/ticklets/const'
 
-const db = new Database()
-fillDatabase(db)
+import TickletDefinition from './src/ui/ticklet_definition'
 
-/* ########################################################################## */
-const registeredReducers = [
-  dynamicRenderingReducer
-]
+const tickletRepository = new TickletRepository()
 
-function rootReducer(state, action) {
-  if (action.type!='mouse.move') {
-    console.log(action)
-  }
+tickletRepository.add(SumTicklet)
+tickletRepository.add(ConstTicklet)
 
-  // let newState = {...state}
+const dispatcher = new Dispatcher()
 
-  let newState = JSON.parse(JSON.stringify(state))
+window.setInterval(dispatcher.doTick.bind(dispatcher), 10)
 
-  registeredReducers.forEach(reducer=>{
-    newState = reducer(newState, action)
-  })
-
-  if (JSON.stringify(newState)!==JSON.stringify(state)) {
-    console.log(newState)
-  }
-
-  return newState
-}
-/* ########################################################################## */
-
-let store = createStore(rootReducer, initData())
-
-function render() {
-  ReactDOM.render(
-    <MainFrame
-      width={$(window).width()}
-      height={$(window).height()}
-      store={store}
-      />,
-    $("#root").get(0)
-  );
-}
-
-store.subscribe(() =>
-  render()
-)
-
-$(window).resize(e=>render())
-
-// $(document).keydown(function(e){
-//   if (e.ctrlKey) {
-//     if (e.which==37) {
-//     }
-//   }
-// })
-
-render()
+ReactDOM.render(
+  <div>
+    {
+      tickletRepository.definitions().map(def=><TickletDefinition def={def}/>)
+    }
+  </div>,
+  $("#root").get(0)
+);
