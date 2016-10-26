@@ -12,8 +12,8 @@ export default class TickletDefinitionBuilder {
     this.properties = []
   }
 
-  build(id) {
-    return new TickletDefinition(id, this.commentVal, this.inputs, this.outputs,
+  build(name) {
+    return new TickletDefinition(name, this.commentVal, this.inputs, this.outputs,
       this.properties, this.autostartVal)
   }
 

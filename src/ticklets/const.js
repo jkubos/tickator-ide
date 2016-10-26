@@ -1,4 +1,6 @@
 import Validate from '../util/validate'
+
+
 export default class Const {
   static define(builder) {
     builder.comment("Send constant value when started")

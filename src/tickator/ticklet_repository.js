@@ -20,9 +20,13 @@ export default class TickletRepository {
 
     const tickletDefinition = definitionBuilder.build(tickletClass.name)
 
-    console.log(tickletDefinition.toDebug())
+    console.log(`Defined %c ticklet ${tickletDefinition.name()} %c %o`,
+       'color: #00aa00; font-weight: bold',
+       'color: #000000; font-weight: normal',
+       tickletDefinition.toDebug())
 
-    this.definitionsVal[tickletDefinition.id()] = tickletDefinition
+
+    this.definitionsVal[tickletDefinition.name()] = tickletDefinition
   }
 
   definitions() {

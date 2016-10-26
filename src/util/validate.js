@@ -23,6 +23,12 @@ export default {
     }
   },
 
+  isArray(value, message=null) {
+    if (!(value instanceof Array)) {
+      throw message || `Array expected, got '${value}'`
+    }
+  },
+
   isFunctionWithArity(value, arity, message=null) {
     if (!(value instanceof Function)) {
       throw message || `Function expected, got '${value}'`
@@ -36,6 +42,18 @@ export default {
   isNumber(value, message=null) {
     if (typeof(value)!=='number') {
       throw message || `Expected number, got '${value}'`
+    }
+  },
+
+  isA(value, type, message=null) {
+    if (!(value instanceof type)) {
+      throw message || `'${value}' is not instance of '${type}'`
+    }
+  },
+
+  notSet(map, key, message=null) {
+    if (map[key]!==undefined) {
+      throw message || `Key ${key} is already set!`
     }
   }
 }
