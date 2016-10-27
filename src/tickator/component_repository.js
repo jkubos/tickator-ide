@@ -7,7 +7,7 @@ export default class ComponentRepository {
      Validate.isA(tickletRepository, TickletRepository)
 
      this.tickletRepository = tickletRepository
-     this.componentsVal = {}
+     this.definitionsVal = {}
    }
 
    addAll(components) {
@@ -29,9 +29,13 @@ export default class ComponentRepository {
           'color: #000000; font-weight: normal',
           componentDefinition.toDebug())
 
-       Validate.notSet(this.componentsVal, componentDefinition.name())
+       Validate.notSet(this.definitionsVal, componentDefinition.name())
 
-       this.componentsVal[componentDefinition.name()] = componentDefinition
+       this.definitionsVal[componentDefinition.name()] = componentDefinition
      })
+   }
+
+   definitions() {
+     return Object.keys(this.definitionsVal).map(k=>this.definitionsVal[k])
    }
  }

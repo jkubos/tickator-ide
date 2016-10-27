@@ -7,6 +7,22 @@ export default class ComponentDefinition {
     return this.nameVal
   }
 
+  comment() {
+    return 'todo'
+  }
+
+  inputs() {
+    return []
+  }
+
+  outputs() {
+    return []
+  }
+
+  properties() {
+    return []
+  }
+
   toDebug() {
     return {
       name: this.nameVal

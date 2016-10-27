@@ -11,6 +11,7 @@ import {ticklets} from './src/ticklets/index'
 import {components} from './src/components/index'
 
 import TickletDefinition from './src/ui/ticklet_definition'
+import ComponentDefinition from './src/ui/component_definition'
 
 const tickletRepository = new TickletRepository()
 ticklets.forEach(t=>tickletRepository.add(t))
@@ -26,6 +27,10 @@ ReactDOM.render(
   <div>
     {
       tickletRepository.definitions().map(def=><TickletDefinition def={def} key={def.name()}/>)
+    }
+    <hr/>
+    {
+      componentRepository.definitions().map(def=><ComponentDefinition def={def} key={def.name()}/>)
     }
   </div>,
   $("#root").get(0)
