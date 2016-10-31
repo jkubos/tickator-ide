@@ -1,31 +1,39 @@
 import Validate from '../util/validate'
 
-export default function defineFunction(builder) {
-  builder.name('Root')
+export default function defineFunction(b) {
+  b.name('Root')
 
-  builder.instance(instanceBuilder=>{
-    instanceBuilder.name('p')
-    instanceBuilder.ticklet('Print')
+  b.instance(b=>{
+    b.name('p')
+    b.ticklet('Print')
+    b.x(400)
+    b.y(200)
   })
 
-  builder.instance(instanceBuilder=>{
-    instanceBuilder.name('c1')
-    instanceBuilder.ticklet('Const')
-    instanceBuilder.property('value', 1)
+  b.instance(b=>{
+    b.name('c1')
+    b.ticklet('Const')
+    b.property('value', 1)
+    b.x(50)
+    b.y(100)
   })
 
-  builder.instance(instanceBuilder=>{
-    instanceBuilder.name('c2')
-    instanceBuilder.ticklet('Const')
-    instanceBuilder.property('value', 41)
+  b.instance(b=>{
+    b.name('c2')
+    b.ticklet('Const')
+    b.property('value', 41)
+    b.x(50)
+    b.y(300)
   })
 
-  builder.instance(componentBuilder=>{
-    componentBuilder.name('s')
-    componentBuilder.ticklet('Sum')
+  b.instance(b=>{
+    b.name('s')
+    b.ticklet('Sum')
+    b.x(200)
+    b.y(200)
   })
 
-  builder.connect('c1->res', 's->a')
-  builder.connect('c2->res', 's->b')
-  builder.connect('s->res', 'p->val')
+  b.connect('c1->res', 's->a')
+  b.connect('c2->res', 's->b')
+  b.connect('s->res', 'p->val')
 }

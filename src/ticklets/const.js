@@ -2,18 +2,18 @@ import Validate from '../util/validate'
 
 
 export default class Const {
-  static define(builder) {
-    builder.comment("Send constant value when started")
+  static define(b) {
+    b.comment("Send constant value when started")
 
-    builder.output(outputBuilder=>{
-      outputBuilder.name('res')
+    b.output(b=>{
+      b.name('res')
     })
 
-    builder.property(propertyBuilder=>{
-      propertyBuilder.name('value')
+    b.property(b=>{
+      b.name('value')
     })
 
-    builder.autostart()
+    b.autostart()
   }
 
   tick() {

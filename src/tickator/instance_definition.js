@@ -1,10 +1,12 @@
 
 export default class InstanceDefinition {
-  constructor (nameVal, tickletVal, componentVal, propertiesVal) {
+  constructor (nameVal, tickletVal, componentVal, propertiesVal, xVal, yVal) {
     this.nameVal = nameVal
     this.tickletVal = tickletVal
     this.componentVal = componentVal
     this.propertiesVal = propertiesVal
+    this.xVal = xVal
+    this.yVal = yVal
   }
 
   name() {
@@ -17,6 +19,14 @@ export default class InstanceDefinition {
 
   component() {
     return this.componentVal
+  }
+
+  x() {
+    return this.xVal
+  }
+
+  y() {
+    return this.yVal
   }
 
   definition() {

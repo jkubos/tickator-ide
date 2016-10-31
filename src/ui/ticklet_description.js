@@ -1,6 +1,6 @@
 import React from 'react';
 
-export default class ComponentDefinition extends React.Component {
+export default class TickletDescription extends React.Component {
   render() {
     return <div style={{border: '1px solid gray', display: 'inline-block', margin: 5, padding: 5, background: '#88f'}}>
         <h3>{this.props.def.name()}</h3>
@@ -21,24 +21,19 @@ export default class ComponentDefinition extends React.Component {
         <ul>
           {this.props.def.properties().map(p=><li key={p.name()}>{p.name()}</li>)}
         </ul>
-
-        Instances:
-        <ul>
-          {this.props.def.instances().map(i=><li key={i.name()}>{i.name()} : {i.definition().type()} {i.definition().name()}</li>)}
-        </ul>
-      </div>;
+      </div>
   }
 
   getChildContext() {
-    return {};
+    return {}
   }
 }
 
-ComponentDefinition.propTypes = {
-};
+TickletDescription.propTypes = {
+}
 
-ComponentDefinition.defaultProps = {
-};
+TickletDescription.defaultProps = {
+}
 
-ComponentDefinition.childContextTypes = {
-};
+TickletDescription.childContextTypes = {
+}

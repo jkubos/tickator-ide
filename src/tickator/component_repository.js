@@ -38,4 +38,14 @@ export default class ComponentRepository {
    definitions() {
      return Object.keys(this.definitionsVal).map(k=>this.definitionsVal[k])
    }
+
+   isDefined(componentName) {
+     return this.definitionsVal[componentName] instanceof ComponentDefinition
+   }
+
+   get(componentName) {
+     Validate.isSet(this.definitionsVal, componentName)
+
+     return this.definitionsVal[componentName]
+   }
  }

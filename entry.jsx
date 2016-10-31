@@ -10,8 +10,9 @@ import Dispatcher from './src/tickator/dispatcher'
 import {ticklets} from './src/ticklets/index'
 import {components} from './src/components/index'
 
-import TickletDefinition from './src/ui/ticklet_definition'
-import ComponentDefinition from './src/ui/component_definition'
+import TickletDescription from './src/ui/ticklet_description'
+import ComponentDescription from './src/ui/component_description'
+import ComponentSchema from './src/ui/component_schema'
 
 const tickletRepository = new TickletRepository()
 ticklets.forEach(t=>tickletRepository.add(t))
@@ -26,12 +27,13 @@ window.setInterval(dispatcher.doTick.bind(dispatcher), 10)
 ReactDOM.render(
   <div>
     {
-      tickletRepository.definitions().map(def=><TickletDefinition def={def} key={def.name()}/>)
+      tickletRepository.definitions().map(def=><TickletDescription def={def} key={def.name()}/>)
+    }
+    {
+      componentRepository.definitions().map(def=><ComponentDescription def={def} key={def.name()}/>)
     }
     <hr/>
-    {
-      componentRepository.definitions().map(def=><ComponentDefinition def={def} key={def.name()}/>)
-    }
+    <ComponentSchema def={componentRepository.get('Root')} width={800} height={600}/>
   </div>,
   $("#root").get(0)
 );

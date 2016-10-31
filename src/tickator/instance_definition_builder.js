@@ -13,6 +13,9 @@ export default class InstanceDefinitionBuilder {
     this.tickletRepository = tickletRepository
     this.componentRepository = componentRepository
     this.properties = {}
+
+    this.xVal = 100
+    this.yVal = 100
   }
 
   build() {
@@ -26,7 +29,8 @@ export default class InstanceDefinitionBuilder {
       Validate.isA(this.componentVal, ComponentDefinition)
     }
 
-    return new InstanceDefinition(this.nameVal, this.tickletVal, this.componentVal, this.properties)
+    return new InstanceDefinition(this.nameVal, this.tickletVal, this.componentVal,
+      this.properties, this.xVal, this.yVal)
   }
 
   name(nameVal) {
@@ -52,5 +56,15 @@ export default class InstanceDefinitionBuilder {
     Validate.notSet(this.properties, name)
 
     this.properties[name] = value
+  }
+
+  x(xVal) {
+    Validate.isNumber(xVal)
+    this.xVal = xVal
+  }
+
+  y(yVal) {
+    Validate.isNumber(yVal)
+    this.yVal = yVal
   }
 }

@@ -1,11 +1,11 @@
 import Validate from '../util/validate'
 
 export default class Print {
-  static define(builder) {
-    builder.comment("Prints input to console")
+  static define(b) {
+    b.comment("Prints input to console")
 
-    builder.input(inputBuilder=>{
-      inputBuilder.name("val")
+    b.input(b=>{
+      b.name("val")
     })
   }
 
