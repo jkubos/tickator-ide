@@ -1,6 +1,7 @@
 import Validate from '../util/validate'
 import Ticklet from './ticklet'
 import TickletDefinitionBuilder from './ticklet_definition_builder'
+import TickletDefinition from './ticklet_definition'
 
 export default class TickletRepository {
   constructor() {
@@ -31,5 +32,15 @@ export default class TickletRepository {
 
   definitions() {
     return Object.keys(this.definitionsVal).map(k=>this.definitionsVal[k])
+  }
+
+  isDefined(tickletName) {
+    return this.definitionsVal[tickletName] instanceof TickletDefinition
+  }
+
+  get(tickletName) {
+    Validate.isSet(this.definitionsVal, tickletName)
+
+    return this.definitionsVal[tickletName]
   }
 }

@@ -38,4 +38,16 @@ export default class TickletDefinition {
   properties() {
     return this.propertiesVal
   }
+
+  type() {
+    return 'ticklet'
+  }
+
+  hasInput(name) {
+    return this.inputsVal.some(i=>i.name()==name)
+  }
+
+  hasOutput(name) {
+    return this.outputsVal.some(o=>o.name()==name)
+  }
 }

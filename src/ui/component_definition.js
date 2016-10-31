@@ -21,6 +21,11 @@ export default class ComponentDefinition extends React.Component {
         <ul>
           {this.props.def.properties().map(p=><li key={p.name()}>{p.name()}</li>)}
         </ul>
+
+        Instances:
+        <ul>
+          {this.props.def.instances().map(i=><li key={i.name()}>{i.name()} : {i.definition().type()} {i.definition().name()}</li>)}
+        </ul>
       </div>;
   }
 

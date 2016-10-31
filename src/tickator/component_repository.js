@@ -16,7 +16,7 @@ export default class ComponentRepository {
      components.forEach(component=>{
        Validate.isFunctionWithArity(component, 1)
 
-       const componentBuilder = new ComponentBuilder(this.tickletRepository)
+       const componentBuilder = new ComponentBuilder(this.tickletRepository, this)
 
        const res = component(componentBuilder)
 

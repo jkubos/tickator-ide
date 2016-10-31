@@ -1,6 +1,7 @@
 export default class ComponentDefinition {
-  constructor(nameVal) {
+  constructor(nameVal, instancesVal) {
     this.nameVal = nameVal
+    this.instancesVal = instancesVal
   }
 
   name() {
@@ -23,9 +24,17 @@ export default class ComponentDefinition {
     return []
   }
 
+  instances() {
+    return Object.keys(this.instancesVal).map(k=>this.instancesVal[k])
+  }
+
   toDebug() {
     return {
       name: this.nameVal
     }
+  }
+
+  type() {
+    return 'component'
   }
 }

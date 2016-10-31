@@ -45,6 +45,12 @@ export default {
     }
   },
 
+  isString(value, message=null) {
+    if (typeof(value)!=='string') {
+      throw message || `Expected string, got '${value}'`
+    }
+  },
+
   isA(value, type, message=null) {
     if (!(value instanceof type)) {
       throw message || `'${value}' is not instance of '${type}'`
@@ -54,6 +60,30 @@ export default {
   notSet(map, key, message=null) {
     if (map[key]!==undefined) {
       throw message || `Key ${key} is already set!`
+    }
+  },
+
+  isSet(map, key, message=null) {
+    if (map[key]===undefined) {
+      throw message || `Key ${key} is not set!`
+    }
+  },
+
+  valid(value, message=null) {
+    if (value===false) {
+      throw message || `Key ${key} is already set!`
+    } else if (value!==true) {
+      throw `Excpected boolean, get '${value}'`
+    }
+  },
+
+  oneSet(arr, message=null) {
+    if (!(arr instanceof Array)) {
+      throw `Array expected, got '${arr}'`
+    }
+
+    if (arr.filter(i=>i!==null && i!==undefined).length!=1) {
+      throw `Exactly one should be set, but got '${arr}'`
     }
   }
 }
