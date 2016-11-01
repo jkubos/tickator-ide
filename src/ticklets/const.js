@@ -7,6 +7,7 @@ export default class Const {
 
     b.output(b=>{
       b.name('res')
+      b.position('right', 0.5)
     })
 
     b.property(b=>{

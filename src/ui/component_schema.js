@@ -4,10 +4,9 @@ import ComponentDefinition from '../tickator/component_definition'
 export default class ComponentSchema extends React.Component {
 
   renderInstance(def) {
-    return <g>
+    return <g key={def.name()}>
 
       <rect
-        key={def.name()}
         x={def.x()}
         y={def.y()}
         width={100}

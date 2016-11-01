@@ -85,5 +85,37 @@ export default {
     if (arr.filter(i=>i!==null && i!==undefined).length!=1) {
       throw `Exactly one should be set, but got '${arr}'`
     }
+  },
+
+  oneOf(value, options, message=null) {
+    if (!(options instanceof Array)) {
+        throw `Array expected, got '${options}'`
+    }
+
+    if (!options.includes(value)) {
+      throw message || `Expected one of ${options} but got '${value}'`
+    }
+  },
+
+  numberInRangeIncl(value, fromIncl, toIncl, message=null) {
+    if (typeof(value)!=='number') {
+      throw `Expected number as value, got '${value}'`
+    }
+
+    if (typeof(fromIncl)!=='number') {
+      throw `Expected number as from, got '${fromIncl}'`
+    }
+
+    if (typeof(toIncl)!=='number') {
+      throw `Expected number as to, got '${toIncl}'`
+    }
+
+    if (fromIncl>toIncl) {
+      throw `From should be less or equal than to, got from '${fromIncl}' to '${toIncl}'`
+    }
+
+    if (value<fromIncl || value>toIncl) {
+
+    }
   }
 }

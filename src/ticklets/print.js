@@ -5,7 +5,8 @@ export default class Print {
     b.comment("Prints input to console")
 
     b.input(b=>{
-      b.name("val")
+      b.name("val")      
+      b.position('left', 0.5)
     })
   }
 

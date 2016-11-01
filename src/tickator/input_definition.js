@@ -1,7 +1,9 @@
 export default class InputDefinition {
-  constructor(nameVal, validatorVal) {
+  constructor(nameVal, validatorVal, sideVal, ratioVal) {
     this.nameVal = nameVal
     this.validatorVal = validatorVal
+    this.sideVal = sideVal
+    this.ratioVal = ratioVal
   }
 
   name() {
@@ -10,6 +12,14 @@ export default class InputDefinition {
 
   validator() {
     return this.validatorVal
+  }
+
+  side() {
+    return this.sideVal
+  }
+
+  ratioVal() {
+    return this.ratioVal
   }
 
   toDebug() {
