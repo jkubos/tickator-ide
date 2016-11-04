@@ -33,7 +33,7 @@ ReactDOM.render(
       componentRepository.definitions().map(def=><ComponentDescription def={def} key={def.name()}/>)
     }
     <hr/>
-    <ComponentSchema def={componentRepository.get('Root')} width={800} height={600}/>
+    <ComponentSchema def={componentRepository.get('Root')} width={1300} height={700}/>
   </div>,
   $("#root").get(0)
 );

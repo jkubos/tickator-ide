@@ -1,5 +1,5 @@
 import Validate from '../util/validate'
-import ComponentBuilder from './component_builder'
+import ComponentDefinitionBuilder from './component_definition_builder'
 import TickletRepository from './ticklet_repository'
 
 export default class ComponentRepository {
@@ -16,7 +16,7 @@ export default class ComponentRepository {
      components.forEach(component=>{
        Validate.isFunctionWithArity(component, 1)
 
-       const componentBuilder = new ComponentBuilder(this.tickletRepository, this)
+       const componentBuilder = new ComponentDefinitionBuilder(this.tickletRepository, this)
 
        const res = component(componentBuilder)
 

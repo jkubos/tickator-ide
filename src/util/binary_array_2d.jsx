@@ -1,4 +1,4 @@
-import Point from "../geom/point"
+import Point from "../geometry/point"
 
 export default class BinaryArray2D {
   constructor(size) {
@@ -12,9 +12,7 @@ export default class BinaryArray2D {
       this._data.push(0)
     }
   }
-
-
-
+  
   snapshot() {
     this._snapshot = this._data.slice()
   }

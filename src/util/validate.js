@@ -57,6 +57,12 @@ export default {
     }
   },
 
+  isAnyOfA(value, types, message=null) {
+    if (types.every(type=>!(value instanceof type))) {
+      throw message || `'${value}' is not instance of '${types}'`
+    }
+  },
+
   notSet(map, key, message=null) {
     if (map[key]!==undefined) {
       throw message || `Key ${key} is already set!`
@@ -115,7 +121,17 @@ export default {
     }
 
     if (value<fromIncl || value>toIncl) {
+      throw message || `Value '${value}' out of expected range '${fromIncl}' to '${toIncl}'`
+    }
+  },
 
+  isGreaterThanZero(value, message=null) {
+    if (typeof(value)!=='number') {
+      throw `Expected number as value, got '${value}'`
+    }
+
+    if (value<=0) {
+      throw message || `Value '${value}' should be >0`
     }
   }
 }

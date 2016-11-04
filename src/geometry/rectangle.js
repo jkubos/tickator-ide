@@ -1,7 +1,13 @@
 import Size from "./size"
+import Validate from '../util/validate'
 
 export default class Rectangle {
   constructor(x, y, width, height) {
+    Validate.isNumber(x)
+    Validate.isNumber(y)
+    Validate.isGreaterThanZero(width)
+    Validate.isGreaterThanZero(height)
+
     this.x = x
     this.y = y
     this.width = width

@@ -18,7 +18,7 @@ export default class OutputDefinition {
     return this.sideVal
   }
 
-  ratioVal() {
+  ratio() {
     return this.ratioVal
   }
 

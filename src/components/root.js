@@ -4,17 +4,10 @@ export default function defineFunction(b) {
   b.name('Root')
 
   b.instance(b=>{
-    b.name('p')
-    b.ticklet('Print')
-    b.x(400)
-    b.y(200)
-  })
-
-  b.instance(b=>{
     b.name('c1')
     b.ticklet('Const')
     b.property('value', 1)
-    b.x(50)
+    b.x(100)
     b.y(100)
   })
 
@@ -22,18 +15,42 @@ export default function defineFunction(b) {
     b.name('c2')
     b.ticklet('Const')
     b.property('value', 41)
-    b.x(50)
+    b.x(100)
     b.y(300)
   })
 
   b.instance(b=>{
     b.name('s')
     b.ticklet('Sum')
-    b.x(200)
+    b.x(300)
     b.y(200)
   })
 
-  b.connect('c1->res', 's->a')
-  b.connect('c2->res', 's->b')
-  b.connect('s->res', 'p->val')
+  b.instance(b=>{
+    b.name('p')
+    b.ticklet('Print')
+    b.x(500)
+    b.y(200)
+  })
+
+  b.connect(b=>{
+    b.fromInstance('c1')
+    b.fromOutput('res')
+    b.toInstance('s')
+    b.toInput('a')
+  })
+
+  b.connect(b=>{
+    b.fromInstance('c2')
+    b.fromOutput('res')
+    b.toInstance('s')
+    b.toInput('b')
+  })
+
+  b.connect(b=>{
+    b.fromInstance('s')
+    b.fromOutput('res')
+    b.toInstance('p')
+    b.toInput('val')
+  })
 }
