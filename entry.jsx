@@ -7,8 +7,8 @@ import TickletRepository from './src/tickator/ticklet_repository'
 import ComponentRepository from './src/tickator/component_repository'
 import Dispatcher from './src/tickator/dispatcher'
 
-import {ticklets} from './src/ticklets/index'
-import {components} from './src/components/index'
+import {ticklets} from './src/implementation/ticklets/index'
+import {components} from './src/implementation/components/index'
 
 import TickletDescription from './src/ui/ticklet_description'
 import ComponentDescription from './src/ui/component_description'

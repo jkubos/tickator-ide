@@ -1,4 +1,4 @@
-import Validate from '../util/validate'
+import Validate from '../../util/validate'
 
 export default class Sum {
   static define(b) {
