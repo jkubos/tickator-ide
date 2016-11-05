@@ -13,6 +13,7 @@ import {components} from '~/src/components/index'
 import TickletDescription from '~/src/ui/component/text/ticklet_description'
 import ComponentDescription from '~/src/ui/component/text/component_description'
 import ComponentSchema from '~/src/ui/component/graphic/component_schema'
+import ConsoleView from '~/src/ui/ide/console_view'
 
 const tickletRepository = new TickletRepository()
 ticklets.forEach(t=>tickletRepository.add(t))
@@ -26,14 +27,27 @@ window.setInterval(dispatcher.doTick.bind(dispatcher), 10)
 
 ReactDOM.render(
   <div>
+    <table>
+      <tbody>
+        <tr>
+          <td>
+            <ComponentSchema def={componentRepository.get('Root')} width={800} height={600}/>
+          </td>
+          <td>
+            <ConsoleView width={400} height={600} lines={["Hellow world!", "42"]}/>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+
+    <hr/>
+
     {
       tickletRepository.definitions().map(def=><TickletDescription def={def} key={def.name()}/>)
     }
     {
       componentRepository.definitions().map(def=><ComponentDescription def={def} key={def.name()}/>)
     }
-    <hr/>
-    <ComponentSchema def={componentRepository.get('Root')} width={1300} height={700}/>
   </div>,
   $("#root").get(0)
 );

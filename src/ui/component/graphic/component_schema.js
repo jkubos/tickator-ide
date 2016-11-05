@@ -16,7 +16,7 @@ export default class ComponentSchema extends React.Component {
     this.instances_geometry.update(this.props.def, this.props.width, this.props.height)
 
     return <svg
-        style={{border: '1px solid gray', display: 'inline-block'}}
+        style={{border: '1px solid gray', display: 'inline', }}
         width={this.props.width}
         height={this.props.height}
       >
@@ -33,7 +33,7 @@ export default class ComponentSchema extends React.Component {
         key={def.name()}
       />)}
 
-      {/**/}<BitArrayVisualization array={this.instances_geometry.getForInstance('karel')}/>
+      {/*<BitArrayVisualization array={this.instances_geometry.getForInstance('karel')}/>*/}
 
       </svg>
   }
