@@ -1,4 +1,4 @@
-import Validate from '../util/validate'
+import Validate from '~/src/util/validate'
 import PropertyDefinition from './property_definition'
 
 export default class PropertyDefinitionBuilder {

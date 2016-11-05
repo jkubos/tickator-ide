@@ -1,5 +1,5 @@
 import React from 'react';
-import Point from "../geometry/point"
+import Point from "~/src/util/geometry/point"
 
 export default class BitArrayVisualization extends React.Component {
 

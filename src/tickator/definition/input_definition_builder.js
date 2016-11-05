@@ -1,4 +1,4 @@
-import Validate from '../util/validate'
+import Validate from '~/src/util/validate'
 import InputDefinition from './input_definition'
 
 export default class InputDefinitionBuilder {

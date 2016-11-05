@@ -1,4 +1,4 @@
-import Validate from '../util/validate'
+import Validate from '~/src/util/validate'
 import ComponentDefinitionBuilder from './component_definition_builder'
 import TickletRepository from './ticklet_repository'
 

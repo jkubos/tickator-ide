@@ -1,4 +1,4 @@
-import Validate from '../util/validate'
+import Validate from '~/src/util/validate'
 import TickletDefinition from './ticklet_definition'
 import InputDefinitionBuilder from './input_definition_builder'
 import OutputDefinitionBuilder from './output_definition_builder'

@@ -1,4 +1,4 @@
-import Validate from '../util/validate'
+import Validate from '~/src/util/validate'
 import OutputDefinition from './output_definition'
 
 export default class OutputDefinitionBuilder {

@@ -1,5 +1,5 @@
 import React from 'react';
-import InstanceDefinition from '../../tickator/instance_definition'
+import InstanceDefinition from '~/src/tickator/definition/instance_definition'
 import Pin from './pin'
 
 export default class Unit extends React.Component {

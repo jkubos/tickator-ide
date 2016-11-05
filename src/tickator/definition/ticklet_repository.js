@@ -1,5 +1,5 @@
-import Validate from '../util/validate'
-import Ticklet from './ticklet'
+import Validate from '~/src/util/validate'
+import Ticklet from '~/src/tickator/ticklet'
 import TickletDefinitionBuilder from './ticklet_definition_builder'
 import TickletDefinition from './ticklet_definition'
 

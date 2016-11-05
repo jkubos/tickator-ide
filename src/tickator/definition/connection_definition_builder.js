@@ -1,5 +1,5 @@
-import {generateUUID} from '../util/tools'
-import Validate from '../util/validate'
+import {generateUUID} from '~/src/util/tools'
+import Validate from '~/src/util/validate'
 import ConnectionDefinition from './connection_definition'
 
 export default class ConnectionDefinitionBuilder {

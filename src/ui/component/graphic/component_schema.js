@@ -1,9 +1,9 @@
 import React from 'react'
-import ComponentDefinition from '../tickator/component_definition'
-import Unit from './components/unit'
-import Connection from './components/connection'
-import InstancesGeometry from '../geometry/instances_geometry'
-import BitArrayVisualization from './bit_array_visualization'
+import ComponentDefinition from '~/src/tickator/definition/component_definition'
+import Unit from './unit'
+import Connection from './connection'
+import InstancesGeometry from '~/src/ui/util/instances_geometry'
+import BitArrayVisualization from '~/src/ui/util/bit_array_visualization'
 
 export default class ComponentSchema extends React.Component {
 

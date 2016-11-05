@@ -1,6 +1,6 @@
-import BinaryArray2D from '../util/binary_array_2d'
-import Size from './size'
-import Point from './point'
+import BinaryArray2D from '~/src/util/binary_array_2d'
+import Size from '~/src/util/geometry/size'
+import Point from '~/src/util/geometry/point'
 
 export default class ShortestPathFinder {
   constructor() {

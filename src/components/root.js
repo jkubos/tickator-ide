@@ -1,4 +1,4 @@
-import Validate from '../../util/validate'
+import Validate from '~/src/util/validate'
 
 export default function defineFunction(b) {
   b.name('Root')

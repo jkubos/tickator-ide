@@ -3,16 +3,16 @@ import ReactDOM from 'react-dom'
 import jquery from 'jquery'
 require('expose?$!expose?jQuery!jquery')
 
-import TickletRepository from './src/tickator/ticklet_repository'
-import ComponentRepository from './src/tickator/component_repository'
-import Dispatcher from './src/tickator/dispatcher'
+import TickletRepository from '~/src/tickator/definition/ticklet_repository'
+import ComponentRepository from '~/src/tickator/definition/component_repository'
+import Dispatcher from '~/src/tickator/dispatcher'
 
-import {ticklets} from './src/implementation/ticklets/index'
-import {components} from './src/implementation/components/index'
+import {ticklets} from '~/src/tickator/ticklets/index'
+import {components} from '~/src/components/index'
 
-import TickletDescription from './src/ui/ticklet_description'
-import ComponentDescription from './src/ui/component_description'
-import ComponentSchema from './src/ui/component_schema'
+import TickletDescription from '~/src/ui/component/text/ticklet_description'
+import ComponentDescription from '~/src/ui/component/text/component_description'
+import ComponentSchema from '~/src/ui/component/graphic/component_schema'
 
 const tickletRepository = new TickletRepository()
 ticklets.forEach(t=>tickletRepository.add(t))

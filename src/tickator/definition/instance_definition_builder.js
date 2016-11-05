@@ -1,4 +1,4 @@
-import Validate from '../util/validate'
+import Validate from '~/src/util/validate'
 import TickletRepository from './ticklet_repository'
 import ComponentRepository from './component_repository'
 import InstanceDefinition from './instance_definition'
