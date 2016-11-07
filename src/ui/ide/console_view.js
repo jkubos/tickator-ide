@@ -3,6 +3,11 @@ import deepEqual from 'deep-equal'
 
 export default class ConsoleView extends React.Component {
 
+  constructor() {
+    super()
+    this.padding = "\u00a0\u00a0\u00a0\u00a0"
+  }
+
   shouldComponentUpdate(nextProps, nextState) {
     return !deepEqual(this.props, nextProps, true)
   }
@@ -19,14 +24,24 @@ export default class ConsoleView extends React.Component {
         height: this.props.height,
         padding: 3,
         margin: 10,
-        overflow: 'auto'
+        overflow: 'auto',
+        fontFamily: 'monospace'
       }}
     >
       {this.props.lines.map((line, i)=><div key={i}>
-        <span style={{fontWeight: 'bold', color: '#b58900'}}>[{line.tick}] &gt;&gt; </span>
+        <span style={{fontWeight: 'bold', color: '#b58900'}}>
+          {i-1>=0 && this.props.lines[i-1].tick===line.tick ? this.padding : this.getPaddedTimestamp(line.tick)}
+        </span>
+        &nbsp;
         {line.message}
       </div>)}
     </div>
+  }
+
+  getPaddedTimestamp(ts) {
+    const val = ''+ts
+    const zeroPadding = Array(this.padding.length+1).join('0')
+    return zeroPadding.substring(0, zeroPadding.length - val.length) + val
   }
 
   getChildContext() {

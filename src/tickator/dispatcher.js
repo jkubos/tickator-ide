@@ -19,7 +19,8 @@ export default class Dispatcher {
       return
     }
 
-    this.log(`Loool`)
+    this.log('----------------------------------------')
+    this.log('xxx')
 
     ++this.currentTick
   }

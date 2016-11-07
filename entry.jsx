@@ -23,11 +23,16 @@ componentRepository.addAll(components)
 
 const dispatcher = new Dispatcher()
 
-window.setInterval(()=>{
+const mainTickTimer = window.setInterval(()=>{
   dispatcher.doTick()
+
+  if (dispatcher.currentTick>10) {
+    clearInterval(mainTickTimer)
+    dispatcher.log("STOP")
+  }
+
   render()
-  render()
-}, 200)
+}, 0)
 
 function render() {
   ReactDOM.render(
