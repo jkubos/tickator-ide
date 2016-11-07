@@ -23,31 +23,37 @@ componentRepository.addAll(components)
 
 const dispatcher = new Dispatcher()
 
-window.setInterval(dispatcher.doTick.bind(dispatcher), 10)
+window.setInterval(()=>{
+  dispatcher.doTick()
+  render()
+  render()
+}, 200)
 
-ReactDOM.render(
-  <div>
-    <table>
-      <tbody>
-        <tr>
-          <td>
-            <ComponentSchema def={componentRepository.get('Root')} width={800} height={600}/>
-          </td>
-          <td>
-            <ConsoleView width={400} height={600} lines={["Hellow world!", "42"]}/>
-          </td>
-        </tr>
-      </tbody>
-    </table>
+function render() {
+  ReactDOM.render(
+    <div>
+      <table>
+        <tbody>
+          <tr>
+            <td>
+              <ComponentSchema def={componentRepository.get('Root')} width={800} height={600}/>
+            </td>
+            <td>
+              <ConsoleView width={400} height={600} lines={dispatcher.logLines.slice(0)}/>
+            </td>
+          </tr>
+        </tbody>
+      </table>
 
-    <hr/>
+      <hr/>
 
-    {
-      tickletRepository.definitions().map(def=><TickletDescription def={def} key={def.name()}/>)
-    }
-    {
-      componentRepository.definitions().map(def=><ComponentDescription def={def} key={def.name()}/>)
-    }
-  </div>,
-  $("#root").get(0)
-);
+      {
+        tickletRepository.definitions().map(def=><TickletDescription def={def} key={def.name()}/>)
+      }
+      {
+        componentRepository.definitions().map(def=><ComponentDescription def={def} key={def.name()}/>)
+      }
+    </div>,
+    $("#root").get(0)
+  );
+}

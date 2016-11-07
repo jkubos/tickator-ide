@@ -1,4 +1,5 @@
 import React from 'react'
+import deepEqual from 'deep-equal'
 import ComponentDefinition from '~/src/tickator/definition/component_definition'
 import Unit from './unit'
 import Connection from './connection'
@@ -10,6 +11,10 @@ export default class ComponentSchema extends React.Component {
   constructor() {
     super()
     this.instances_geometry = new InstancesGeometry()
+  }
+
+  shouldComponentUpdate(nextProps, nextState) {
+    return !deepEqual(this.props, nextProps, true)
   }
 
   render() {
