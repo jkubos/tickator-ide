@@ -1,7 +1,10 @@
-import Validate from '../../util/validate'
+import Validate from '~/src/util/validate'
+import Ticklet from '~/src/tickator/instance/ticklet'
 
-export default class Const {
+export default class Const extends Ticklet {
   static define(b) {
+    b.klass(Const)
+
     b.comment("Send constant value when started")
 
     b.output(b=>{

@@ -15,6 +15,8 @@ import ComponentDescription from '~/src/ui/component/text/component_description'
 import ComponentSchema from '~/src/ui/component/graphic/component_schema'
 import ConsoleView from '~/src/ui/ide/console_view'
 
+import Component from '~/src/tickator/instance/component'
+
 const tickletRepository = new TickletRepository()
 ticklets.forEach(t=>tickletRepository.add(t))
 
@@ -22,6 +24,9 @@ const componentRepository = new ComponentRepository(tickletRepository)
 componentRepository.addAll(components)
 
 const dispatcher = new Dispatcher()
+
+const rootInstance = new Component(dispatcher, componentRepository.get('Root'))
+rootInstance.build()
 
 const mainTickTimer = window.setInterval(()=>{
   dispatcher.doTick()
@@ -41,7 +46,7 @@ function render() {
         <tbody>
           <tr>
             <td>
-              <ComponentSchema def={componentRepository.get('Root')} width={800} height={600}/>
+              <ComponentSchema def={rootInstance.definition} width={800} height={600}/>
             </td>
             <td>
               <ConsoleView width={400} height={600} lines={dispatcher.logLines.slice(0)}/>

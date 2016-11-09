@@ -133,5 +133,17 @@ export default {
     if (value<=0) {
       throw message || `Value '${value}' should be >0`
     }
+  },
+
+  notContained(array, item, message=null) {
+    if (array.includes(item)) {
+      throw message || `Item ${item} already contained!`
+    }
+  },
+
+  extends(value, klass, message=null) {
+    if (!(value.prototype instanceof klass)) {
+      throw message || `Expected instance of ${klass} but got ${value}`
+    }
   }
 }

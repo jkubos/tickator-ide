@@ -1,7 +1,11 @@
 import Validate from '../../util/validate'
+import Ticklet from '~/src/tickator/instance/ticklet'
 
-export default class Sum {
+export default class Sum extends Ticklet {
+
   static define(b) {
+    b.klass(Sum)
+
     b.comment("Sums two numbers")
 
     b.input(b=>{

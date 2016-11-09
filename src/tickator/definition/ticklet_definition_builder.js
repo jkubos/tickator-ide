@@ -1,4 +1,5 @@
 import Validate from '~/src/util/validate'
+import Ticklet from '~/src/tickator/instance/ticklet'
 import TickletDefinition from './ticklet_definition'
 import InputDefinitionBuilder from './input_definition_builder'
 import OutputDefinitionBuilder from './output_definition_builder'
@@ -13,8 +14,13 @@ export default class TickletDefinitionBuilder {
   }
 
   build(name) {
-    return new TickletDefinition(name, this.commentVal, this.inputs, this.outputs,
+    return new TickletDefinition(this.klassVal, name, this.commentVal, this.inputs, this.outputs,
       this.properties, this.autostartVal)
+  }
+
+  klass(val) {
+    Validate.extends(val, Ticklet)
+    this.klassVal = val
   }
 
   comment(val) {

@@ -1,5 +1,6 @@
 export default class TickletDefinition {
-  constructor(nameVal, commentVal, inputsVal, outputsVal, propertiesVal, autostartVal=false) {
+  constructor(klassVal, nameVal, commentVal, inputsVal, outputsVal, propertiesVal, autostartVal=false) {
+    this.klassVal = klassVal
     this.nameVal = nameVal
     this.commentVal = commentVal
     this.inputsVal = inputsVal
@@ -17,6 +18,10 @@ export default class TickletDefinition {
         outputs: this.outputsVal.map(o=>o.toDebug()),
         properties: this.propertiesVal.map(p=>p.toDebug())
     }
+  }
+
+  klass() {
+      return this.klassVal
   }
 
   name() {
@@ -37,6 +42,10 @@ export default class TickletDefinition {
 
   properties() {
     return this.propertiesVal
+  }
+
+  autostart() {
+    return this.autostartVal
   }
 
   type() {

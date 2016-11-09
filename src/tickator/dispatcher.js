@@ -1,9 +1,10 @@
-import {sleep} from '~/src/util/tools'
+import Ticklet from '~/src/tickator/instance/ticklet'
+import Validate from '~/src/util/validate'
 
 export default class Dispatcher {
   constructor() {
     this.currentTick = 0
-    this.toProcess = []
+    this.scheduled = []
     this.logLines = []
   }
 
@@ -14,13 +15,31 @@ export default class Dispatcher {
     })
   }
 
+  schedule(ticklet) {
+    Validate.isA(ticklet, Ticklet)
+    Validate.notContained(this.scheduled, ticklet)
+
+    this.scheduled.push(ticklet)
+  }
+
   doTick() {
-    if (this.toProcess.length<=0 && this.currentTick>100) {
+    if (this.scheduled.length<=0) {
       return
     }
 
+    this.toProcess = this.scheduled
+    this.scheduled = []
+
     this.log('----------------------------------------')
-    this.log('xxx')
+
+    this.toProcess.forEach(ticklet=>{
+      try {
+        ticklet.tick()
+      } catch (e) {
+        console.error("Problem occurred during tick of %o", ticklet)
+        throw e
+      }
+    })
 
     ++this.currentTick
   }
