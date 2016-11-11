@@ -1,30 +1,35 @@
 export default class OutputDefinition {
-  constructor(nameVal, validatorVal, sideVal, ratioVal) {
-    this.nameVal = nameVal
-    this.validatorVal = validatorVal
-    this.sideVal = sideVal
-    this.ratioVal = ratioVal
+  constructor(name, validator, side, ratio) {
+    this._name = name
+    this._validator = validator
+    this._side = side
+    this._ratio = ratio
+    this._defaultValue = undefined
   }
 
   name() {
-    return this.nameVal
+    return this._name
   }
 
   validator() {
-    return this.validatorVal
+    return this._validator
   }
 
   side() {
-    return this.sideVal
+    return this._side
   }
 
   ratio() {
-    return this.ratioVal
+    return this._ratio
+  }
+
+  defaultValue() {
+    return this._defaultValue
   }
 
   toDebug() {
     return {
-      name: this.nameVal
+      name: this._name
     }
   }
 }

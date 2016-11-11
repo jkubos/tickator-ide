@@ -59,4 +59,8 @@ export default class TickletDefinition {
   hasOutput(name) {
     return this.outputsVal.some(o=>o.name()==name)
   }
+
+  hasProperty(name) {
+      return this.propertiesVal.some(p=>p.name()==name)
+  }
 }

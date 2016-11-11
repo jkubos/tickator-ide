@@ -1,39 +1,48 @@
+import Property from './property'
 
 export default class InstanceDefinition {
-  constructor (nameVal, tickletVal, componentVal, propertiesVal, xVal, yVal) {
-    this.nameVal = nameVal
-    this.tickletVal = tickletVal
-    this.componentVal = componentVal
-    this.propertiesVal = propertiesVal
-    this.xVal = xVal
-    this.yVal = yVal
+  constructor (name, ticklet, component, propertiesVal, x, y) {
+    this._name = name
+    this._ticklet = ticklet
+    this._component = component
+    this._x = x
+    this._y = y
+
+    this._properties = this.target().properties().map(def=>{
+      let value = propertiesVal[def.name()]
+      return new Property(def, value)
+    })
   }
 
   name() {
-    return this.nameVal
+    return this._name
   }
 
   ticklet() {
-    return this.tickletVal
+    return this._ticklet
   }
 
   component() {
-    return this.componentVal
+    return this._component
+  }
+
+  target() {
+    return this._ticklet || this._component
   }
 
   x() {
-    return this.xVal
+    return this._x
   }
 
   y() {
-    return this.yVal
+    return this._y
   }
 
   definition() {
-    if (this.tickletVal) {
-      return this.tickletVal
-    } else if (this.componentVal) {
-      return this.componentVal
+    if (this._ticklet) {
+      return this._ticklet
+    } else if (this._component) {
+      return this._component
     } else {
       throw `Unknown instance definition in ${this.toDebug()}`
     }
@@ -41,11 +50,11 @@ export default class InstanceDefinition {
 
   toDebug() {
     return {
-      name: this.nameVal,
+      name: this._name,
     }
   }
 
   properties() {
-    return this.propertiesVal
+    return this._properties
   }
 }

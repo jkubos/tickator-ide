@@ -65,19 +65,19 @@ export default {
 
   notSet(map, key, message=null) {
     if (map[key]!==undefined) {
-      throw message || `Key ${key} is already set!`
+      throw message || `Key '${key}' is already set!`
     }
   },
 
   isSet(map, key, message=null) {
     if (map[key]===undefined) {
-      throw message || `Key ${key} is not set!`
+      throw message || `Key '${key}' is not set!`
     }
   },
 
   valid(value, message=null) {
     if (value===false) {
-      throw message || `Key ${key} is already set!`
+      throw message || `Not valid!`
     } else if (value!==true) {
       throw `Excpected boolean, get '${value}'`
     }

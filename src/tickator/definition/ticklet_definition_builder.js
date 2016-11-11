@@ -37,7 +37,12 @@ export default class TickletDefinitionBuilder {
 
     Validate.isNull(res)
 
-    this.inputs.push(builder.build())
+    const inputObj = builder.build()
+
+    Validate.valid(this.inputs.every(other=>other.name()!==inputObj.name())
+    , `Duplicit input name '${inputObj.name()}'`)
+
+    this.inputs.push(inputObj)
   }
 
   output(block) {
@@ -49,7 +54,12 @@ export default class TickletDefinitionBuilder {
 
     Validate.isNull(res)
 
-    this.outputs.push(builder.build())
+    const outputObj = builder.build()
+
+    Validate.valid(this.outputs.every(other=>other.name()!==outputObj.name())
+    , `Duplicit output name '${outputObj.name()}'`)
+
+    this.outputs.push(outputObj)
   }
 
   property(block) {
@@ -61,7 +71,12 @@ export default class TickletDefinitionBuilder {
 
     Validate.isNull(res)
 
-    this.properties.push(builder.build())
+    const propertyObj = builder.build()
+
+    Validate.valid(this.properties.every(other=>other.name()!==propertyObj.name())
+    , `Duplicit property name '${propertyObj.name()}'`)
+
+    this.properties.push(propertyObj)
   }
 
   autostart() {

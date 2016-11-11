@@ -3,36 +3,44 @@ import Validate from '~/src/util/validate'
 
 export default class Dispatcher {
   constructor() {
-    this.currentTick = 0
-    this.scheduled = []
-    this.logLines = []
+    this._currentTick = 0
+    this._scheduled = []
+    this._logLines = []
+  }
+
+  currentTick() {
+    return this._currentTick
   }
 
   log(message) {
-    this.logLines.push({
-      tick: this.currentTick,
+    this._logLines.push({
+      tick: this._currentTick,
       message
     })
   }
 
+  logLines() {
+    return this._logLines.slice(0)
+  }
+
   schedule(ticklet) {
     Validate.isA(ticklet, Ticklet)
-    Validate.notContained(this.scheduled, ticklet)
+    Validate.notContained(this._scheduled, ticklet)
 
-    this.scheduled.push(ticklet)
+    this._scheduled.push(ticklet)
   }
 
   doTick() {
-    if (this.scheduled.length<=0) {
+    if (this._scheduled.length<=0) {
       return
     }
 
-    this.toProcess = this.scheduled
-    this.scheduled = []
+    this._toProcess = this._scheduled
+    this._scheduled = []
 
     this.log('----------------------------------------')
 
-    this.toProcess.forEach(ticklet=>{
+    this._toProcess.forEach(ticklet=>{
       try {
         ticklet.tick()
       } catch (e) {
@@ -41,6 +49,6 @@ export default class Dispatcher {
       }
     })
 
-    ++this.currentTick
+    ++this._currentTick
   }
 }

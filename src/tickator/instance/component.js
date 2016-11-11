@@ -21,7 +21,7 @@ export default class Component {
         throw "Implement me!"
       } else if (instance.ticklet()) {
         let klass = instance.ticklet().klass()
-        let ticklet = new klass(this.dispatcher, instance.ticklet())
+        let ticklet = new klass(this.dispatcher, instance)
 
         if (instance.ticklet().autostart()) {
           this.dispatcher.schedule(ticklet)

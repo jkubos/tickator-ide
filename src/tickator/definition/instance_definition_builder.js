@@ -29,6 +29,10 @@ export default class InstanceDefinitionBuilder {
       Validate.isA(this.componentVal, ComponentDefinition)
     }
 
+    Object.keys(this.properties).forEach(propName=>{
+      Validate.valid((this.tickletVal || this.componentVal).hasProperty(propName))
+    })
+
     return new InstanceDefinition(this.nameVal, this.tickletVal, this.componentVal,
       this.properties, this.xVal, this.yVal)
   }

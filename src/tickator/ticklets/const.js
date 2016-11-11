@@ -20,6 +20,6 @@ export default class Const extends Ticklet {
   }
 
   tick() {
-    this.outputs().res(this.properties().value())
+    this.out().res().set(this.properties().value())
   }
 }
