@@ -1,10 +1,12 @@
 import Ticklet from '~/src/tickator/instance/ticklet'
+import Output from '~/src/tickator/instance/output'
 import Validate from '~/src/util/validate'
 
 export default class Dispatcher {
   constructor() {
     this._currentTick = 0
-    this._scheduled = []
+    this._changedOutputs = []
+    this._scheduledTicklets = []
     this._logLines = []
   }
 
@@ -25,18 +27,35 @@ export default class Dispatcher {
 
   schedule(ticklet) {
     Validate.isA(ticklet, Ticklet)
-    Validate.notContained(this._scheduled, ticklet)
+    Validate.notContained(this._scheduledTicklets, ticklet)
 
-    this._scheduled.push(ticklet)
+    this._scheduledTicklets.push(ticklet)
+  }
+
+  markChangedOutput(output) {
+    Validate.isA(output, Output)
+    Validate.notContained(this._changedOutputs, output)
+
+    this._changedOutputs.push(output)
   }
 
   doTick() {
-    if (this._scheduled.length<=0) {
+    if (this._changedOutputs.length<=0 && this._scheduledTicklets.length<=0) {
       return
     }
 
-    this._toProcess = this._scheduled
-    this._scheduled = []
+    this._toProcess = this._scheduledTicklets
+
+    this._changedOutputs.forEach(output=>{
+      output.depending().forEach(input=>{
+        this._toProcess.push(input.ticklet())
+      })
+    })
+
+    this._toProcess = [...new Set(this._toProcess)]
+
+    this._scheduledTicklets = []
+    this._changedOutputs = []
 
     this.log('----------------------------------------')
 

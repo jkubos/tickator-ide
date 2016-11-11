@@ -15,6 +15,6 @@ export default class Print extends Ticklet {
   }
 
   tick() {
-    console.log(this.inputs().val())
+    this.dispatcher().log(this.in().val().get())
   }
 }

@@ -46,7 +46,7 @@ function render() {
         <tbody>
           <tr>
             <td>
-              <ComponentSchema def={rootInstance.definition} width={800} height={600}/>
+              <ComponentSchema def={rootInstance.definition()} width={800} height={600}/>
             </td>
             <td>
               <ConsoleView width={400} height={600} lines={dispatcher.logLines()}/>

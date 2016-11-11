@@ -13,11 +13,15 @@ export default class Ticklet {
     Validate.isA(instance.ticklet(), TickletDefinition)
 
     this._dispatcher = dispatcher
-    this.instance = instance
+    this._instance = instance
 
     this._buildInputs()
     this._buildOutputs()
     this._buildProperties()
+  }
+
+  instance() {
+    return this._instance
   }
 
   dispatcher() {
@@ -43,7 +47,7 @@ export default class Ticklet {
   _buildInputs() {
     this.inputsVal = {}
 
-    this.instance.ticklet().inputs().forEach(def=>{
+    this._instance.ticklet().inputs().forEach(def=>{
       const input = new Input(this, def)
       this.inputsVal[def.name()] = ()=>input
     })
@@ -52,7 +56,7 @@ export default class Ticklet {
   _buildOutputs() {
     this.outputsVal = {}
 
-    this.instance.ticklet().outputs().forEach(def=>{
+    this._instance.ticklet().outputs().forEach(def=>{
       const output = new Output(this, def)
       this.outputsVal[def.name()] = ()=>output
     })
@@ -61,7 +65,7 @@ export default class Ticklet {
   _buildProperties() {
     this.propertiesVal = {}
 
-    this.instance.properties().forEach(prop=>{
+    this._instance.properties().forEach(prop=>{
       this.propertiesVal[prop.definition().name()] = ()=>prop.value()
     })
   }

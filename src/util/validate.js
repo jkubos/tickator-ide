@@ -145,5 +145,11 @@ export default {
     if (!(value.prototype instanceof klass)) {
       throw message || `Expected instance of ${klass} but got ${value}`
     }
+  },
+
+  ofSize(array, size, message=null) {
+    if (array.length!==size) {
+      throw message || `Expected array of size ${size} but got ${array.length}`
+    }
   }
 }

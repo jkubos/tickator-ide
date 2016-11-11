@@ -1,30 +1,37 @@
 export default class ConnectionDefinition {
-  constructor(uuidVal, fromInstanceVal, fromOutputVal,
-    toInstanceVal, toInputVal) {
-    this.uuidVal = uuidVal
-    this.fromInstanceVal = fromInstanceVal
-    this.fromOutputVal = fromOutputVal
-    this.toInstanceVal = toInstanceVal
-    this.toInputVal = toInputVal
+  constructor(uuid, fromInstance, fromOutput,
+    toInstance, toInput) {
+    this._uuid = uuid
+    this._fromInstance = fromInstance
+    this._fromOutput = fromOutput
+    this._toInstance = toInstance
+    this._toInput = toInput
   }
 
   uuid() {
-    return this.uuidVal
+    return this._uuid
   }
 
   fromInstance() {
-    return this.fromInstanceVal
+    return this._fromInstance
   }
 
   fromOutput() {
-    return this.fromOutputVal
+    return this._fromOutput
   }
 
   toInstance() {
-    return this.toInstanceVal
+    return this._toInstance
   }
 
   toInput() {
-    return this.toInputVal
+    return this._toInput
+  }
+
+  toDebug() {
+    return {
+      from: `${this._fromInstance} -> ${this._fromOutput}`,
+      to: `${this._toInstance} -> ${this._toInput}`
+    }
   }
 }
