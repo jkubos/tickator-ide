@@ -17,15 +17,13 @@ export default class ConsoleView extends React.Component {
       ref='topDiv'
       style={{
         border: '1px solid gray',
-        display: 'inline-block',
         background: '#002b36',
         color: '#859900',
-        width: this.props.width,
-        height: this.props.height,
         padding: 3,
-        margin: 10,
         overflow: 'auto',
-        fontFamily: 'monospace'
+        fontFamily: 'monospace',
+        minHeight: 300,
+        maxHeight: 300
       }}
     >
       {this.props.lines.map((line, i)=><div key={i}>
@@ -63,8 +61,6 @@ export default class ConsoleView extends React.Component {
 }
 
 ConsoleView.propTypes = {
-  width: React.PropTypes.number.isRequired,
-  height: React.PropTypes.number.isRequired,
   lines: React.PropTypes.array.isRequired
 }
 

@@ -36,7 +36,12 @@ export default class Output {
 
   _getCurrentIndex() {
     const currentTick = this._ticklet.dispatcher().currentTick();
-    if (this._validFrom[0] > this._validFrom[1] || this._validFrom[1]>currentTick) {
+
+    if (this._validFrom[0]>currentTick) {
+      return 1
+    } else if (this._validFrom[1]>currentTick) {
+      return 0
+    } else if (this._validFrom[0] > this._validFrom[1]) {
       return 0
     } else {
       return 1

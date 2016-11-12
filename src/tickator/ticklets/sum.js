@@ -28,8 +28,8 @@ export default class Sum extends Ticklet {
   }
 
   tick() {
-    const a = this.in().a().get()
-    const b = this.in().b().get()
+    const a = this.in().a().get() || 0
+    const b = this.in().b().get() || 0
     this.out().res().set(a+b)
   }
 }

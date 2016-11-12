@@ -1,10 +1,10 @@
 export default class OutputDefinition {
-  constructor(name, validator, side, ratio) {
+  constructor(name, validator, side, ratio, defaultValue) {
     this._name = name
     this._validator = validator
     this._side = side
     this._ratio = ratio
-    this._defaultValue = undefined
+    this._defaultValue = defaultValue
   }
 
   name() {

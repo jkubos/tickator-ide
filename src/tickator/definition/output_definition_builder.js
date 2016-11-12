@@ -6,10 +6,11 @@ export default class OutputDefinitionBuilder {
   constructor() {
     this.side = 'left'
     this.ratio = 0.5
+    this._defaultValue = undefined
   }
 
   build() {
-    return new OutputDefinition(this.nameVal, this.validatorVal, this.side, this.ratio)
+    return new OutputDefinition(this.nameVal, this.validatorVal, this.side, this.ratio, this._defaultValue)
   }
 
   name(nameVal) {
@@ -32,4 +33,7 @@ export default class OutputDefinitionBuilder {
     this.ratio = ratio
   }
 
+  defaultValue(defaultValue) {
+    this._defaultValue = defaultValue
+  }
 }
