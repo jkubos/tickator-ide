@@ -1,7 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import jquery from 'jquery'
-require('expose?$!expose?jQuery!jquery')
+
+window.jQuery = window.$ = require('jquery/dist/jquery.min')
+
+require('bootstrap/dist/css/bootstrap.css')
+require('bootstrap/dist/js/bootstrap.js')
+
+require('./main.less')
 
 import TickletRepository from '~/src/tickator/definition/ticklet_repository'
 import ComponentRepository from '~/src/tickator/definition/component_repository'
@@ -14,6 +19,7 @@ import TickletDescription from '~/src/ui/component/text/ticklet_description'
 import ComponentDescription from '~/src/ui/component/text/component_description'
 import ComponentSchema from '~/src/ui/component/graphic/component_schema'
 import ConsoleView from '~/src/ui/ide/console_view'
+import Toolbar from '~/src/ui/ide/toolbar'
 
 import Component from '~/src/tickator/instance/component'
 
@@ -41,7 +47,9 @@ const mainTickTimer = window.setInterval(()=>{
 
 function render() {
   ReactDOM.render(
-    <div>
+    <div className="container container-full">
+      <Toolbar />
+
       <table>
         <tbody>
           <tr>
