@@ -4,7 +4,18 @@ import {ticklets} from '~/src/tickator/ticklets/index'
 import {components} from '~/src/components/index'
 import Component from '~/src/tickator/instance/component'
 import Dispatcher from '~/src/tickator/dispatcher'
-import {ON_TICK_DONE, ENGINE_RUN, ENGINE_PAUSE, ENGINE_STEP} from '~/src/business/commands/commands'
+import {
+  ON_TICK_DONE,
+  ENGINE_RUN,
+  ENGINE_PAUSE,
+  ENGINE_STEP,
+  ENGINE_STATE,
+  ENGINE_RESET
+} from '~/src/business/commands/commands'
+import {
+  ENGINE_STATE_RUNNING,
+  ENGINE_STATE_PAUSED
+} from '~/src/business/consts'
 import Validate from '~/src/util/validate'
 import CommandsDispatcher from '~/src/business/commands_dispatcher'
 
@@ -22,12 +33,12 @@ export default class Engine {
     this._componentRepository = new ComponentRepository(this._tickletRepository)
     this._componentRepository.addAll(components)
 
-    this._rootInstance = new Component(this._dispatcher, this._componentRepository.get('Root'))
-    this._rootInstance.build()
+    this._buildRootInstance()
 
     this._commandsDispatcher.register(ENGINE_RUN, (data)=>this._runEngine())
     this._commandsDispatcher.register(ENGINE_PAUSE, (data)=>this._pauseEngine())
     this._commandsDispatcher.register(ENGINE_STEP, (data)=>this._stepEngine())
+    this._commandsDispatcher.register(ENGINE_RESET, (data)=>this._resetEngine())
 
     this._intervalId = undefined
   }
@@ -40,23 +51,49 @@ export default class Engine {
     return this._dispatcher
   }
 
+  _buildRootInstance() {
+    this._rootInstance = new Component(this._dispatcher, this._componentRepository.get('Root'))
+    this._rootInstance.build()
+  }
+
   _runEngine() {
     Validate.valid(this._intervalId===undefined, "Engine is already running, cannot run it again!")
 
     this._intervalId = window.setInterval(()=>{
       this._doStep()
     }, 0)
+
+    this._commandsDispatcher.dispatch(ENGINE_STATE, {
+      state: ENGINE_STATE_RUNNING
+    })
   }
 
   _pauseEngine() {
     Validate.valid(this._intervalId!==undefined, "Engine not running, cannot pause it!")
     window.clearInterval(this._intervalId)
     this._intervalId = undefined
+
+    this._commandsDispatcher.dispatch(ENGINE_STATE, {
+      state: ENGINE_STATE_PAUSED
+    })
   }
 
   _stepEngine() {
     Validate.valid(this._intervalId===undefined, "Engine is running, cannot step it!")
     this._doStep()
+  }
+
+  _resetEngine() {
+    if (this._intervalId!==undefined) {
+      this._pauseEngine()
+    }
+
+    this._dispatcher.reset()
+    this._buildRootInstance()
+
+    this._commandsDispatcher.dispatch(ON_TICK_DONE, {
+      currentTick: this._dispatcher.currentTick()
+    })
   }
 
   _doStep() {

@@ -4,6 +4,10 @@ import Validate from '~/src/util/validate'
 
 export default class Dispatcher {
   constructor() {
+    this.reset()
+  }
+
+  reset() {
     this._currentTick = 0
     this._changedOutputs = []
     this._scheduledTicklets = []

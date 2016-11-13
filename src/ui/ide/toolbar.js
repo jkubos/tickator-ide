@@ -1,7 +1,7 @@
 import React from 'react'
 import CommandsDispatcher from '~/src/business/commands_dispatcher'
 import ToolbarButton from './toolbar_button'
-import {ENGINE_RUN, ENGINE_PAUSE, ENGINE_STEP} from '~/src/business/commands/commands'
+import {ENGINE_RUN, ENGINE_PAUSE, ENGINE_STEP, ENGINE_RESET} from '~/src/business/commands/commands'
 
 export default class Toolbar extends React.Component {
 
@@ -17,16 +17,20 @@ export default class Toolbar extends React.Component {
 
             <li><div className="divider-vertical"></div></li>
 
-            <ToolbarButton disabled={false} icon={'fa-play'} onClick={e=>{
+            <ToolbarButton disabled={false} icon={'fa-play'} tooltip='Run' onClick={e=>{
               this.props.commandsDispatcher.dispatch(ENGINE_RUN, {})
             }}/>
 
-            <ToolbarButton disabled={false} icon={'fa-pause'} onClick={e=>{
+            <ToolbarButton disabled={false} icon={'fa-pause'} tooltip='Pause' onClick={e=>{
               this.props.commandsDispatcher.dispatch(ENGINE_PAUSE, {})
             }}/>
 
-            <ToolbarButton disabled={false} icon={'fa-step-forward'} onClick={e=>{
+            <ToolbarButton disabled={false} icon={'fa-step-forward'} tooltip='Step one tick' onClick={e=>{
               this.props.commandsDispatcher.dispatch(ENGINE_STEP, {})
+            }}/>
+
+            <ToolbarButton disabled={false} icon={'fa-recycle'} tooltip='Reset' onClick={e=>{
+              this.props.commandsDispatcher.dispatch(ENGINE_RESET, {})
             }}/>
 
             <li><div className="divider-vertical"></div></li>
