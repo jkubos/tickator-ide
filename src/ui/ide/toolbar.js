@@ -29,7 +29,7 @@ export default class Toolbar extends React.Component {
               this.props.commandsDispatcher.dispatch(ENGINE_STEP, {})
             }}/>
 
-            <ToolbarButton disabled={false} icon={'fa-recycle'} tooltip='Reset' onClick={e=>{
+            <ToolbarButton disabled={false} icon={'fa-eraser'} tooltip='Reset' onClick={e=>{
               this.props.commandsDispatcher.dispatch(ENGINE_RESET, {})
             }}/>
 
