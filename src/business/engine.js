@@ -10,7 +10,8 @@ import {
   ENGINE_PAUSE,
   ENGINE_STEP,
   ENGINE_STATE,
-  ENGINE_RESET
+  ENGINE_RESET,
+  DISPATCHER_LOGS_CHANGED
 } from '~/src/business/commands/commands'
 import {
   ENGINE_STATE_RUNNING,
@@ -41,6 +42,10 @@ export default class Engine {
     this._commandsDispatcher.register(ENGINE_RESET, (data)=>this._resetEngine())
 
     this._intervalId = undefined
+  }
+
+  init() {
+    this._resetEngine()
   }
 
   rootInstance() {
@@ -94,12 +99,24 @@ export default class Engine {
     this._commandsDispatcher.dispatch(ON_TICK_DONE, {
       currentTick: this._dispatcher.currentTick()
     })
+
+    this._commandsDispatcher.dispatch(ENGINE_STATE, {
+      state: ENGINE_STATE_PAUSED
+    })
+
+    this._commandsDispatcher.dispatch(DISPATCHER_LOGS_CHANGED, {
+      lines: this._dispatcher.logLines()
+    })
   }
 
   _doStep() {
     this._dispatcher.doTick()
     this._commandsDispatcher.dispatch(ON_TICK_DONE, {
       currentTick: this._dispatcher.currentTick()
+    })
+    
+    this._commandsDispatcher.dispatch(DISPATCHER_LOGS_CHANGED, {
+      lines: this._dispatcher.logLines()
     })
   }
 }

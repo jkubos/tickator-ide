@@ -11,39 +11,21 @@ require('./main.less')
 import Engine from '~/src/business/engine'
 import CommandsDispatcher from '~/src/business/commands_dispatcher'
 import {ON_TICK_DONE} from '~/src/business/commands/commands'
+import UiState from '~/src/business/ui_state'
 
-import ComponentSchema from '~/src/ui/component/graphic/component_schema'
-import ConsoleView from '~/src/ui/ide/console_view'
-import Toolbar from '~/src/ui/ide/toolbar'
+import TickatorIDE from '~/src/ui/ide/tickator_ide'
 
 const commandsDispatcher = new CommandsDispatcher()
 
 const engine = new Engine(commandsDispatcher)
 
-commandsDispatcher.register(ON_TICK_DONE, data=>render())
+const uiState = new UiState(commandsDispatcher, render)
 
 function render() {
   ReactDOM.render(
-    <div className="container container-full">
-      <Toolbar commandsDispatcher={commandsDispatcher}/>
-
-      <div className="row">
-        <div className="col-lg-2">
-          TREE
-        </div>
-        <div className="col-md-10">
-          <ComponentSchema def={engine.rootInstance().definition()} width={800} height={600}/>
-        </div>
-      </div>
-
-      <div className="row">
-        <div className="col-lg-12">
-          <ConsoleView lines={engine.dispatcher().logLines()}/>
-        </div>
-      </div>
-    </div>,
+    <TickatorIDE uiState={uiState} commandsDispatcher={commandsDispatcher}/>,
     $("#root").get(0)
   );
 }
 
-render()
+engine.init()

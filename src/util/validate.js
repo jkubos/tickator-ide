@@ -151,5 +151,11 @@ export default {
     if (array.length!==size) {
       throw message || `Expected array of size ${size} but got ${array.length}`
     }
+  },
+
+  notEmpty(array, message=null) {
+    if (array.length<=0) {
+      throw message || `Expected non empty array`
+    }
   }
 }
