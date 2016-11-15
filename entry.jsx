@@ -23,7 +23,7 @@ const uiState = new UiState(commandsDispatcher, render)
 
 function render() {
   ReactDOM.render(
-    <TickatorIDE uiState={uiState} commandsDispatcher={commandsDispatcher}/>,
+    <TickatorIDE uiState={uiState} commandsDispatcher={commandsDispatcher} engine={engine}/>,
     $("#root").get(0)
   );
 }

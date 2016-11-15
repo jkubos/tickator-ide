@@ -4,6 +4,7 @@ import ConsoleView from '~/src/ui/ide/console_view'
 import Toolbar from '~/src/ui/ide/toolbar'
 import CommandsDispatcher from '~/src/business/commands_dispatcher'
 import UiState from '~/src/business/ui_state'
+import Engine from '~/src/business/engine'
 
 export default class TickatorIDE extends React.Component {
 
@@ -18,7 +19,7 @@ export default class TickatorIDE extends React.Component {
           TREE
         </div>
         <div className="col-md-10">
-          {/*<ComponentSchema def={engine.rootInstance().definition()} width={800} height={600}/>*/}
+          <ComponentSchema def={this.props.engine.rootInstance().definition()} width={800} height={600}/>
         </div>
       </div>
 
@@ -33,17 +34,20 @@ export default class TickatorIDE extends React.Component {
   getChildContext() {
     return {
       uiState: this.props.uiState,
-      commandsDispatcher: this.props.commandsDispatcher
+      commandsDispatcher: this.props.commandsDispatcher,
+      engine: this.props.engine
     }
   }
 }
 
 TickatorIDE.propTypes = {
   uiState: React.PropTypes.instanceOf(UiState).isRequired,
-  commandsDispatcher: React.PropTypes.instanceOf(CommandsDispatcher).isRequired
+  commandsDispatcher: React.PropTypes.instanceOf(CommandsDispatcher).isRequired,
+  engine: React.PropTypes.instanceOf(Engine).isRequired
 }
 
 TickatorIDE.childContextTypes = {
   uiState: React.PropTypes.instanceOf(UiState).isRequired,
-  commandsDispatcher: React.PropTypes.instanceOf(CommandsDispatcher).isRequired
+  commandsDispatcher: React.PropTypes.instanceOf(CommandsDispatcher).isRequired,
+  engine: React.PropTypes.instanceOf(Engine).isRequired
 }
