@@ -42,20 +42,10 @@ export default class ComponentSchema extends React.Component {
 
       </svg>
   }
-
-  getChildContext() {
-    return {}
-  }
 }
 
 ComponentSchema.propTypes = {
   width: React.PropTypes.number.isRequired,
   height: React.PropTypes.number.isRequired,
   def: React.PropTypes.instanceOf(ComponentDefinition).isRequired
-}
-
-ComponentSchema.defaultProps = {
-}
-
-ComponentSchema.childContextTypes = {
 }

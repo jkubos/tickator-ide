@@ -11,7 +11,8 @@ import {
   ENGINE_STEP,
   ENGINE_STATE,
   ENGINE_RESET,
-  DISPATCHER_LOGS_CHANGED
+  DISPATCHER_LOGS_CHANGED,
+  ENGINE_LOAD_COMPONENT
 } from '~/src/business/commands/commands'
 import {
   ENGINE_STATE_RUNNING,
@@ -34,14 +35,14 @@ export default class Engine {
     this._componentRepository = new ComponentRepository(this._tickletRepository)
     this._componentRepository.addAll(components)
 
-    this._buildRootInstance()
-
     this._commandsDispatcher.register(ENGINE_RUN, (data)=>this._runEngine())
     this._commandsDispatcher.register(ENGINE_PAUSE, (data)=>this._pauseEngine())
     this._commandsDispatcher.register(ENGINE_STEP, (data)=>this._stepEngine())
     this._commandsDispatcher.register(ENGINE_RESET, (data)=>this._resetEngine())
+    this._commandsDispatcher.register(ENGINE_LOAD_COMPONENT, (data)=>this._loadComponent(data.name))
 
     this._intervalId = undefined
+    this._selectedComponent = 'Root'
   }
 
   init() {
@@ -52,12 +53,16 @@ export default class Engine {
     return this._rootInstance
   }
 
+  componentRepository() {
+    return this._componentRepository
+  }
+
   dispatcher() {
     return this._dispatcher
   }
 
   _buildRootInstance() {
-    this._rootInstance = new Component(this._dispatcher, this._componentRepository.get('Root'))
+    this._rootInstance = new Component(this._dispatcher, this._componentRepository.get(this._selectedComponent))
     this._rootInstance.build()
   }
 
@@ -109,12 +114,17 @@ export default class Engine {
     })
   }
 
+  _loadComponent(name) {
+    this._selectedComponent = name
+    this._resetEngine()
+  }
+
   _doStep() {
     this._dispatcher.doTick()
     this._commandsDispatcher.dispatch(ON_TICK_DONE, {
       currentTick: this._dispatcher.currentTick()
     })
-    
+
     this._commandsDispatcher.dispatch(DISPATCHER_LOGS_CHANGED, {
       lines: this._dispatcher.logLines()
     })
