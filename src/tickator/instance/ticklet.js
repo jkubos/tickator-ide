@@ -4,24 +4,25 @@ import TickletDefinition from '~/src/tickator/definition/ticklet_definition'
 import InstanceDefinition from '~/src/tickator/definition/instance_definition'
 import Input from './input'
 import Output from './output'
+import Property from './property'
 
 export default class Ticklet {
 
-  constructor(dispatcher, instance) {
+  constructor(dispatcher, instanceDefinition) {
     Validate.isA(dispatcher, Dispatcher)
-    Validate.isA(instance, InstanceDefinition)
-    Validate.isA(instance.ticklet(), TickletDefinition)
+    Validate.isA(instanceDefinition, InstanceDefinition)
+    Validate.isA(instanceDefinition.ticklet(), TickletDefinition)
 
     this._dispatcher = dispatcher
-    this._instance = instance
+    this._instanceDefinition = instanceDefinition
 
     this._buildInputs()
     this._buildOutputs()
     this._buildProperties()
   }
 
-  instance() {
-    return this._instance
+  instanceDefinition() {
+    return this._instanceDefinition
   }
 
   dispatcher() {
@@ -47,7 +48,7 @@ export default class Ticklet {
   _buildInputs() {
     this.inputsVal = {}
 
-    this._instance.ticklet().inputs().forEach(def=>{
+    this._instanceDefinition.ticklet().inputs().forEach(def=>{
       const input = new Input(this, def)
       this.inputsVal[def.name()] = ()=>input
     })
@@ -56,13 +57,15 @@ export default class Ticklet {
   _buildOutputs() {
     this.outputsVal = {}
 
-    this._instance.ticklet().outputs().forEach(def=>{
+    this._instanceDefinition.ticklet().outputs().forEach(def=>{
       const output = new Output(this, def)
       this.outputsVal[def.name()] = ()=>output
     })
   }
 
   _buildProperties() {
-    this._properties = this._instance.properties()
+    this._properties = this._instanceDefinition.properties().map(instanceProperty=>{
+      return new Property(instanceProperty)
+    })
   }
 }

@@ -43,4 +43,8 @@ export default class ComponentDefinition {
   type() {
     return 'component'
   }
+
+  hasProperty(name) {
+      return this._properties.some(p=>p.name()==name)
+  }
 }

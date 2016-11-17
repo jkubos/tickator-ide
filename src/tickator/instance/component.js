@@ -1,18 +1,23 @@
 import Validate from '~/src/util/validate'
 import Dispatcher from '~/src/tickator/dispatcher'
-import ComponentDefinition from '~/src/tickator/definition/component_definition'
-import InstanceProperty from '~/src/tickator/definition/instance_property'
+import InstanceDefinition from '~/src/tickator/definition/instance_definition'
+import Property from '~/src/tickator/instance/property'
 
 export default class Component {
-  constructor(dispatcher, definition) {
+  constructor(dispatcher, instanceDefinition) {
     Validate.isA(dispatcher, Dispatcher)
-    Validate.isA(definition, ComponentDefinition)
+    Validate.isA(instanceDefinition, InstanceDefinition)
+    Validate.valid(instanceDefinition.component()!==undefined, 'Component expected, got ticklet!')
     this._dispatcher = dispatcher
-    this._definition = definition
+    this._instanceDefinition = instanceDefinition
   }
 
   definition() {
-    return this._definition
+    return this._instanceDefinition.definition()
+  }
+
+  instanceDefinition() {
+    return this._instanceDefinition
   }
 
   properties() {
@@ -26,7 +31,7 @@ export default class Component {
   }
 
   _buildInstances() {
-    this._instances = this._definition.instances().map(instance=>{
+    this._instances = this._instanceDefinition.component().instances().map(instance=>{
       if (instance.component()) {
         throw "Implement me!"
       } else if (instance.ticklet()) {
@@ -45,7 +50,7 @@ export default class Component {
   }
 
   _wireInstances() {
-    this._definition.connections().forEach(connection=>{
+    this._instanceDefinition.component().connections().forEach(connection=>{
       const instanceFrom = this._findInstance(connection.fromInstance())
       const output = instanceFrom.out()[connection.fromOutput()]()
 
@@ -58,17 +63,16 @@ export default class Component {
   }
 
   _findInstance(name) {
-    const res = this._instances.filter(instance=>instance.instance().name()===name)
+    const res = this._instances.filter(instance=>instance.instanceDefinition().name()===name)
 
-    Validate.ofSize(res, 1, `Found none or multiple instances with name ${name}`)
+    Validate.ofSize(res, 1, `Found ${res.length} instances with name ${name}, expected exactly one`)
 
     return res[0]
   }
 
   _buildProperties() {
-    this._properties = this._definition.properties().map(prop=>{
-      console.error("Pass properties from outside!!!");
-      return new InstanceProperty(prop, undefined)
+    this._properties = this._instanceDefinition.properties().map(prop=>{
+      return new Property(prop)
     })
   }
 }

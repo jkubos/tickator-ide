@@ -20,6 +20,7 @@ import {
 } from '~/src/business/consts'
 import Validate from '~/src/util/validate'
 import CommandsDispatcher from '~/src/business/commands_dispatcher'
+import InstanceDefinitionBuilder from '~/src/tickator/definition/instance_definition_builder'
 
 export default class Engine {
   constructor(commandsDispatcher) {
@@ -62,7 +63,17 @@ export default class Engine {
   }
 
   _buildRootInstance() {
-    this._rootInstance = new Component(this._dispatcher, this._componentRepository.get(this._selectedComponent))
+    const instanceDefinitionBuilder = new InstanceDefinitionBuilder(this._tickletRepository,
+      this._componentRepository)
+
+    instanceDefinitionBuilder.name('runtime root')
+    instanceDefinitionBuilder.component(this._selectedComponent)
+
+    instanceDefinitionBuilder.property('test', 42)
+
+    const instanceDefinition = instanceDefinitionBuilder.build()
+
+    this._rootInstance = new Component(this._dispatcher, instanceDefinition)
     this._rootInstance.build()
   }
 

@@ -40,7 +40,7 @@ export default class ComponentRepository {
    }
 
    isDefined(componentName) {
-     return this.definitionsVal[componentName] instanceof ComponentDefinition
+     return this.definitionsVal[componentName]!==undefined
    }
 
    get(componentName) {

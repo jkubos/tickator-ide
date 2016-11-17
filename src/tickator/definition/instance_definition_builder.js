@@ -30,7 +30,7 @@ export default class InstanceDefinitionBuilder {
     }
 
     Object.keys(this.properties).forEach(propName=>{
-      Validate.valid((this.tickletVal || this.componentVal).hasProperty(propName))
+      Validate.valid((this.tickletVal || this.componentVal).hasProperty(propName), `Property ${propName} does not exists`)
     })
 
     return new InstanceDefinition(this.nameVal, this.tickletVal, this.componentVal,
@@ -51,7 +51,7 @@ export default class InstanceDefinitionBuilder {
   component(componentVal) {
     Validate.valid(this.componentRepository.isDefined(componentVal), `Cannot find component '${componentVal}'`)
 
-    this.componentVal = this.componentRepository.get(tickletVal)
+    this.componentVal = this.componentRepository.get(componentVal)
   }
 
   property(name, value) {
