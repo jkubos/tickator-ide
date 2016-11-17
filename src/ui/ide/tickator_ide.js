@@ -21,16 +21,16 @@ export default class TickatorIDE extends React.Component {
           <ComponentsList />
         </div>
         <div className="col-md-10">
-          <ComponentSchema def={this.props.engine.rootInstance().definition()} width={950} height={500}/>
+          <ComponentSchema def={this.props.engine.rootInstance().definition()} width={950} height={500} />
         </div>
       </div>
 
       <div className="row">
         <div className="col-lg-2">
-          <PropertiesView />
+          <PropertiesView instance={this.props.engine.rootInstance()} />
         </div>
         <div className="col-lg-10">
-          <ConsoleView lines={logLines}/>
+          <ConsoleView lines={logLines} />
         </div>
       </div>
     </div>

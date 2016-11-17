@@ -19,6 +19,13 @@ export default class Dispatcher {
   }
 
   log(message) {
+
+    const toRemove = this._logLines.length-100
+
+    if (toRemove>0) {
+      this._logLines.splice(0, toRemove)
+    }
+
     this._logLines.push({
       tick: this._currentTick,
       message

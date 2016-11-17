@@ -4,6 +4,7 @@ import ComponentRepository from './component_repository'
 import ComponentDefinition from './component_definition'
 import InstanceDefinitionBuilder from './instance_definition_builder'
 import ConnectionDefinitionBuilder from './connection_definition_builder'
+import PropertyDefinitionBuilder from './property_definition_builder'
 
 export default class ComponentDefinitionBuilder {
   constructor(tickletRepository, componentRepository) {
@@ -15,10 +16,11 @@ export default class ComponentDefinitionBuilder {
 
     this.instances = {}
     this.connections = {}
+    this.properties = []
   }
 
   build() {
-    return new ComponentDefinition(this.nameVal, this.instances, this.connections)
+    return new ComponentDefinition(this.nameVal, this.instances, this.connections, this.properties)
   }
 
   name (nameVal) {
@@ -52,5 +54,22 @@ export default class ComponentDefinitionBuilder {
     Validate.notSet(this.connections, res.uuid())
 
     this.connections[res.uuid()] = res
+  }
+
+  property(block) {
+    Validate.isFunctionWithArity(block, 1)
+
+    const builder = new PropertyDefinitionBuilder()
+
+    const res = block(builder)
+
+    Validate.isNull(res)
+
+    const propertyObj = builder.build()
+
+    Validate.valid(this.properties.every(other=>other.name()!==propertyObj.name())
+    , `Duplicit property name '${propertyObj.name()}'`)
+
+    this.properties.push(propertyObj)
   }
 }

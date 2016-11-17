@@ -37,7 +37,7 @@ export default class Ticklet {
   }
 
   properties() {
-    return this.propertiesVal
+    return this._properties
   }
 
   tick() {
@@ -63,10 +63,6 @@ export default class Ticklet {
   }
 
   _buildProperties() {
-    this.propertiesVal = {}
-
-    this._instance.properties().forEach(prop=>{
-      this.propertiesVal[prop.definition().name()] = ()=>prop.value()
-    })
+    this._properties = this._instance.properties()
   }
 }

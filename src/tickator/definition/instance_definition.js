@@ -1,4 +1,4 @@
-import Property from './property'
+import InstanceProperty from './instance_property'
 
 export default class InstanceDefinition {
   constructor (name, ticklet, component, propertiesVal, x, y) {
@@ -10,7 +10,7 @@ export default class InstanceDefinition {
 
     this._properties = this.target().properties().map(def=>{
       let value = propertiesVal[def.name()]
-      return new Property(def, value)
+      return new InstanceProperty(def, value)
     })
   }
 

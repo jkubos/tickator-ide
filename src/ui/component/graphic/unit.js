@@ -20,7 +20,7 @@ export default class Unit extends React.Component {
         textAnchor="middle"
         alignmentBaseline="middle"
         fontFamily="Helvetica, Verdana"
-        fontSize="14"
+        fontSize="12"
         fontWeight="bold"
         x={this.props.geom.bbox.x+this.props.geom.bbox.width/2}
         y={this.props.geom.bbox.y+this.props.geom.bbox.height/3}

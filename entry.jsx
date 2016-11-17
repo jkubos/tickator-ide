@@ -10,7 +10,10 @@ require('./main.less')
 
 import Engine from '~/src/business/engine'
 import CommandsDispatcher from '~/src/business/commands_dispatcher'
-import {ON_TICK_DONE} from '~/src/business/commands/commands'
+import {
+  ON_TICK_DONE,
+  ENGINE_LOAD_COMPONENT
+} from '~/src/business/commands/commands'
 import UiState from '~/src/business/ui_state'
 
 import TickatorIDE from '~/src/ui/ide/tickator_ide'
@@ -29,3 +32,5 @@ function render() {
 }
 
 engine.init()
+
+commandsDispatcher.dispatch(ENGINE_LOAD_COMPONENT, {name: 'Iteration'})

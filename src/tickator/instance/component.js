@@ -1,6 +1,7 @@
 import Validate from '~/src/util/validate'
 import Dispatcher from '~/src/tickator/dispatcher'
 import ComponentDefinition from '~/src/tickator/definition/component_definition'
+import InstanceProperty from '~/src/tickator/definition/instance_property'
 
 export default class Component {
   constructor(dispatcher, definition) {
@@ -14,12 +15,17 @@ export default class Component {
     return this._definition
   }
 
-  build() {
-    this.buildInstances()
-    this.wireInstances()
+  properties() {
+    return this._properties
   }
 
-  buildInstances() {
+  build() {
+    this._buildInstances()
+    this._wireInstances()
+    this._buildProperties()
+  }
+
+  _buildInstances() {
     this._instances = this._definition.instances().map(instance=>{
       if (instance.component()) {
         throw "Implement me!"
@@ -38,7 +44,7 @@ export default class Component {
     })
   }
 
-  wireInstances() {
+  _wireInstances() {
     this._definition.connections().forEach(connection=>{
       const instanceFrom = this._findInstance(connection.fromInstance())
       const output = instanceFrom.out()[connection.fromOutput()]()
@@ -57,5 +63,12 @@ export default class Component {
     Validate.ofSize(res, 1, `Found none or multiple instances with name ${name}`)
 
     return res[0]
+  }
+
+  _buildProperties() {
+    this._properties = this._definition.properties().map(prop=>{
+      console.error("Pass properties from outside!!!");
+      return new InstanceProperty(prop, undefined)
+    })
   }
 }

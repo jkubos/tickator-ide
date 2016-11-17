@@ -1,15 +1,20 @@
 export default class PropertyDefinition {
-  constructor(nameVal) {
-    this.nameVal = nameVal
+  constructor(name, defaultValue) {
+    this._name = name
+    this._defaultValue = defaultValue
   }
 
   name() {
-    return this.nameVal
+    return this._name
+  }
+
+  defaultValue() {
+    return this._defaultValue
   }
 
   toDebug() {
     return {
-      name: this.nameVal
+      name: this._name
     }
   }
 }

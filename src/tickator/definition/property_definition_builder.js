@@ -4,13 +4,17 @@ import PropertyDefinition from './property_definition'
 export default class PropertyDefinitionBuilder {
 
     build() {
-      return new PropertyDefinition(this.nameVal)
+      return new PropertyDefinition(this._name, this._defaultValue)
     }
 
     name(nameVal) {
       Validate.notBlank(nameVal)
 
-      this.nameVal = nameVal
+      this._name = nameVal
+    }
+
+    defaultValue(defaultValueVal) {
+      this._defaultValue = defaultValueVal
     }
 
   }

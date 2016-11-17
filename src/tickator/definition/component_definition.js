@@ -1,12 +1,13 @@
 export default class ComponentDefinition {
-  constructor(nameVal, instancesVal, connectionsVal) {
-    this.nameVal = nameVal
-    this.instancesVal = instancesVal
-    this.connectionsVal = connectionsVal
+  constructor(name, instances, connections, properties) {
+    this._name = name
+    this._instances = instances
+    this._connections = connections
+    this._properties = properties
   }
 
   name() {
-    return this.nameVal
+    return this._name
   }
 
   comment() {
@@ -22,20 +23,20 @@ export default class ComponentDefinition {
   }
 
   properties() {
-    return []
+    return this._properties
   }
 
   instances() {
-    return Object.keys(this.instancesVal).map(k=>this.instancesVal[k])
+    return Object.keys(this._instances).map(k=>this._instances[k])
   }
 
   connections() {
-    return Object.keys(this.connectionsVal).map(k=>this.connectionsVal[k])
+    return Object.keys(this._connections).map(k=>this._connections[k])
   }
 
   toDebug() {
     return {
-      name: this.nameVal
+      name: this._name
     }
   }
 

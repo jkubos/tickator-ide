@@ -45,4 +45,8 @@ export default function defineFunction(b) {
     b.toInstance('p')
     b.toInput('val')
   })
+
+  b.property(b=>{
+    b.name('test')
+  })
 }

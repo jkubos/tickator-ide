@@ -57,7 +57,7 @@ export default class InstancesGeometry {
 
     Validate.notSet(this._data.instances, instanceDef.name())
 
-    const bbox = new Rectangle(instanceDef.x()-50, instanceDef.y()-75, 100, 150)
+    const bbox = new Rectangle(instanceDef.x()-35, instanceDef.y()-50, 70, 100)
     const inputs = instanceDef.definition().inputs().reduce((res, i)=>{
       res[i.name()] = this._computePin(bbox, i)
       return res
