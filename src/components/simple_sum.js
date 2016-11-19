@@ -1,7 +1,7 @@
 import Validate from '~/src/util/validate'
 
 export default function defineFunction(b) {
-  b.name('Root')
+  b.name('SimpleSum')
 
   b.instance(b=>{
     b.name('c1')

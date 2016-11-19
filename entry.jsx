@@ -33,4 +33,4 @@ function render() {
 
 engine.init()
 
-commandsDispatcher.dispatch(ENGINE_LOAD_COMPONENT, {name: 'Iteration'})
+commandsDispatcher.dispatch(ENGINE_LOAD_COMPONENT, {name: 'EmbedSimpleSum'})

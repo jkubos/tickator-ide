@@ -43,7 +43,7 @@ export default class Engine {
     this._commandsDispatcher.register(ENGINE_LOAD_COMPONENT, (data)=>this._loadComponent(data.name))
 
     this._intervalId = undefined
-    this._selectedComponent = 'Root'
+    this._selectedComponent = undefined
   }
 
   init() {
@@ -63,13 +63,17 @@ export default class Engine {
   }
 
   _buildRootInstance() {
+    if (!this._selectedComponent) {
+      return
+    }
+
     const instanceDefinitionBuilder = new InstanceDefinitionBuilder(this._tickletRepository,
       this._componentRepository)
 
     instanceDefinitionBuilder.name('runtime root')
     instanceDefinitionBuilder.component(this._selectedComponent)
 
-    instanceDefinitionBuilder.property('test', 42)
+    //instanceDefinitionBuilder.property('test', 42)
 
     const instanceDefinition = instanceDefinitionBuilder.build()
 

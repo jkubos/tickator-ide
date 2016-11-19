@@ -1,51 +1,86 @@
 import Validate from '~/src/util/validate'
 import ComponentDefinitionBuilder from './component_definition_builder'
 import TickletRepository from './ticklet_repository'
+import ComponentDependenciesExtractor from './component_dependencies_extractor'
 
 export default class ComponentRepository {
-   constructor(tickletRepository) {
-     Validate.isA(tickletRepository, TickletRepository)
+  constructor(tickletRepository) {
+    Validate.isA(tickletRepository, TickletRepository)
 
-     this.tickletRepository = tickletRepository
-     this.definitionsVal = {}
-   }
+    this.tickletRepository = tickletRepository
+    this.definitionsVal = {}
+  }
 
-   addAll(components) {
-     Validate.isArray(components)
+  addAll(components) {
+    Validate.isArray(components)
 
-     components.forEach(component=>{
-       Validate.isFunctionWithArity(component, 1)
+    const componentDependencies = this._extractDependencies(components)
 
-       const componentBuilder = new ComponentDefinitionBuilder(this.tickletRepository, this)
+    const doneComponents = []
 
-       const res = component(componentBuilder)
+    while (doneComponents.length<components.length) {
+      const component = components.find(component=>
+        !doneComponents.includes(component)
+        &&
+        componentDependencies[component].every(name=>this.isDefined(name))
+      )
 
-       Validate.isNull(res)
+      if (component===undefined) {
+        throw "Cyclic dependency? TODO: provide better debug info"
+      }
 
-       const componentDefinition = componentBuilder.build()
+      doneComponents.push(component)
 
-       console.log(`Defined %c component ${componentDefinition.name()} %c %o`,
-          'color: #00aa00; font-weight: bold',
-          'color: #000000; font-weight: normal',
-          componentDefinition.toDebug())
+      Validate.isFunctionWithArity(component, 1)
 
-       Validate.notSet(this.definitionsVal, componentDefinition.name())
+      const componentBuilder = new ComponentDefinitionBuilder(this.tickletRepository, this)
 
-       this.definitionsVal[componentDefinition.name()] = componentDefinition
-     })
-   }
+      const res = component(componentBuilder)
 
-   definitions() {
-     return Object.keys(this.definitionsVal).map(k=>this.definitionsVal[k])
-   }
+      Validate.isNull(res)
 
-   isDefined(componentName) {
-     return this.definitionsVal[componentName]!==undefined
-   }
+      const componentDefinition = componentBuilder.build()
 
-   get(componentName) {
-     Validate.isSet(this.definitionsVal, componentName)
+      console.log(`Defined %c component ${componentDefinition.name()} %c %o`,
+        'color: #00aa00; font-weight: bold',
+        'color: #000000; font-weight: normal',
+        componentDefinition.toDebug())
 
-     return this.definitionsVal[componentName]
-   }
- }
+      Validate.notSet(this.definitionsVal, componentDefinition.name())
+
+      this.definitionsVal[componentDefinition.name()] = componentDefinition
+    }
+  }
+
+  definitions() {
+    return Object.keys(this.definitionsVal).map(k=>this.definitionsVal[k])
+  }
+
+  isDefined(componentName) {
+    return this.definitionsVal[componentName]!==undefined
+  }
+
+  get(componentName) {
+    Validate.isSet(this.definitionsVal, componentName)
+
+    return this.definitionsVal[componentName]
+  }
+
+  _extractDependencies(components) {
+    const componentDependencies = {}
+
+    components.forEach(component=>{
+      Validate.isFunctionWithArity(component, 1)
+
+      const componentDependenciesExtractor = new ComponentDependenciesExtractor()
+
+      const res = component(componentDependenciesExtractor)
+
+      Validate.isNull(res)
+
+      componentDependencies[component] = componentDependenciesExtractor.getDependencies()
+    })
+
+    return componentDependencies
+  }
+}

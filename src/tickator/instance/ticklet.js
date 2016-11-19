@@ -30,11 +30,11 @@ export default class Ticklet {
   }
 
   in() {
-    return this.inputsVal
+    return this._inputs
   }
 
   out() {
-    return this.outputsVal
+    return this._outputs
   }
 
   properties() {
@@ -46,20 +46,20 @@ export default class Ticklet {
   }
 
   _buildInputs() {
-    this.inputsVal = {}
+    this._inputs = {}
 
     this._instanceDefinition.ticklet().inputs().forEach(def=>{
       const input = new Input(this, def)
-      this.inputsVal[def.name()] = ()=>input
+      this._inputs[def.name()] = ()=>input
     })
   }
 
   _buildOutputs() {
-    this.outputsVal = {}
+    this._outputs = {}
 
     this._instanceDefinition.ticklet().outputs().forEach(def=>{
       const output = new Output(this, def)
-      this.outputsVal[def.name()] = ()=>output
+      this._outputs[def.name()] = ()=>output
     })
   }
 
