@@ -25,18 +25,20 @@ export default class Component {
   }
 
   build() {
+    this._buildProperties()
     this._buildInstances()
     this._wireInstances()
-    this._buildProperties()
   }
 
   _buildInstances() {
     this._instances = this._instanceDefinition.component().instances().map(instance=>{
       if (instance.component()) {
-        throw "Implement me!"
+        const component = new Component(this._dispatcher, instance)
+        component.build()
+        return component
       } else if (instance.ticklet()) {
-        let klass = instance.ticklet().klass()
-        let ticklet = new klass(this._dispatcher, instance)
+        const klass = instance.ticklet().klass()
+        const ticklet = new klass(this._dispatcher, instance)
 
         if (instance.ticklet().autostart()) {
           this._dispatcher.schedule(ticklet)

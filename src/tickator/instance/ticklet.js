@@ -64,8 +64,11 @@ export default class Ticklet {
   }
 
   _buildProperties() {
-    this._properties = this._instanceDefinition.properties().map(instanceProperty=>{
-      return new Property(instanceProperty)
+    this._properties = {}
+
+    this._instanceDefinition.properties().forEach(instanceProperty=>{
+      const property = new Property(instanceProperty)
+      this._properties[instanceProperty.definition().name()] = ()=>property.value()
     })
   }
 }
