@@ -4,6 +4,9 @@ import Pin from './pin'
 
 export default class Unit extends React.Component {
   render() {
+
+    console.log();
+
     return <g>
 
       <rect
@@ -13,7 +16,11 @@ export default class Unit extends React.Component {
         height={this.props.geom.bbox.height}
         rx="5"
         ry="5"
-        style={{fill: '#444', strokeWidth: 2, stroke: 'black'}}>
+        style={{
+          fill: this.props.def.definition().type()==='ticklet' ? '#859900' : '#268BD2' ,
+          strokeWidth: 2,
+          stroke: '#586e75'
+        }}>
       </rect>
 
       <text
@@ -25,7 +32,31 @@ export default class Unit extends React.Component {
         x={this.props.geom.bbox.x+this.props.geom.bbox.width/2}
         y={this.props.geom.bbox.y+this.props.geom.bbox.height/3}
         fill="white">
-          {this.props.def.name()} : {this.props.def.definition().name()}
+          {this.props.def.name()}
+      </text>
+
+      <text
+        textAnchor="middle"
+        alignmentBaseline="middle"
+        fontFamily="Helvetica, Verdana"
+        fontSize="8"
+        fontWeight="bold"
+        x={this.props.geom.bbox.x+this.props.geom.bbox.width/2}
+        y={this.props.geom.bbox.y+this.props.geom.bbox.height/3+15}
+        fill="white">
+          {this.props.def.definition().name()}
+      </text>
+
+      <text
+        textAnchor="middle"
+        alignmentBaseline="middle"
+        fontFamily="FontAwesome"
+        fontSize="15"
+        fontWeight="bold"
+        x={this.props.geom.bbox.x+this.props.geom.bbox.width-12}
+        y={this.props.geom.bbox.y+12}
+        fill="#586e75">
+          {this.props.def.definition().type()==='ticklet' ? "\uf013" : "\uf12e"}
       </text>
 
       {this.props.def.definition().inputs().map(i=><Pin

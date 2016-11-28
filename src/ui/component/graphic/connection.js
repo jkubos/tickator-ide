@@ -12,7 +12,7 @@ export default class Connection extends React.Component {
 
       <polyline
         points={this.props.geom.map(a=>`${a.x},${a.y}`).join(" ")}
-        stroke="red"
+        stroke="#DC322F"
         strokeWidth="2"
         fill="none" />
     </g>

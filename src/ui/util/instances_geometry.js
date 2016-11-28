@@ -45,8 +45,23 @@ export default class InstancesGeometry {
   }
 
   _computeConnection(connectionDef) {
-    const from = this._data.instances[connectionDef.fromInstance()].outputs[connectionDef.fromOutput()]
-    const to = this._data.instances[connectionDef.toInstance()].inputs[connectionDef.toInput()]
+    const fromInst = this._data.instances[connectionDef.fromInstance()]
+    const toInst = this._data.instances[connectionDef.toInstance()]
+
+    let from = null
+    let to = null
+
+    if (fromInst) {
+      from = fromInst.outputs[connectionDef.fromOutput()]
+    } else {
+      from = {headConnectionPoin: new Point(20, 20)}
+    }
+
+    if (toInst) {
+      to = toInst.inputs[connectionDef.toInput()]
+    } else {
+      to = {headConnectionPoin: new Point(20, 20)}
+    }
 
     this._data.connections[connectionDef.uuid()] = this._shortestPathFinder.find(from.headConnectionPoin,
       to.headConnectionPoin)
@@ -57,7 +72,10 @@ export default class InstancesGeometry {
 
     Validate.notSet(this._data.instances, instanceDef.name())
 
-    const bbox = new Rectangle(instanceDef.x()-35, instanceDef.y()-50, 70, 100)
+    const boxWidth = 90
+    const boxHeight = 140
+
+    const bbox = new Rectangle(instanceDef.x()-boxWidth/2, instanceDef.y()-140/2, boxWidth, boxHeight)
     const inputs = instanceDef.definition().inputs().reduce((res, i)=>{
       res[i.name()] = this._computePin(bbox, i)
       return res

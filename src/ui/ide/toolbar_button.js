@@ -3,7 +3,7 @@ import React from 'react'
 export default class ToolbarButton extends React.Component {
 
   render() {
-    return <li className={this.props.disabled?"disabled":""} title={this.props.tooltip}>
+    return <li className={this.props.disabled ? "disabled" : ""} title={this.props.tooltip}>
       <a href="#" onClick={this.props.onClick}>
         <i className={`fa ${this.props.icon}`}></i>
       </a>

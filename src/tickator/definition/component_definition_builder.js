@@ -5,6 +5,8 @@ import ComponentDefinition from './component_definition'
 import InstanceDefinitionBuilder from './instance_definition_builder'
 import ConnectionDefinitionBuilder from './connection_definition_builder'
 import PropertyDefinitionBuilder from './property_definition_builder'
+import InputDefinitionBuilder from './input_definition_builder'
+import OutputDefinitionBuilder from './output_definition_builder'
 
 export default class ComponentDefinitionBuilder {
   constructor(tickletRepository, componentRepository) {
@@ -17,10 +19,13 @@ export default class ComponentDefinitionBuilder {
     this.instances = {}
     this.connections = {}
     this.properties = []
+    this.inputs = []
+    this.outputs = []
   }
 
   build() {
-    return new ComponentDefinition(this.nameVal, this.instances, this.connections, this.properties)
+    return new ComponentDefinition(this.nameVal, this.instances, this.connections,
+      this.properties, this.inputs, this.outputs)
   }
 
   name (nameVal) {
@@ -45,7 +50,7 @@ export default class ComponentDefinitionBuilder {
   connect (block) {
     Validate.isFunctionWithArity(block, 1)
 
-    const connectionDefinitionBuilder = new ConnectionDefinitionBuilder(this.instances)
+    const connectionDefinitionBuilder = new ConnectionDefinitionBuilder(this.instances, this.inputs, this.outputs)
 
     block(connectionDefinitionBuilder)
 
@@ -71,5 +76,39 @@ export default class ComponentDefinitionBuilder {
     , `Duplicit property name '${propertyObj.name()}'`)
 
     this.properties.push(propertyObj)
+  }
+
+  input(block) {
+    Validate.isFunctionWithArity(block, 1)
+
+    const builder = new InputDefinitionBuilder()
+
+    const res = block(builder)
+
+    Validate.isNull(res)
+
+    const inputObj = builder.build()
+
+    Validate.valid(this.inputs.every(other=>other.name()!==inputObj.name())
+    , `Duplicit input name '${inputObj.name()}'`)
+
+    this.inputs.push(inputObj)
+  }
+
+  output(block) {
+    Validate.isFunctionWithArity(block, 1)
+
+    const builder = new OutputDefinitionBuilder()
+
+    const res = block(builder)
+
+    Validate.isNull(res)
+
+    const outputObj = builder.build()
+
+    Validate.valid(this.outputs.every(other=>other.name()!==outputObj.name())
+    , `Duplicit output name '${outputObj.name()}'`)
+
+    this.outputs.push(outputObj)
   }
 }

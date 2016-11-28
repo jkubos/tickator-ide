@@ -33,14 +33,17 @@ export default class ComponentDependenciesExtractor {
   }
 
   name(nameVal) {
-
   }
 
   connect(block) {
-
   }
 
   property(block) {
+  }
 
+  input(block) {
+  }
+
+  output(block) {
   }
 }

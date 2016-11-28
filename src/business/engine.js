@@ -79,6 +79,7 @@ export default class Engine {
 
     this._rootInstance = new Component(this._dispatcher, instanceDefinition)
     this._rootInstance.build()
+    this._rootInstance.wireUp()
   }
 
   _runEngine() {

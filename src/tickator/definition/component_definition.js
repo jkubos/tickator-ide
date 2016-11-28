@@ -1,9 +1,11 @@
 export default class ComponentDefinition {
-  constructor(name, instances, connections, properties) {
+  constructor(name, instances, connections, properties, inputs, outputs) {
     this._name = name
     this._instances = instances
     this._connections = connections
     this._properties = properties
+    this._inputs = inputs
+    this._outputs = outputs
   }
 
   name() {
@@ -15,11 +17,11 @@ export default class ComponentDefinition {
   }
 
   inputs() {
-    return []
+    return this._inputs
   }
 
   outputs() {
-    return []
+    return this._outputs
   }
 
   properties() {
@@ -46,5 +48,13 @@ export default class ComponentDefinition {
 
   hasProperty(name) {
       return this._properties.some(p=>p.name()==name)
+  }
+
+  hasInput(name) {
+    return this._inputs.some(i=>i.name()==name)
+  }
+
+  hasOutput(name) {
+    return this._outputs.some(o=>o.name()==name)
   }
 }

@@ -1,51 +1,51 @@
 export default class TickletDefinition {
-  constructor(klassVal, nameVal, commentVal, inputsVal, outputsVal, propertiesVal, autostartVal=false) {
-    this.klassVal = klassVal
-    this.nameVal = nameVal
-    this.commentVal = commentVal
-    this.inputsVal = inputsVal
-    this.outputsVal = outputsVal
-    this.propertiesVal = propertiesVal
-    this.autostartVal = autostartVal
+  constructor(klass, name, comment, inputs, outputs, properties, autostart=false) {
+    this._klass = klass
+    this._name = name
+    this._comment = comment
+    this._inputs = inputs
+    this._outputs = outputs
+    this._properties = properties
+    this._autostart = autostart
   }
 
   toDebug() {
     return {
-        name: this.nameVal,
-        comment: this.commentVal,
-        autostart: this.autostartVal,
-        inputs: this.inputsVal.map(i=>i.toDebug()),
-        outputs: this.outputsVal.map(o=>o.toDebug()),
-        properties: this.propertiesVal.map(p=>p.toDebug())
+        name: this._name,
+        comment: this._comment,
+        autostart: this._autostart,
+        inputs: this._inputs.map(i=>i.toDebug()),
+        outputs: this._outputs.map(o=>o.toDebug()),
+        properties: this._properties.map(p=>p.toDebug())
     }
   }
 
   klass() {
-      return this.klassVal
+      return this._klass
   }
 
   name() {
-    return this.nameVal
+    return this._name
   }
 
   comment() {
-    return this.commentVal
+    return this._comment
   }
 
   inputs() {
-    return this.inputsVal
+    return this._inputs
   }
 
   outputs() {
-    return this.outputsVal
+    return this._outputs
   }
 
   properties() {
-    return this.propertiesVal
+    return this._properties
   }
 
   autostart() {
-    return this.autostartVal
+    return this._autostart
   }
 
   type() {
@@ -53,14 +53,14 @@ export default class TickletDefinition {
   }
 
   hasInput(name) {
-    return this.inputsVal.some(i=>i.name()==name)
+    return this._inputs.some(i=>i.name()==name)
   }
 
   hasOutput(name) {
-    return this.outputsVal.some(o=>o.name()==name)
+    return this._outputs.some(o=>o.name()==name)
   }
 
   hasProperty(name) {
-      return this.propertiesVal.some(p=>p.name()==name)
+      return this._properties.some(p=>p.name()==name)
   }
 }

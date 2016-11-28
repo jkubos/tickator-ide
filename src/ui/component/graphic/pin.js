@@ -9,16 +9,16 @@ export default class Pin extends React.Component {
         cx={this.props.geom.headCenter.x}
         cy={this.props.geom.headCenter.y}
         r={this.props.geom.headRadius}
-        stroke="black"
+        stroke="#586e75"
         strokeWidth="2"
-        fill={(this.props.def instanceof OutputDefinition) ? 'black' : 'white'} />
+        fill={(this.props.def instanceof OutputDefinition) ? '#586e75' : 'white'} />
 
       <line
         x1={this.props.geom.instanceMountPosition.x}
         y1={this.props.geom.instanceMountPosition.y}
         x2={this.props.geom.headMountPosition.x}
         y2={this.props.geom.headMountPosition.y}
-        stroke="black"
+        stroke="#586e75"
         strokeWidth="2" />
 
       <text
