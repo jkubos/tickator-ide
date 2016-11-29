@@ -62,13 +62,17 @@ export default class Unit extends React.Component {
       {this.props.def.definition().inputs().map(i=><Pin
         key={i.name()}
         def={i}
-        geom={this.props.geom.inputs[i.name()]}/>)
+        geom={this.props.geom.inputs[i.name()]}
+        isOnRoot={false}
+        />)
       }
 
       {this.props.def.definition().outputs().map(o=><Pin
         key={o.name()}
         def={o}
-        geom={this.props.geom.outputs[o.name()]}/>)
+        geom={this.props.geom.outputs[o.name()]}
+        isOnRoot={false}
+        />)
       }
     </g>
   }

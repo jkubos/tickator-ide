@@ -6,13 +6,13 @@ export default function defineFunction(b) {
   b.input(b=>{
     b.name("a1")
     b.validate(Validate.isNumber)
-    b.position('top', 0.5)
+    b.position('left', 0.3)
   })
 
   b.input(b=>{
     b.name("b1")
     b.validate(Validate.isNumber)
-    b.position('bottom', 0.5)
+    b.position('left', 0.7)
   })
 
   b.output(b=>{
@@ -20,6 +20,12 @@ export default function defineFunction(b) {
     b.validate(Validate.isNumber)
     b.position('right', 0.5)
   })
+
+  // b.output(b=>{
+  //   b.name("res2")
+  //   b.validate(Validate.isNumber)
+  //   b.position('left', 0.5)
+  // })
 
   b.instance(b=>{
     b.name('s')

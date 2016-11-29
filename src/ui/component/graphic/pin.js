@@ -11,7 +11,7 @@ export default class Pin extends React.Component {
         r={this.props.geom.headRadius}
         stroke="#586e75"
         strokeWidth="2"
-        fill={(this.props.def instanceof OutputDefinition) ? '#586e75' : 'white'} />
+        fill={(this.props.def instanceof OutputDefinition) ^ this.props.isOnRoot ? '#586e75' : 'white'} />
 
       <line
         x1={this.props.geom.instanceMountPosition.x}
@@ -28,7 +28,7 @@ export default class Pin extends React.Component {
         fontSize="10"
         x={this.props.geom.textPosition.x}
         y={this.props.geom.textPosition.y}
-        fill="white">
+        fill={this.props.isOnRoot ? "black" : "white"}>
           {this.props.def.name()}
       </text>
 
@@ -43,7 +43,8 @@ export default class Pin extends React.Component {
 Pin.propTypes = {
   def: React.PropTypes.oneOfType([React.PropTypes.instanceOf(InputDefinition),
     React.PropTypes.instanceOf(OutputDefinition)]).isRequired,
-  geom: React.PropTypes.object.isRequired
+  geom: React.PropTypes.object.isRequired,
+  isOnRoot: React.PropTypes.bool.isRequired
 }
 
 Pin.defaultProps = {

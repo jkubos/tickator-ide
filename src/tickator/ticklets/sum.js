@@ -11,13 +11,13 @@ export default class Sum extends Ticklet {
     b.input(b=>{
       b.name("a")
       b.validate(Validate.isNumber)
-      b.position('top', 0.5)
+      b.position('left', 0.3)
     })
 
     b.input(b=>{
       b.name("b")
       b.validate(Validate.isNumber)
-      b.position('bottom', 0.5)
+      b.position('left', 0.7)
     })
 
     b.output(b=>{

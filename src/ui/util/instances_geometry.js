@@ -12,6 +12,8 @@ export default class InstancesGeometry {
   constructor() {
     this._data = {}
     this._shortestPathFinder = new ShortestPathFinder()
+
+    this._border = 40
   }
 
   update(componentDef, width, height) {
@@ -19,8 +21,11 @@ export default class InstancesGeometry {
 
     this._data = {
       instances: {},
-      connections: {}
+      connections: {},
+      self: {}
     }
+
+    this._computeSelf(componentDef, width, height)
 
     componentDef.instances().forEach(instanceDef=>this._computeInstance(instanceDef))
 
@@ -36,6 +41,10 @@ export default class InstancesGeometry {
     Validate.isSet(this._data.instances, name)
 
     return this._data.instances[name]
+  }
+
+  getSelf() {
+    return this._data.self
   }
 
   getForConnection(uuid) {
@@ -54,17 +63,35 @@ export default class InstancesGeometry {
     if (fromInst) {
       from = fromInst.outputs[connectionDef.fromOutput()]
     } else {
-      from = {headConnectionPoin: new Point(20, 20)}
+      from = this._data.self.inputs[connectionDef.fromOutput()]
     }
 
     if (toInst) {
       to = toInst.inputs[connectionDef.toInput()]
     } else {
-      to = {headConnectionPoin: new Point(20, 20)}
+      to = this._data.self.outputs[connectionDef.toInput()]
     }
 
     this._data.connections[connectionDef.uuid()] = this._shortestPathFinder.find(from.headConnectionPoin,
       to.headConnectionPoin)
+  }
+
+  _computeSelf(componentDef, width, height) {
+    const bbox = new Rectangle(this._border, this._border, width-2*this._border, height-2*this._border)
+    const inputs = componentDef.inputs().reduce((res, i)=>{
+      res[i.name()] = this._computePin(bbox, i, true)
+      return res
+    }, {})
+    const outputs = componentDef.outputs().reduce((res, o)=>{
+      res[o.name()] = this._computePin(bbox, o, true)
+      return res
+    }, {})
+
+    this._data.self = {
+      bbox,
+      inputs,
+      outputs
+    }
   }
 
   _computeInstance(instanceDef) {
@@ -75,13 +102,13 @@ export default class InstancesGeometry {
     const boxWidth = 90
     const boxHeight = 140
 
-    const bbox = new Rectangle(instanceDef.x()-boxWidth/2, instanceDef.y()-140/2, boxWidth, boxHeight)
+    const bbox = new Rectangle(instanceDef.x()-boxWidth/2+this._border, instanceDef.y()-140/2+this._border, boxWidth, boxHeight)
     const inputs = instanceDef.definition().inputs().reduce((res, i)=>{
-      res[i.name()] = this._computePin(bbox, i)
+      res[i.name()] = this._computePin(bbox, i, false)
       return res
     }, {})
     const outputs = instanceDef.definition().outputs().reduce((res, o)=>{
-      res[o.name()] = this._computePin(bbox, o)
+      res[o.name()] = this._computePin(bbox, o, false)
       return res
     }, {})
 
@@ -92,17 +119,23 @@ export default class InstancesGeometry {
     }
   }
 
-  _computePin(bbox, pinDef) {
+  _computePin(bbox, pinDef, isForRoot) {
     Validate.isAnyOfA(pinDef, [InputDefinition, OutputDefinition])
 
     const headRadius = 5
 
     const instanceMountPosition = this._computeMountPosition(bbox, pinDef)
-    const headDirection = this._computeHeadDirection(pinDef)
+    let headDirection = this._computeHeadDirection(pinDef)
+
+    if (isForRoot) {
+      headDirection = headDirection.multiplied(-1)
+    }
 
     const headMountPosition = instanceMountPosition.added(headDirection.multiplied(15))
     const headCenter = headMountPosition.added(headDirection.multiplied(headRadius))
     const headConnectionPoin = headCenter.added(headDirection.multiplied(headRadius))
+
+    const textOffs = this._calculateTextPosition(pinDef)
 
     return {
       headRadius,
@@ -110,36 +143,36 @@ export default class InstancesGeometry {
       headMountPosition,
       headCenter,
       headConnectionPoin,
-      textAlignHorizontal: this._calculateTextAlignHorizontal(pinDef),
-      textAlignVertical: this._calculateTextAlignVertical(pinDef),
-      textPosition: instanceMountPosition.added(this._calculateTextPosition(pinDef))
+      textAlignHorizontal: this._calculateTextAlignHorizontal(pinDef, isForRoot),
+      textAlignVertical: this._calculateTextAlignVertical(pinDef, isForRoot),
+      textPosition: instanceMountPosition.added(this._calculateTextPosition(pinDef, isForRoot))
     }
   }
 
-  _calculateTextAlignHorizontal(pinDef) {
+  _calculateTextAlignHorizontal(pinDef, isForRoot) {
     switch (pinDef.side()) {
       case "top":
         return "middle"
       case "left":
-        return "start"
+        return isForRoot ? "end" : "start"
       case "bottom":
         return "middle"
       case "right":
-        return "end"
+        return isForRoot ? "start" : "end"
       default:
         throw "Unknown side "+pinDef.side()
         break
     }
   }
 
-  _calculateTextAlignVertical(pinDef) {
+  _calculateTextAlignVertical(pinDef, isForRoot) {
     switch (pinDef.side()) {
       case "top":
-        return "text-before-edge"
+        return isForRoot ? "baseline" : "text-before-edge"
       case "left":
         return "middle"
       case "bottom":
-        return "baseline"
+        return isForRoot ? "text-before-edge" : "baseline"
       case "right":
         return "middle"
       default:
@@ -148,8 +181,8 @@ export default class InstancesGeometry {
     }
   }
 
-  _calculateTextPosition(pinDef) {
-    const labelOffset = 4
+  _calculateTextPosition(pinDef, isForRoot) {
+    const labelOffset = (isForRoot?-1:1)*4
 
     let textX = 0
     let textY = 0
