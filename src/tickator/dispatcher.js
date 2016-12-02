@@ -1,39 +1,30 @@
 import Ticklet from '~/src/tickator/instance/ticklet'
 import Output from '~/src/tickator/instance/output'
 import Validate from '~/src/util/validate'
+import PlatformApi from '~/src/business/platform_api'
 
 export default class Dispatcher {
-  constructor() {
+  constructor(platformApi) {
+    Validate.isA(platformApi, PlatformApi)
+
+    this._platformApi = platformApi
     this.reset()
+  }
+
+  getPlatformApi() {
+    return this._platformApi
   }
 
   reset() {
     this._currentTick = 0
+    this._platformApi.setTick(this._currentTick)
+
     this._changedOutputs = []
     this._scheduledTicklets = []
-    this._logLines = []
   }
 
   currentTick() {
     return this._currentTick
-  }
-
-  log(message) {
-
-    const toRemove = this._logLines.length-100
-
-    if (toRemove>0) {
-      this._logLines.splice(0, toRemove)
-    }
-
-    this._logLines.push({
-      tick: this._currentTick,
-      message
-    })
-  }
-
-  logLines() {
-    return this._logLines.slice(0)
   }
 
   schedule(ticklet) {
@@ -68,7 +59,7 @@ export default class Dispatcher {
     this._scheduledTicklets = []
     this._changedOutputs = []
 
-    this.log('----------------------------------------')
+    this._platformApi.log('----------------------------------------')
 
     this._toProcess.forEach(ticklet=>{
       try {
@@ -80,5 +71,6 @@ export default class Dispatcher {
     })
 
     ++this._currentTick
+    this._platformApi.setTick(this._currentTick)
   }
 }

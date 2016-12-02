@@ -12,7 +12,8 @@ import {
   ENGINE_STATE,
   ENGINE_RESET,
   DISPATCHER_LOGS_CHANGED,
-  ENGINE_LOAD_COMPONENT
+  ENGINE_LOAD_COMPONENT,
+  USER_INPUT_LINE
 } from '~/src/business/commands/commands'
 import {
   ENGINE_STATE_RUNNING,
@@ -21,6 +22,7 @@ import {
 import Validate from '~/src/util/validate'
 import CommandsDispatcher from '~/src/business/commands_dispatcher'
 import InstanceDefinitionBuilder from '~/src/tickator/definition/instance_definition_builder'
+import PlatformApi from './platform_api'
 
 export default class Engine {
   constructor(commandsDispatcher) {
@@ -28,7 +30,9 @@ export default class Engine {
 
     this._commandsDispatcher = commandsDispatcher
 
-    this._dispatcher = new Dispatcher()
+    this._platformApi = new PlatformApi()
+
+    this._dispatcher = new Dispatcher(this._platformApi)
 
     this._tickletRepository = new TickletRepository()
     ticklets.forEach(t=>this._tickletRepository.add(t))
@@ -41,6 +45,7 @@ export default class Engine {
     this._commandsDispatcher.register(ENGINE_STEP, (data)=>this._stepEngine())
     this._commandsDispatcher.register(ENGINE_RESET, (data)=>this._resetEngine())
     this._commandsDispatcher.register(ENGINE_LOAD_COMPONENT, (data)=>this._loadComponent(data.name))
+    this._commandsDispatcher.register(USER_INPUT_LINE, (data)=>this._userInputLine(data.value))
 
     this._intervalId = undefined
     this._selectedComponent = undefined
@@ -126,7 +131,7 @@ export default class Engine {
     })
 
     this._commandsDispatcher.dispatch(DISPATCHER_LOGS_CHANGED, {
-      lines: this._dispatcher.logLines()
+      lines: this._platformApi.logLines()
     })
   }
 
@@ -142,7 +147,11 @@ export default class Engine {
     })
 
     this._commandsDispatcher.dispatch(DISPATCHER_LOGS_CHANGED, {
-      lines: this._dispatcher.logLines()
+      lines: this._platformApi.logLines()
     })
+  }
+
+  _userInputLine(value) {
+    this._platformApi.emitUserInputLine(value)
   }
 }

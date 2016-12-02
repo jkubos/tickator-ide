@@ -1,6 +1,7 @@
 import React from 'react'
 import ComponentSchema from '~/src/ui/component/graphic/component_schema'
 import ConsoleView from '~/src/ui/ide/console_view'
+import InputLine from '~/src/ui/ide/input_line'
 import ComponentsList from '~/src/ui/ide/components_list'
 import PropertiesView from '~/src/ui/ide/properties_view'
 import Toolbar from '~/src/ui/ide/toolbar'
@@ -30,6 +31,7 @@ export default class TickatorIDE extends React.Component {
           <PropertiesView instance={this.props.engine.rootInstance()} />
         </div>
         <div className="col-lg-10">
+          <InputLine />
           <ConsoleView lines={logLines} />
         </div>
       </div>

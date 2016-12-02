@@ -11,8 +11,8 @@ require('./main.less')
 import Engine from '~/src/business/engine'
 import CommandsDispatcher from '~/src/business/commands_dispatcher'
 import {
-  ON_TICK_DONE,
-  ENGINE_LOAD_COMPONENT
+  ENGINE_LOAD_COMPONENT,
+  ENGINE_RUN
 } from '~/src/business/commands/commands'
 import UiState from '~/src/business/ui_state'
 
@@ -33,4 +33,5 @@ function render() {
 
 engine.init()
 
-commandsDispatcher.dispatch(ENGINE_LOAD_COMPONENT, {name: 'WrappedSum'}) //Embedded
+commandsDispatcher.dispatch(ENGINE_LOAD_COMPONENT, {name: 'TestInput'})
+commandsDispatcher.dispatch(ENGINE_RUN, {})
