@@ -22,13 +22,21 @@ export default class TickatorIDE extends React.Component {
           <ComponentsList />
         </div>
         <div className="col-md-10">
-          <ComponentSchema def={this.props.engine.rootInstance().definition()} width={950} height={500} />
+          <ComponentSchema
+            def={this.props.engine.rootInstance().definition()}
+            width={950}
+            height={500}
+            selectedInstanceName={this.props.uiState.get('ui', 'selectedInstanceName')}
+          />
         </div>
       </div>
 
       <div className="row">
         <div className="col-lg-2">
-          <PropertiesView instance={this.props.engine.rootInstance()} />
+          <PropertiesView
+            instance={this.props.engine.rootInstance()}
+            selectedInstanceName={this.props.uiState.get('ui', 'selectedInstanceName')}
+          />
         </div>
         <div className="col-lg-10">
           <InputLine />

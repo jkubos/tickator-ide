@@ -41,6 +41,10 @@ export default class Ticklet {
     return this._properties
   }
 
+  propertyInstances() {
+    return this._propertyInstances
+  }
+
   tick() {
     throw `Ticklet ${this} did not redefined tick method`
   }
@@ -66,9 +70,10 @@ export default class Ticklet {
   _buildProperties() {
     this._properties = {}
 
-    this._instanceDefinition.properties().forEach(instanceProperty=>{
+    this._propertyInstances = this._instanceDefinition.properties().map(instanceProperty=>{
       const property = new Property(instanceProperty)
       this._properties[instanceProperty.definition().name()] = ()=>property.value()
+      return property
     })
   }
 }

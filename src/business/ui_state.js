@@ -3,7 +3,8 @@ import CommandsDispatcher from '~/src/business/commands_dispatcher'
 import {
   ENGINE_STATE,
   ON_TICK_DONE,
-  DISPATCHER_LOGS_CHANGED
+  DISPATCHER_LOGS_CHANGED,
+  SELECT_INSTANCE
 } from '~/src/business/commands/commands'
 
 export default class UiState {
@@ -17,9 +18,12 @@ export default class UiState {
     this._data = {}
     this._renderPlanned = false
 
+    this._update('ui', 'selectedInstanceName', '')
+
     this._commandsDispatcher.register(ON_TICK_DONE, data=>this._onTickDone(data.currentTick))
     this._commandsDispatcher.register(ENGINE_STATE, data=>this._onEngineStateChange(data.state))
     this._commandsDispatcher.register(DISPATCHER_LOGS_CHANGED, data=>this._onDispatcherLogsChange(data.lines))
+    this._commandsDispatcher.register(SELECT_INSTANCE, data=>this._onInstanceSelected(data.instance))
   }
 
   get(...path) {
@@ -45,6 +49,10 @@ export default class UiState {
 
   _onDispatcherLogsChange(lines) {
     this._update('engine', 'logLines', lines)
+  }
+
+  _onInstanceSelected(instanceName) {
+    this._update('ui', 'selectedInstanceName', instanceName)
   }
 
   _update(...path) {

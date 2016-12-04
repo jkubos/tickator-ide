@@ -1,11 +1,13 @@
 import React from 'react';
 import InstanceDefinition from '~/src/tickator/definition/instance_definition'
 import Pin from './pin'
+import {
+  SELECT_INSTANCE
+} from '~/src/business/commands/commands'
+import CommandsDispatcher from '~/src/business/commands_dispatcher'
 
 export default class Unit extends React.Component {
   render() {
-
-    console.log();
 
     return <g>
 
@@ -19,8 +21,10 @@ export default class Unit extends React.Component {
         style={{
           fill: this.props.def.definition().type()==='ticklet' ? '#859900' : '#268BD2' ,
           strokeWidth: 2,
-          stroke: '#586e75'
-        }}>
+          stroke: this.props.selected ? '#cb4b16' : '#586e75'
+        }}
+        onClick={e=>this.context.commandsDispatcher.dispatch(SELECT_INSTANCE, {instance: this.props.def.name()})}
+        >
       </rect>
 
       <text
@@ -76,19 +80,14 @@ export default class Unit extends React.Component {
       }
     </g>
   }
-
-  getChildContext() {
-    return {}
-  }
 }
 
 Unit.propTypes = {
   def: React.PropTypes.instanceOf(InstanceDefinition).isRequired,
-  geom: React.PropTypes.object.isRequired
+  geom: React.PropTypes.object.isRequired,
+  selected: React.PropTypes.bool.isRequired
 }
 
-Unit.defaultProps = {
-}
-
-Unit.childContextTypes = {
+Unit.contextTypes = {
+  commandsDispatcher: React.PropTypes.instanceOf(CommandsDispatcher).isRequired
 }

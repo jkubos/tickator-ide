@@ -6,24 +6,35 @@ import Component from '~/src/tickator/instance/component'
 export default class PropertiesView extends React.Component {
 
   render() {
-    const properties = this.props.instance.properties()
-    return <table className="table table-striped table-bordered table-condensed">
-      <thead>
-        <tr>
-          <th>Property</th>
-          <th>Value</th>
-          <th>Default</th>
-        </tr>
-      </thead>
-      <tbody>
-        {properties.map(property=><tr key={property.definition().name()}>
-            <td>{property.definition().name()}</td>
-            <td>{property.value()}</td>
-            <td>c</td>
+    let selectedInstance = this.props.instance
+
+    if (this.props.selectedInstanceName) {
+      selectedInstance = selectedInstance._findInstance(this.props.selectedInstanceName)
+    }
+
+    const properties = selectedInstance.propertyInstances()
+
+    return <div>
+      <strong>Selected: {this.props.selectedInstanceName || "root"}</strong>
+
+      <table className="table table-striped table-bordered table-condensed">
+        <thead>
+          <tr>
+            <th>Property</th>
+            <th>Value</th>
+            <th>Default</th>
           </tr>
-        )}
-      </tbody>
-    </table>
+        </thead>
+        <tbody>
+          {properties.map(property=><tr key={property.definition().name()}>
+              <td>{property.definition().name()}</td>
+              <td>{property.value()}</td>
+              <td>{property.definition().defaultValue()}</td>
+            </tr>
+          )}
+        </tbody>
+      </table>
+    </div>
   }
 }
 
@@ -31,7 +42,8 @@ PropertiesView.propTypes = {
   instance: React.PropTypes.oneOfType([
     React.PropTypes.instanceOf(Ticklet),
     React.PropTypes.instanceOf(Component)
-  ]).isRequired
+  ]).isRequired,
+  selectedInstanceName: React.PropTypes.string.isRequired
 }
 
 PropertiesView.contextTypes = {

@@ -30,6 +30,10 @@ export default class Component {
     return this._properties
   }
 
+  propertyInstances() {
+    return this._propertyInstances
+  }
+
   build() {
     this._buildProperties()
     this._buildInstances()
@@ -147,8 +151,12 @@ export default class Component {
   }
 
   _buildProperties() {
-    this._properties = this._instanceDefinition.properties().map(prop=>{
-      return new Property(prop)
+    this._properties = {}
+
+    this._propertyInstances = this._instanceDefinition.properties().map(instanceProperty=>{
+      const property = new Property(instanceProperty)
+      this._properties[instanceProperty.definition().name()] = ()=>property.value()
+      return property
     })
   }
 }

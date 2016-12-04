@@ -12,24 +12,14 @@ export default class Connection extends React.Component {
 
       <polyline
         points={this.props.geom.map(a=>`${a.x},${a.y}`).join(" ")}
-        stroke="#DC322F"
+        stroke="#268bd2"
         strokeWidth="2"
         fill="none" />
     </g>
-  }
-
-  getChildContext() {
-    return {}
   }
 }
 
 Connection.propTypes = {
   def: React.PropTypes.instanceOf(ConnectionDefinition).isRequired,
   geom: React.PropTypes.array.isRequired
-}
-
-Connection.defaultProps = {
-}
-
-Connection.childContextTypes = {
 }

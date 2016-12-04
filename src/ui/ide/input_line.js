@@ -1,6 +1,5 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-
 import CommandsDispatcher from '~/src/business/commands_dispatcher'
 import {
   USER_INPUT_LINE

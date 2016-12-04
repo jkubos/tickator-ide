@@ -6,6 +6,10 @@ import Connection from './connection'
 import Pin from './pin'
 import InstancesGeometry from '~/src/ui/util/instances_geometry'
 import BitArrayVisualization from '~/src/ui/util/bit_array_visualization'
+import {
+  SELECT_INSTANCE
+} from '~/src/business/commands/commands'
+import CommandsDispatcher from '~/src/business/commands_dispatcher'
 
 export default class ComponentSchema extends React.Component {
 
@@ -37,8 +41,10 @@ export default class ComponentSchema extends React.Component {
         style={{
           fill: '#fdf6e3' ,
           strokeWidth: 2,
-          stroke: '#586e75'
-        }}>
+          stroke: this.props.selectedInstanceName==='' ? '#cb4b16' : '#586e75'
+        }}
+        onClick={e=>this.context.commandsDispatcher.dispatch(SELECT_INSTANCE, {instance: ''})}
+        >
       </rect>
 
       {this.props.def.connections().map(def=><Connection
@@ -51,6 +57,7 @@ export default class ComponentSchema extends React.Component {
         def={def}
         geom={this.instances_geometry.getForInstance(def.name())}
         key={def.name()}
+        selected={this.props.selectedInstanceName===def.name()}
       />)}
 
       {this.props.def.inputs().map(i=><Pin
@@ -78,5 +85,10 @@ export default class ComponentSchema extends React.Component {
 ComponentSchema.propTypes = {
   width: React.PropTypes.number.isRequired,
   height: React.PropTypes.number.isRequired,
-  def: React.PropTypes.instanceOf(ComponentDefinition).isRequired
+  def: React.PropTypes.instanceOf(ComponentDefinition).isRequired,
+  selectedInstanceName: React.PropTypes.string.isRequired
+}
+
+ComponentSchema.contextTypes = {
+  commandsDispatcher: React.PropTypes.instanceOf(CommandsDispatcher).isRequired
 }
