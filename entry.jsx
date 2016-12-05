@@ -33,5 +33,5 @@ function render() {
 
 engine.init()
 
-commandsDispatcher.dispatch(ENGINE_LOAD_COMPONENT, {name: 'SimpleSum'})
+//commandsDispatcher.dispatch(ENGINE_LOAD_COMPONENT, {name: 'SimpleSum'})
 //commandsDispatcher.dispatch(ENGINE_RUN, {})

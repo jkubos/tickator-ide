@@ -4,8 +4,10 @@ import {
   ENGINE_STATE,
   ON_TICK_DONE,
   DISPATCHER_LOGS_CHANGED,
-  SELECT_INSTANCE
+  SELECT_INSTANCE,
+  ENGINE_LOAD_COMPONENT
 } from '~/src/business/commands/commands'
+import hashed from 'hashed'
 
 export default class UiState {
   constructor(commandsDispatcher, render) {
@@ -24,6 +26,9 @@ export default class UiState {
     this._commandsDispatcher.register(ENGINE_STATE, data=>this._onEngineStateChange(data.state))
     this._commandsDispatcher.register(DISPATCHER_LOGS_CHANGED, data=>this._onDispatcherLogsChange(data.lines))
     this._commandsDispatcher.register(SELECT_INSTANCE, data=>this._onInstanceSelected(data.instance))
+    this._commandsDispatcher.register(ENGINE_LOAD_COMPONENT, data=>this._onComponentLoad(data.name))
+
+    this._initializeFromHash()
   }
 
   get(...path) {
@@ -37,6 +42,26 @@ export default class UiState {
     })
 
     return res
+  }
+
+  _initializeFromHash() {
+    this._urlState = {
+      component: 'SimpleSum'
+    }
+
+    if (location.hash && location.hash.length>1) {
+      const hashObj = JSON.parse(decodeURIComponent(location.hash.substring(1)))
+      this._urlState = Object.assign(this._urlState, hashObj)
+    }
+
+    this._commandsDispatcher.dispatch(ENGINE_LOAD_COMPONENT, {name: this._urlState.component})
+  }
+
+  _onComponentLoad(name) {
+    if (this._urlState.component!=name) {
+      this._urlState.component = name
+      location.hash = encodeURIComponent(JSON.stringify(this._urlState))
+    }
   }
 
   _onTickDone(currentTick) {

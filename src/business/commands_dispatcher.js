@@ -17,6 +17,9 @@ export default class CommandsDispatcher {
   }
 
   dispatch(cmd, data={}) {
+
+    console.log(cmd, data)
+
     Validate.notBlank(cmd)
     Validate.notNull(data)
 
