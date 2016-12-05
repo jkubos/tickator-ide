@@ -8,7 +8,7 @@ import Toolbar from '~/src/ui/ide/toolbar'
 import CommandsDispatcher from '~/src/business/commands_dispatcher'
 import UiState from '~/src/business/ui_state'
 import Engine from '~/src/business/engine'
-
+import Breadcrumb from '~/src/ui/ide/breadcrumb'
 export default class TickatorIDE extends React.Component {
 
   render() {
@@ -22,11 +22,15 @@ export default class TickatorIDE extends React.Component {
           <ComponentsList />
         </div>
         <div className="col-md-10">
+          <Breadcrumb
+            povInstancePath={this.props.uiState.get('ui', 'povInstancePath')}
+          />
           <ComponentSchema
-            def={this.props.engine.rootInstance().definition()}
+            instance={this.props.engine.rootInstance()}
             width={950}
             height={500}
             selectedInstanceName={this.props.uiState.get('ui', 'selectedInstanceName')}
+            povInstancePath={this.props.uiState.get('ui', 'povInstancePath')}
           />
         </div>
       </div>

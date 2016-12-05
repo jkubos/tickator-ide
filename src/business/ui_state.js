@@ -5,7 +5,9 @@ import {
   ON_TICK_DONE,
   DISPATCHER_LOGS_CHANGED,
   SELECT_INSTANCE,
-  ENGINE_LOAD_COMPONENT
+  ENGINE_LOAD_COMPONENT,
+  DIVE_INTO_INSTANCE,
+  EMERGE_FROM_INSTANCE
 } from '~/src/business/commands/commands'
 import hashed from 'hashed'
 
@@ -21,11 +23,14 @@ export default class UiState {
     this._renderPlanned = false
 
     this._update('ui', 'selectedInstanceName', '')
+    this._update('ui', 'povInstancePath', [])
 
     this._commandsDispatcher.register(ON_TICK_DONE, data=>this._onTickDone(data.currentTick))
     this._commandsDispatcher.register(ENGINE_STATE, data=>this._onEngineStateChange(data.state))
     this._commandsDispatcher.register(DISPATCHER_LOGS_CHANGED, data=>this._onDispatcherLogsChange(data.lines))
     this._commandsDispatcher.register(SELECT_INSTANCE, data=>this._onInstanceSelected(data.instance))
+    this._commandsDispatcher.register(DIVE_INTO_INSTANCE, data=>this._onDivedIntoInstance(data.instance))
+    this._commandsDispatcher.register(EMERGE_FROM_INSTANCE, data=>this._onEmergeFromInstance())
     this._commandsDispatcher.register(ENGINE_LOAD_COMPONENT, data=>this._onComponentLoad(data.name))
 
     this._initializeFromHash()
@@ -78,6 +83,16 @@ export default class UiState {
 
   _onInstanceSelected(instanceName) {
     this._update('ui', 'selectedInstanceName', instanceName)
+  }
+
+  _onDivedIntoInstance(instanceName) {
+    this._update('ui', 'selectedInstanceName', '')
+    this._update('ui', 'povInstancePath', [...this.get('ui', 'povInstancePath'), instanceName])
+  }
+
+  _onEmergeFromInstance() {
+    this._update('ui', 'selectedInstanceName', '')
+    this._update('ui', 'povInstancePath', this.get('ui', 'povInstancePath').slice(1))
   }
 
   _update(...path) {

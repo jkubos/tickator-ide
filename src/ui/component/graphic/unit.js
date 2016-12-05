@@ -2,7 +2,8 @@ import React from 'react';
 import InstanceDefinition from '~/src/tickator/definition/instance_definition'
 import Pin from './pin'
 import {
-  SELECT_INSTANCE
+  SELECT_INSTANCE,
+  DIVE_INTO_INSTANCE
 } from '~/src/business/commands/commands'
 import CommandsDispatcher from '~/src/business/commands_dispatcher'
 
@@ -11,6 +12,11 @@ export default class Unit extends React.Component {
 
     return <g
         onClick={e=>this.context.commandsDispatcher.dispatch(SELECT_INSTANCE, {instance: this.props.def.name()})}
+        onDoubleClick={e=> {
+          if (this.props.def.definition().type()!=='ticklet') {
+            this.context.commandsDispatcher.dispatch(DIVE_INTO_INSTANCE, {instance: this.props.def.name()})
+          }
+        }}
       >
 
       <rect

@@ -1,13 +1,14 @@
 import React from 'react'
 import deepEqual from 'deep-equal'
-import ComponentDefinition from '~/src/tickator/definition/component_definition'
+import Component from '~/src/tickator/instance/component'
 import Unit from './unit'
 import Connection from './connection'
 import Pin from './pin'
 import InstancesGeometry from '~/src/ui/util/instances_geometry'
 import BitArrayVisualization from '~/src/ui/util/bit_array_visualization'
 import {
-  SELECT_INSTANCE
+  SELECT_INSTANCE,
+  EMERGE_FROM_INSTANCE
 } from '~/src/business/commands/commands'
 import CommandsDispatcher from '~/src/business/commands_dispatcher'
 
@@ -23,7 +24,14 @@ export default class ComponentSchema extends React.Component {
   }
 
   render() {
-    this.instances_geometry.update(this.props.def, this.props.width, this.props.height)
+
+    let instancePov = this.props.instance
+
+    this.props.povInstancePath.forEach(name=>{
+      instancePov = instancePov._findInstance(name)
+    })
+
+    this.instances_geometry.update(instancePov.definition(), this.props.width, this.props.height)
 
     return <svg
         style={{border: '1px solid gray', display: 'inline', }}
@@ -44,23 +52,24 @@ export default class ComponentSchema extends React.Component {
           stroke: this.props.selectedInstanceName==='' ? '#cb4b16' : '#586e75'
         }}
         onClick={e=>this.context.commandsDispatcher.dispatch(SELECT_INSTANCE, {instance: ''})}
+        onDoubleClick={e=>this.context.commandsDispatcher.dispatch(EMERGE_FROM_INSTANCE, {})}
         >
       </rect>
 
-      {this.props.def.connections().map(def=><Connection
+      {instancePov.definition().connections().map(def=><Connection
         def={def}
         geom={this.instances_geometry.getForConnection(def.uuid())}
         key={def.uuid()}
       />)}
 
-      {this.props.def.instances().map(def=><Unit
+      {instancePov.definition().instances().map(def=><Unit
         def={def}
         geom={this.instances_geometry.getForInstance(def.name())}
         key={def.name()}
         selected={this.props.selectedInstanceName===def.name()}
       />)}
 
-      {this.props.def.inputs().map(i=><Pin
+      {instancePov.definition().inputs().map(i=><Pin
         key={i.name()}
         def={i}
         geom={this.instances_geometry.getSelf().inputs[i.name()]}
@@ -68,7 +77,7 @@ export default class ComponentSchema extends React.Component {
         />)
       }
 
-      {this.props.def.outputs().map(o=><Pin
+      {instancePov.definition().outputs().map(o=><Pin
         key={o.name()}
         def={o}
         geom={this.instances_geometry.getSelf().outputs[o.name()]}
@@ -85,8 +94,9 @@ export default class ComponentSchema extends React.Component {
 ComponentSchema.propTypes = {
   width: React.PropTypes.number.isRequired,
   height: React.PropTypes.number.isRequired,
-  def: React.PropTypes.instanceOf(ComponentDefinition).isRequired,
-  selectedInstanceName: React.PropTypes.string.isRequired
+  instance: React.PropTypes.instanceOf(Component).isRequired,
+  selectedInstanceName: React.PropTypes.string.isRequired,
+  povInstancePath: React.PropTypes.array.isRequired
 }
 
 ComponentSchema.contextTypes = {
