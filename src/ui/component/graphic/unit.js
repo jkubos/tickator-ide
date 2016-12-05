@@ -9,7 +9,9 @@ import CommandsDispatcher from '~/src/business/commands_dispatcher'
 export default class Unit extends React.Component {
   render() {
 
-    return <g>
+    return <g
+        onClick={e=>this.context.commandsDispatcher.dispatch(SELECT_INSTANCE, {instance: this.props.def.name()})}
+      >
 
       <rect
         x={this.props.geom.bbox.x}
@@ -23,7 +25,6 @@ export default class Unit extends React.Component {
           strokeWidth: 2,
           stroke: this.props.selected ? '#cb4b16' : '#586e75'
         }}
-        onClick={e=>this.context.commandsDispatcher.dispatch(SELECT_INSTANCE, {instance: this.props.def.name()})}
         >
       </rect>
 
