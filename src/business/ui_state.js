@@ -67,6 +67,9 @@ export default class UiState {
       this._urlState.component = name
       location.hash = encodeURIComponent(JSON.stringify(this._urlState))
     }
+
+    this._update('ui', 'selectedInstanceName', '')
+    this._update('ui', 'povInstancePath', [])
   }
 
   _onTickDone(currentTick) {
