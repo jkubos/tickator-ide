@@ -45,6 +45,10 @@ export default class Ticklet {
     return this._propertyInstances
   }
 
+  initialize() {
+    
+  }
+
   tick() {
     throw `Ticklet ${this} did not redefined tick method`
   }

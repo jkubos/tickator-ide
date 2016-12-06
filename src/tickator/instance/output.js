@@ -19,7 +19,7 @@ export default class Output {
   }
 
   set(value) {
-    if (value!==this.get()) {
+    //if (value!==this.get()) {
       const upcomingIndex = this._getUpcomingIndex()
       const currentTick = this._ticklet.dispatcher().currentTick();
 
@@ -27,11 +27,15 @@ export default class Output {
       this._validFrom[upcomingIndex] = currentTick+1
 
       this._ticklet.dispatcher().markChangedOutput(this)
-    }
+    //}
   }
 
   get() {
     return this._value[this._getCurrentIndex()]
+  }
+
+  isTriggering() {
+    return this._validFrom[this._getCurrentIndex()]==this._ticklet.dispatcher().currentTick()
   }
 
   _getCurrentIndex() {

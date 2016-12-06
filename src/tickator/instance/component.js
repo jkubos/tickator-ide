@@ -128,6 +128,7 @@ export default class Component {
       } else if (instance.ticklet()) {
         const klass = instance.ticklet().klass()
         const ticklet = new klass(this._dispatcher, instance)
+        ticklet.initialize()
 
         if (instance.ticklet().autostart()) {
           this._dispatcher.schedule(ticklet)

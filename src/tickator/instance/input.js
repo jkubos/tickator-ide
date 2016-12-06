@@ -26,4 +26,8 @@ export default class Input {
     Validate.ofSize(this._outputs, 1, `Exactly one output expected, got ${this._outputs.length}`)
     return this._outputs[0].get()
   }
+
+  isTriggering() {
+    return this._outputs.some(output=>output.isTriggering())
+  }
 }
