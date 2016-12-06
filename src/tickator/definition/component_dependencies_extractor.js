@@ -28,6 +28,10 @@ export default class ComponentDependenciesExtractor {
       y(yVal) {
       },
       property(propertyVal) {
+      },
+      inputPosition(name, side, ratio) {
+      },
+      outputPosition(name, side, ratio) {
       }
     })
   }

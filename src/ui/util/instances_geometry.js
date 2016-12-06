@@ -79,11 +79,11 @@ export default class InstancesGeometry {
   _computeSelf(componentDef, width, height) {
     const bbox = new Rectangle(this._border, this._border, width-2*this._border, height-2*this._border)
     const inputs = componentDef.inputs().reduce((res, i)=>{
-      res[i.name()] = this._computePin(bbox, i, true)
+      res[i.name()] = this._computePin(bbox, i.side(), i.ratio(), true)
       return res
     }, {})
     const outputs = componentDef.outputs().reduce((res, o)=>{
-      res[o.name()] = this._computePin(bbox, o, true)
+      res[o.name()] = this._computePin(bbox, o.side(), o.ratio(), true)
       return res
     }, {})
 
@@ -104,11 +104,11 @@ export default class InstancesGeometry {
 
     const bbox = new Rectangle(instanceDef.x()-boxWidth/2+this._border, instanceDef.y()-140/2+this._border, boxWidth, boxHeight)
     const inputs = instanceDef.definition().inputs().reduce((res, i)=>{
-      res[i.name()] = this._computePin(bbox, i, false)
+      res[i.name()] = this._computePin(bbox, instanceDef.inputSide(i.name()), instanceDef.inputRatio(i.name()), false)
       return res
     }, {})
     const outputs = instanceDef.definition().outputs().reduce((res, o)=>{
-      res[o.name()] = this._computePin(bbox, o, false)
+      res[o.name()] = this._computePin(bbox, instanceDef.outputSide(o.name()), instanceDef.outputRatio(o.name()), false)
       return res
     }, {})
 
@@ -119,13 +119,11 @@ export default class InstancesGeometry {
     }
   }
 
-  _computePin(bbox, pinDef, isForRoot) {
-    Validate.isAnyOfA(pinDef, [InputDefinition, OutputDefinition])
-
+  _computePin(bbox, side, ratio, isForRoot) {
     const headRadius = 5
 
-    const instanceMountPosition = this._computeMountPosition(bbox, pinDef)
-    let headDirection = this._computeHeadDirection(pinDef)
+    const instanceMountPosition = this._computeMountPosition(bbox, side, ratio)
+    let headDirection = this._computeHeadDirection(side)
 
     if (isForRoot) {
       headDirection = headDirection.multiplied(-1)
@@ -135,22 +133,20 @@ export default class InstancesGeometry {
     const headCenter = headMountPosition.added(headDirection.multiplied(headRadius))
     const headConnectionPoin = headCenter.added(headDirection.multiplied(headRadius))
 
-    const textOffs = this._calculateTextPosition(pinDef)
-
     return {
       headRadius,
       instanceMountPosition,
       headMountPosition,
       headCenter,
       headConnectionPoin,
-      textAlignHorizontal: this._calculateTextAlignHorizontal(pinDef, isForRoot),
-      textAlignVertical: this._calculateTextAlignVertical(pinDef, isForRoot),
-      textPosition: instanceMountPosition.added(this._calculateTextPosition(pinDef, isForRoot))
+      textAlignHorizontal: this._calculateTextAlignHorizontal(side, isForRoot),
+      textAlignVertical: this._calculateTextAlignVertical(side, isForRoot),
+      textPosition: instanceMountPosition.added(this._calculateTextPosition(side, isForRoot))
     }
   }
 
-  _calculateTextAlignHorizontal(pinDef, isForRoot) {
-    switch (pinDef.side()) {
+  _calculateTextAlignHorizontal(side, isForRoot) {
+    switch (side) {
       case "top":
         return "middle"
       case "left":
@@ -160,13 +156,13 @@ export default class InstancesGeometry {
       case "right":
         return isForRoot ? "start" : "end"
       default:
-        throw "Unknown side "+pinDef.side()
+        throw "Unknown side "+side
         break
     }
   }
 
-  _calculateTextAlignVertical(pinDef, isForRoot) {
-    switch (pinDef.side()) {
+  _calculateTextAlignVertical(side, isForRoot) {
+    switch (side) {
       case "top":
         return isForRoot ? "baseline" : "text-before-edge"
       case "left":
@@ -176,18 +172,18 @@ export default class InstancesGeometry {
       case "right":
         return "middle"
       default:
-        throw "Unknown side "+pinDef.side()
+        throw "Unknown side "+side
         break
     }
   }
 
-  _calculateTextPosition(pinDef, isForRoot) {
+  _calculateTextPosition(side, isForRoot) {
     const labelOffset = (isForRoot?-1:1)*4
 
     let textX = 0
     let textY = 0
 
-    switch (pinDef.side()) {
+    switch (side) {
       case "top":
           textX = 0
           textY = labelOffset
@@ -205,46 +201,46 @@ export default class InstancesGeometry {
           textY = 0
         break
       default:
-        throw "Unknown side "+pinDef.side()
+        throw "Unknown side "+side
         break
     }
 
     return new Vector(textX, textY)
   }
 
-  _computeMountPosition(bbox, pinDef) {
+  _computeMountPosition(bbox, side, ratio) {
     let x = 0
     let y = 0
 
-    const ratio = Math.min(1.0, Math.max(0.0, pinDef.ratio()))
+    const ratioNorm = Math.min(1.0, Math.max(0.0, ratio))
 
-    switch (pinDef.side()) {
+    switch (side) {
       case "top":
-          x = bbox.x+ratio*bbox.width
+          x = bbox.x+ratioNorm*bbox.width
           y = bbox.y
         break
       case "left":
           x = bbox.x
-          y = bbox.y+ratio*bbox.height
+          y = bbox.y+ratioNorm*bbox.height
         break
       case "bottom":
-          x = bbox.x+ratio*bbox.width
+          x = bbox.x+ratioNorm*bbox.width
           y = bbox.y+bbox.height
         break
       case "right":
           x = bbox.x+bbox.width
-          y = bbox.y+ratio*bbox.height
+          y = bbox.y+ratioNorm*bbox.height
         break
       default:
-          throw "Unknown side "+pinDef.side()
+          throw "Unknown side "+side
         break
     }
 
     return new Point(Math.round(x), Math.round(y))
   }
 
-  _computeHeadDirection(pinDef) {
-    switch (pinDef.side()) {
+  _computeHeadDirection(side) {
+    switch (side) {
       case "top":
         return new Vector(0, -1)
       case "left":
@@ -254,7 +250,7 @@ export default class InstancesGeometry {
       case "right":
         return new Vector(1, 0)
       default:
-        throw "Unknown side "+pinDef.side()
+        throw "Unknown side "+side
     }
   }
 }

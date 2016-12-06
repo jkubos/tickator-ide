@@ -48,9 +48,9 @@ export default function defineFunction(b) {
     b.x(300)
     b.y(330)
 
-    b.positionInput('prior', 'left', 0.5)
-    b.positionInput('other', 'right', 0.5)
-    b.positionOutput('res', 'top', 0.5)
+    b.inputPosition('prior', 'left', 0.5)
+    b.inputPosition('other', 'right', 0.5)
+    b.outputPosition('res', 'top', 0.5)
   })
 
   b.connect(b=>{

@@ -57,4 +57,12 @@ export default class ComponentDefinition {
   hasOutput(name) {
     return this._outputs.some(o=>o.name()==name)
   }
+
+  input(name) {
+    return this._inputs.find(i=>i.name()==name)
+  }
+
+  output(name) {
+    return this._outputs.find(o=>o.name()==name)
+  }
 }

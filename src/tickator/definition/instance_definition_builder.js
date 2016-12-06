@@ -10,31 +10,42 @@ export default class InstanceDefinitionBuilder {
     Validate.isA(tickletRepository, TickletRepository)
     Validate.isA(componentRepository, ComponentRepository)
 
-    this.tickletRepository = tickletRepository
-    this.componentRepository = componentRepository
-    this.properties = {}
+    this._tickletRepository = tickletRepository
+    this._componentRepository = componentRepository
+    this._properties = {}
 
-    this.xVal = 100
-    this.yVal = 100
+    this._x = 100
+    this._y = 100
+
+    this._inputPosition = {}
+    this._outputPosition = {}
   }
 
   build() {
-    Validate.oneSet([this.tickletVal, this.componentVal], "Ticklet or component should be selected.")
+    Validate.oneSet([this._ticklet, this._component], "Ticklet or component should be selected.")
 
-    if (this.tickletVal) {
-      Validate.isA(this.tickletVal, TickletDefinition)
+    if (this._ticklet) {
+      Validate.isA(this._ticklet, TickletDefinition)
     }
 
-    if (this.componentVal) {
-      Validate.isA(this.componentVal, ComponentDefinition)
+    if (this._component) {
+      Validate.isA(this._component, ComponentDefinition)
     }
 
-    Object.keys(this.properties).forEach(propName=>{
-      Validate.valid((this.tickletVal || this.componentVal).hasProperty(propName), `Property ${propName} does not exists`)
+    Object.keys(this._inputPosition).forEach(name=>{
+      Validate.valid((this._ticklet || this._component).hasInput(name), `Input ${name} does not exists on definition`)
     })
 
-    return new InstanceDefinition(this.nameVal, this.tickletVal, this.componentVal,
-      this.properties, this.xVal, this.yVal)
+    Object.keys(this._outputPosition).forEach(name=>{
+      Validate.valid((this._ticklet || this._component).hasOutput(name), `Output ${name} does not exists on definition`)
+    })
+
+    Object.keys(this._properties).forEach(propName=>{
+      Validate.valid((this._ticklet || this._component).hasProperty(propName), `Property ${propName} does not exists`)
+    })
+
+    return new InstanceDefinition(this.nameVal, this._ticklet, this._component,
+      this._properties, this._x, this._y, this._inputPosition, this._outputPosition)
   }
 
   name(nameVal) {
@@ -42,33 +53,49 @@ export default class InstanceDefinitionBuilder {
     this.nameVal = nameVal
   }
 
-  ticklet(tickletVal) {
-    Validate.valid(this.tickletRepository.isDefined(tickletVal), `Cannot find ticklet '${tickletVal}'`)
+  ticklet(ticklet) {
+    Validate.valid(this._tickletRepository.isDefined(ticklet), `Cannot find ticklet '${ticklet}'`)
 
-    this.tickletVal = this.tickletRepository.get(tickletVal)
+    this._ticklet = this._tickletRepository.get(ticklet)
   }
 
   component(componentVal) {
-    Validate.valid(this.componentRepository.isDefined(componentVal), `Cannot find component '${componentVal}'`)
+    Validate.valid(this._componentRepository.isDefined(componentVal), `Cannot find component '${componentVal}'`)
 
-    this.componentVal = this.componentRepository.get(componentVal)
+    this._component = this._componentRepository.get(componentVal)
   }
 
   property(name, value) {
     Validate.isString(name)
     Validate.notBlank(name)
-    Validate.notSet(this.properties, name)
+    Validate.notSet(this._properties, name)
 
-    this.properties[name] = value
+    this._properties[name] = value
   }
 
-  x(xVal) {
-    Validate.isNumber(xVal)
-    this.xVal = xVal
+  x(x) {
+    Validate.isNumber(x)
+    this._x = x
   }
 
-  y(yVal) {
-    Validate.isNumber(yVal)
-    this.yVal = yVal
+  y(y) {
+    Validate.isNumber(y)
+    this._y = y
+  }
+
+  inputPosition(name, side, ratio) {
+    Validate.notSet(this._inputPosition, name)
+    Validate.oneOf(side, ['top', 'left', 'bottom', 'right'])
+    Validate.numberInRangeIncl(ratio, 0.0, 1.0)
+
+    this._inputPosition[name] = {side, ratio}
+  }
+
+  outputPosition(name, side, ratio) {
+    Validate.notSet(this._outputPosition, name)
+    Validate.oneOf(side, ['top', 'left', 'bottom', 'right'])
+    Validate.numberInRangeIncl(ratio, 0.0, 1.0)
+
+    this._outputPosition[name] = {side, ratio}
   }
 }
