@@ -5,16 +5,19 @@ import InstanceDefinition from '~/src/tickator/definition/instance_definition'
 import Input from './input'
 import Output from './output'
 import Property from './property'
+import Component from './component'
 
 export default class Ticklet {
 
-  constructor(dispatcher, instanceDefinition) {
+  constructor(dispatcher, instanceDefinition, ownerComponent) {
     Validate.isA(dispatcher, Dispatcher)
     Validate.isA(instanceDefinition, InstanceDefinition)
     Validate.isA(instanceDefinition.ticklet(), TickletDefinition)
+    Validate.isA(ownerComponent, Component)
 
     this._dispatcher = dispatcher
     this._instanceDefinition = instanceDefinition
+    this._ownerComponent = ownerComponent
 
     this._buildInputs()
     this._buildOutputs()
@@ -46,7 +49,7 @@ export default class Ticklet {
   }
 
   initialize() {
-    
+
   }
 
   tick() {
@@ -74,8 +77,10 @@ export default class Ticklet {
   _buildProperties() {
     this._properties = {}
 
+    const parentProperties = this._ownerComponent.propertiesMap()
+
     this._propertyInstances = this._instanceDefinition.properties().map(instanceProperty=>{
-      const property = new Property(instanceProperty)
+      const property = new Property(instanceProperty, parentProperties)
       this._properties[instanceProperty.definition().name()] = ()=>property.value()
       return property
     })

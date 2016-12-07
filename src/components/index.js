@@ -5,5 +5,6 @@ export const components = [
   'embedded_wrapped_sum',
   'wrapped_sum',
   'test_input',
-  'fibonacci_generator'
+  'fibonacci_generator',
+  'chained_registers'
 ].map(file=>require('./'+file).default)

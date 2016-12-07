@@ -5,19 +5,16 @@ export default function defineFunction(b) {
   b.name('FibonacciGenerator')
 
   b.instance(b=>{
-    b.name('current')
-    b.ticklet('Register')
-    b.property('value', 1)
-    b.x(100)
-    b.y(100)
-  })
-
-  b.instance(b=>{
-    b.name('prev')
-    b.ticklet('Register')
+    b.name('regs')
+    b.component('ChainedRegisters')
     b.property('value', 0)
+    b.property('halfValue', 1)
     b.x(300)
-    b.y(100)
+    b.y(300)
+    b.inputPosition('send', 'top', 0.5)
+    b.inputPosition('in', 'bottom', 0.5)
+    b.outputPosition('res', 'right', 0.3)
+    b.outputPosition('half_res', 'right', 0.7)
   })
 
   b.instance(b=>{
@@ -25,66 +22,58 @@ export default function defineFunction(b) {
     b.ticklet('Const')
     b.property('value', 1)
     b.x(100)
-    b.y(330)
+    b.y(100)
   })
 
   b.instance(b=>{
     b.name('s')
     b.ticklet('Sum')
-    b.x(600)
+    b.x(650)
     b.y(300)
   })
 
   b.instance(b=>{
     b.name('p')
     b.ticklet('Print')
-    b.x(600)
-    b.y(100)
+    b.x(500)
+    b.y(200)
   })
 
   b.instance(b=>{
     b.name('f')
     b.ticklet('PriorityFunnel')
     b.x(300)
-    b.y(330)
-
+    b.y(100)
     b.inputPosition('prior', 'left', 0.5)
     b.inputPosition('other', 'right', 0.5)
-    b.outputPosition('res', 'top', 0.5)
+    b.outputPosition('res', 'bottom', 0.5)
   })
 
   b.connect(b=>{
-    b.fromInstance('prev')
+    b.fromInstance('regs')
     b.fromOutput('res')
     b.toInstance('p')
     b.toInput('val')
   })
 
   b.connect(b=>{
-    b.fromInstance('prev')
+    b.fromInstance('regs')
     b.fromOutput('res')
     b.toInstance('s')
     b.toInput('a')
   })
 
   b.connect(b=>{
-    b.fromInstance('current')
-    b.fromOutput('res')
+    b.fromInstance('regs')
+    b.fromOutput('half_res')
     b.toInstance('s')
     b.toInput('b')
   })
 
   b.connect(b=>{
-    b.fromInstance('current')
-    b.fromOutput('res')
-    b.toInstance('prev')
-    b.toInput('in')
-  })
-
-  b.connect(b=>{
     b.fromInstance('s')
     b.fromOutput('res')
-    b.toInstance('current')
+    b.toInstance('regs')
     b.toInput('in')
   })
 
@@ -98,14 +87,7 @@ export default function defineFunction(b) {
   b.connect(b=>{
     b.fromInstance('f')
     b.fromOutput('res')
-    b.toInstance('current')
-    b.toInput('send')
-  })
-
-  b.connect(b=>{
-    b.fromInstance('f')
-    b.fromOutput('res')
-    b.toInstance('prev')
+    b.toInstance('regs')
     b.toInput('send')
   })
 

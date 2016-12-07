@@ -30,6 +30,14 @@ export default class Component {
     return this._properties
   }
 
+  propertiesMap() {
+    let res = {}
+
+    Object.keys(this._properties).forEach(name=>res[name] = this._properties[name]())
+
+    return res
+  }
+
   propertyInstances() {
     return this._propertyInstances
   }
@@ -127,7 +135,7 @@ export default class Component {
         return component
       } else if (instance.ticklet()) {
         const klass = instance.ticklet().klass()
-        const ticklet = new klass(this._dispatcher, instance)
+        const ticklet = new klass(this._dispatcher, instance, this)
         ticklet.initialize()
 
         if (instance.ticklet().autostart()) {
@@ -154,8 +162,10 @@ export default class Component {
   _buildProperties() {
     this._properties = {}
 
+    const parentProperties = this._parent ? this._parent.propertiesMap() : {}
+
     this._propertyInstances = this._instanceDefinition.properties().map(instanceProperty=>{
-      const property = new Property(instanceProperty)
+      const property = new Property(instanceProperty, parentProperties)
       this._properties[instanceProperty.definition().name()] = ()=>property.value()
       return property
     })
