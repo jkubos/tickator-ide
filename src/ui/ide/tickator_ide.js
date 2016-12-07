@@ -9,6 +9,10 @@ import CommandsDispatcher from '~/src/business/commands_dispatcher'
 import UiState from '~/src/business/ui_state'
 import Engine from '~/src/business/engine'
 import Breadcrumb from '~/src/ui/ide/breadcrumb'
+import Tabs from '~/src/ui/ide/tabs'
+import TabHeader from '~/src/ui/ide/tab_header'
+import TabContent from '~/src/ui/ide/tab_content'
+
 export default class TickatorIDE extends React.Component {
 
   render() {
@@ -18,33 +22,53 @@ export default class TickatorIDE extends React.Component {
       <Toolbar/>
 
       <div className="row">
-        <div className="col-lg-2">
+        <div className="col-lg-3">
           <ComponentsList />
         </div>
-        <div className="col-md-10">
-          <Breadcrumb
-            povInstancePath={this.props.uiState.get('ui', 'povInstancePath')}
-          />
-          <ComponentSchema
-            instance={this.props.engine.rootInstance()}
-            width={950}
-            height={500}
-            selectedInstanceName={this.props.uiState.get('ui', 'selectedInstanceName')}
-            povInstancePath={this.props.uiState.get('ui', 'povInstancePath')}
-          />
+        <div className="col-md-9">
+          <div className="panel panel-default">
+            <div className="panel-body">
+              <Breadcrumb
+                povInstancePath={this.props.uiState.get('ui', 'povInstancePath')}
+              />
+              <ComponentSchema
+                instance={this.props.engine.rootInstance()}
+                width={850}
+                height={500}
+                selectedInstanceName={this.props.uiState.get('ui', 'selectedInstanceName')}
+                povInstancePath={this.props.uiState.get('ui', 'povInstancePath')}
+              />
+            </div>
+          </div>
         </div>
       </div>
 
       <div className="row">
-        <div className="col-lg-2">
-          <PropertiesView
-            instance={this.props.engine.rootInstance()}
-            selectedInstanceName={this.props.uiState.get('ui', 'selectedInstanceName')}
-          />
+        <div className="col-lg-3">
+          <div className="panel panel-default">
+            <div className="panel-body">
+              <PropertiesView
+                instance={this.props.engine.rootInstance()}
+                selectedInstanceName={this.props.uiState.get('ui', 'selectedInstanceName')}
+              />
+            </div>
+          </div>
         </div>
-        <div className="col-lg-10">
-          <InputLine />
-          <ConsoleView lines={logLines} />
+        <div className="col-lg-9">
+          <Tabs id="tools" selectedTab='console'>
+            <TabHeader name="console" label="Console"/>
+            <TabContent for="console">
+              <InputLine />
+              <ConsoleView lines={logLines} />
+            </TabContent>
+
+            <TabHeader name="oscilloscope" label="Oscilloscope"/>
+            <TabContent for="oscilloscope">
+              zzz
+            </TabContent>
+          </Tabs>
+
+
         </div>
       </div>
     </div>

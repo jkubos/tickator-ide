@@ -7,7 +7,8 @@ import {
   SELECT_INSTANCE,
   ENGINE_LOAD_COMPONENT,
   DIVE_INTO_INSTANCE,
-  EMERGE_FROM_INSTANCE
+  EMERGE_FROM_INSTANCE,
+  SELECT_TAB
 } from '~/src/business/commands/commands'
 import hashed from 'hashed'
 
@@ -32,6 +33,7 @@ export default class UiState {
     this._commandsDispatcher.register(DIVE_INTO_INSTANCE, data=>this._onDivedIntoInstance(data.instance))
     this._commandsDispatcher.register(EMERGE_FROM_INSTANCE, data=>this._onEmergeFromInstance())
     this._commandsDispatcher.register(ENGINE_LOAD_COMPONENT, data=>this._onComponentLoad(data.name))
+    this._commandsDispatcher.register(SELECT_TAB, data=>this._onTabSelected(data.tabsId, data.selectedTab))
 
     this._initializeFromHash()
   }
@@ -60,6 +62,10 @@ export default class UiState {
     }
 
     this._commandsDispatcher.dispatch(ENGINE_LOAD_COMPONENT, {name: this._urlState.component})
+  }
+
+  _onTabSelected(tabsId, selectedTab) {
+    this._update('tabs', tabsId, 'selectedTab', selectedTab)
   }
 
   _onComponentLoad(name) {
