@@ -6,8 +6,10 @@ export default class TabContent extends React.Component {
     const selectedTab = this.context.uiState.get('tabs', this.context.tabsId, 'selectedTab')
 
     if (selectedTab==this.props.for) {
-      return <div>
-        {this.props.children}
+      return <div className="panel panel-default">
+        <div className="panel-body">
+          {this.props.children}
+        </div>
       </div>
     } else {
       return null

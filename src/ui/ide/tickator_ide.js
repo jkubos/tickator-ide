@@ -23,9 +23,13 @@ export default class TickatorIDE extends React.Component {
 
       <div className="row">
         <div className="col-lg-3">
-          <ComponentsList />
+          <div className="panel panel-default">
+            <div className="panel-body">
+              <ComponentsList />
+            </div>
+          </div>
         </div>
-        <div className="col-md-9">
+        <div className="col-lg-9">
           <div className="panel panel-default">
             <div className="panel-body">
               <Breadcrumb
@@ -33,7 +37,7 @@ export default class TickatorIDE extends React.Component {
               />
               <ComponentSchema
                 instance={this.props.engine.rootInstance()}
-                width={850}
+                width={900}
                 height={500}
                 selectedInstanceName={this.props.uiState.get('ui', 'selectedInstanceName')}
                 povInstancePath={this.props.uiState.get('ui', 'povInstancePath')}
