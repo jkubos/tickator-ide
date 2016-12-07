@@ -4,12 +4,13 @@ import ConnectionDefinition from '~/src/tickator/definition/connection_definitio
 export default class Connection extends React.Component {
   render() {
     return <g>
-      <polyline
+      {/*<polyline
         points={this.props.geom.map(a=>`${a.x},${a.y}`).join(" ")}
         stroke="white"
         strokeWidth="8"
         fill="none" />
-
+      */}
+      
       <polyline
         points={this.props.geom.map(a=>`${a.x},${a.y}`).join(" ")}
         stroke="#268bd2"

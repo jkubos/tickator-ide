@@ -18,7 +18,7 @@ export default function defineFunction(b) {
   })
 
   b.instance(b=>{
-    b.name('start')
+    b.name('starter')
     b.ticklet('Const')
     b.property('value', 1)
     b.x(100)
@@ -78,7 +78,7 @@ export default function defineFunction(b) {
   })
 
   b.connect(b=>{
-    b.fromInstance('start')
+    b.fromInstance('starter')
     b.fromOutput('res')
     b.toInstance('f')
     b.toInput('prior')

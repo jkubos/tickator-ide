@@ -72,8 +72,11 @@ export default class InstancesGeometry {
       to = this._data.self.outputs[connectionDef.toInput()]
     }
 
-    this._data.connections[connectionDef.uuid()] = this._shortestPathFinder.find(from.headConnectionPoin,
-      to.headConnectionPoin)
+    this._data.connections[connectionDef.uuid()] = [
+      to.headConnectionPoin,
+      ...this._shortestPathFinder.find(from.wireEndPoint, to.wireEndPoint),
+      from.headConnectionPoin
+    ]
   }
 
   _computeSelf(componentDef, width, height) {
@@ -132,6 +135,7 @@ export default class InstancesGeometry {
     const headMountPosition = instanceMountPosition.added(headDirection.multiplied(15))
     const headCenter = headMountPosition.added(headDirection.multiplied(headRadius))
     const headConnectionPoin = headCenter.added(headDirection.multiplied(headRadius))
+    const wireEndPoint = headCenter.added(headDirection.multiplied(headRadius+10))
 
     return {
       headRadius,
@@ -139,6 +143,7 @@ export default class InstancesGeometry {
       headMountPosition,
       headCenter,
       headConnectionPoin,
+      wireEndPoint,
       textAlignHorizontal: this._calculateTextAlignHorizontal(side, isForRoot),
       textAlignVertical: this._calculateTextAlignVertical(side, isForRoot),
       textPosition: instanceMountPosition.added(this._calculateTextPosition(side, isForRoot))
