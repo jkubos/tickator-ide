@@ -26,7 +26,8 @@
     "deep-equal": "1.0.1",
     "bootstrap": "3.3.7",
     "url-loader": "0.5.7",
-    "file-loader": "0.9.0"
+    "file-loader": "0.9.0",
+    "react-css-modules": "4.1.0"
   },
   "devDependencies": {
     "webpack-dev-server": "1.16.2",
