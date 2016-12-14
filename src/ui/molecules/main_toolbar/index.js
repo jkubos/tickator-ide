@@ -7,6 +7,7 @@ import ToolbarButton from '~/src/ui/quarks/toolbar_button'
 import ToolbarSeparator from '~/src/ui/quarks/toolbar_separator'
 import Logo from '~/src/ui/atoms/logo'
 import EngineInfo from '~/src/ui/atoms/engine_info'
+import {Breadcrumb} from '~/src/ui/atoms/breadcrumb'
 
 import {
   ENGINE_RUN,
@@ -15,13 +16,21 @@ import {
   ENGINE_RESET
 } from '~/src/business/commands/commands'
 
+import {
+  ENGINE_STATE_RUNNING,
+  ENGINE_STATE_PAUSED
+} from '~/src/business/consts'
+
 export default class MainToolbar extends React.Component {
 
   static contextTypes = {
-    commandsDispatcher: React.PropTypes.instanceOf(CommandsDispatcher).isRequired
+    commandsDispatcher: React.PropTypes.instanceOf(CommandsDispatcher).isRequired,
+    uiState: React.PropTypes.instanceOf(UiState).isRequired
   }
 
   render() {
+    const engineState = this.context.uiState.get('engine', 'state')
+
     return <Toolbar>
       <Logo/>
 
@@ -33,7 +42,7 @@ export default class MainToolbar extends React.Component {
         onClick={e=>{
           this.context.commandsDispatcher.dispatch(ENGINE_RUN, {})
         }}
-        disabled={false}
+        disabled={engineState!==ENGINE_STATE_PAUSED}
       />
 
       <ToolbarButton
@@ -42,7 +51,7 @@ export default class MainToolbar extends React.Component {
         onClick={e=>{
           this.context.commandsDispatcher.dispatch(ENGINE_PAUSE, {})
         }}
-        disabled={true}
+        disabled={engineState!==ENGINE_STATE_RUNNING}
       />
 
       <ToolbarButton
@@ -51,7 +60,7 @@ export default class MainToolbar extends React.Component {
         onClick={e=>{
           this.context.commandsDispatcher.dispatch(ENGINE_STEP, {})
         }}
-        disabled={false}
+        disabled={engineState!==ENGINE_STATE_PAUSED}
       />
 
       <ToolbarButton
@@ -66,6 +75,12 @@ export default class MainToolbar extends React.Component {
       <ToolbarSeparator />
 
       <EngineInfo/>
+
+      <ToolbarSeparator />
+
+      <Breadcrumb
+        povInstancePath={this.context.uiState.get('ui', 'povInstancePath')}
+      />
 
       <ToolbarSeparator />
 

@@ -1,7 +1,7 @@
 import React from 'react';
 import Point from "~/src/util/geometry/point"
 
-export default class BitArrayVisualization extends React.Component {
+export class BitArray extends React.Component {
 
   render() {
 
@@ -39,9 +39,3 @@ export default class BitArrayVisualization extends React.Component {
       </g>
   }
 }
-
-BitArrayVisualization.propTypes = {
-};
-
-BitArrayVisualization.defaultProps = {
-};

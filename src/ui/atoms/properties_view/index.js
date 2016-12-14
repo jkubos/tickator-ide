@@ -3,7 +3,7 @@ import Engine from '~/src/business/engine'
 import Ticklet from '~/src/tickator/instance/ticklet'
 import Component from '~/src/tickator/instance/component'
 
-export default class PropertiesView extends React.Component {
+export class PropertiesView extends React.Component {
 
   render() {
     let selectedInstance = this.props.instance

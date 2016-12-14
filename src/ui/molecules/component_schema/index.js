@@ -34,7 +34,7 @@ export class ComponentSchema extends React.Component {
     this.instances_geometry.update(instancePov.definition(), this.props.width, this.props.height)
 
     return <svg
-        style={{border: '1px solid gray', display: 'inline', userSelect: 'none'}}
+        style={{display: 'inline', userSelect: 'none'}}
         width={this.props.width}
         height={this.props.height}
 

@@ -13,6 +13,8 @@ import TabContent from '~/src/ui/quarks/tab_content'
 import {ComponentSchema} from '~/src/ui/molecules/component_schema'
 import {ConsoleView} from '~/src/ui/atoms/console_view'
 import {InputLine} from '~/src/ui/atoms/input_line'
+import {PropertiesView} from '~/src/ui/atoms/properties_view'
+import {ComponentsList} from '~/src/ui/atoms/components_list'
 
 import UiStore from './ui_store'
 
@@ -56,16 +58,15 @@ export default class TickatorIDE extends React.Component {
 
         <div className={styles.treeBar}>
 
-        {/*
-          <Breadcrumb
-            povInstancePath={this.props.uiState.get('ui', 'povInstancePath')}
-          />
+        <ComponentsList
+          engine={this.props.engine}
+          commandsDispatcher={this.props.commandsDispatcher}/>
 
-          <PropertiesView
+        <PropertiesView
           instance={this.props.engine.rootInstance()}
           selectedInstanceName={this.props.uiState.get('ui', 'selectedInstanceName')}
-        />*/}
-
+        />
+        
         </div>
 
         <div id="main_schema" className={styles.mainContentBar}>
