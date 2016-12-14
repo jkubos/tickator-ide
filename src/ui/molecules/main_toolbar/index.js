@@ -8,7 +8,18 @@ import ToolbarSeparator from '~/src/ui/quarks/toolbar_separator'
 import Logo from '~/src/ui/atoms/logo'
 import EngineInfo from '~/src/ui/atoms/engine_info'
 
+import {
+  ENGINE_RUN,
+  ENGINE_PAUSE,
+  ENGINE_STEP,
+  ENGINE_RESET
+} from '~/src/business/commands/commands'
+
 export default class MainToolbar extends React.Component {
+
+  static contextTypes = {
+    commandsDispatcher: React.PropTypes.instanceOf(CommandsDispatcher).isRequired
+  }
 
   render() {
     return <Toolbar>
@@ -19,28 +30,36 @@ export default class MainToolbar extends React.Component {
       <ToolbarButton
         icon="fa-play"
         tooltip="Run"
-        onClick={e=>console.log(e)}
+        onClick={e=>{
+          this.context.commandsDispatcher.dispatch(ENGINE_RUN, {})
+        }}
         disabled={false}
       />
 
       <ToolbarButton
         icon="fa-pause"
         tooltip="Pause"
-        onClick={e=>console.log(e)}
+        onClick={e=>{
+          this.context.commandsDispatcher.dispatch(ENGINE_PAUSE, {})
+        }}
         disabled={true}
       />
 
       <ToolbarButton
         icon="fa-step-forward"
         tooltip="Step one tick"
-        onClick={e=>console.log(e)}
+        onClick={e=>{
+          this.context.commandsDispatcher.dispatch(ENGINE_STEP, {})
+        }}
         disabled={false}
       />
 
       <ToolbarButton
         icon="fa-eraser"
         tooltip="Reset"
-        onClick={e=>console.log(e)}
+        onClick={e=>{
+          this.context.commandsDispatcher.dispatch(ENGINE_RESET, {})
+        }}
         disabled={false}
       />
 

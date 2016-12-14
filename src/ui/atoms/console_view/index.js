@@ -1,7 +1,7 @@
 import React from 'react'
 import deepEqual from 'deep-equal'
 
-export default class ConsoleView extends React.Component {
+export class ConsoleView extends React.Component {
 
   constructor() {
     super()

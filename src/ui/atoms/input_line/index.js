@@ -5,7 +5,7 @@ import {
   USER_INPUT_LINE
 } from '~/src/business/commands/commands'
 
-export default class InputLine extends React.Component {
+export class InputLine extends React.Component {
 
   constructor() {
     super()

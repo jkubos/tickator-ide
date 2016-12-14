@@ -4,15 +4,15 @@ import Component from '~/src/tickator/instance/component'
 import Unit from './unit'
 import Connection from './connection'
 import Pin from './pin'
-import InstancesGeometry from '~/src/ui/util/instances_geometry'
-import BitArrayVisualization from '~/src/ui/util/bit_array_visualization'
+import InstancesGeometry from './instances_geometry'
+//import BitArrayVisualization from '~/src/ui/util/bit_array_visualization'
 import {
   SELECT_INSTANCE,
   EMERGE_FROM_INSTANCE
 } from '~/src/business/commands/commands'
 import CommandsDispatcher from '~/src/business/commands_dispatcher'
 
-export default class ComponentSchema extends React.Component {
+export class ComponentSchema extends React.Component {
 
   constructor() {
     super()
