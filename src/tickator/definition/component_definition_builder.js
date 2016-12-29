@@ -1,14 +1,14 @@
-import Validate from '~/src/util/validate'
-import TickletRepository from './ticklet_repository'
-import ComponentRepository from './component_repository'
-import ComponentDefinition from './component_definition'
-import InstanceDefinitionBuilder from './instance_definition_builder'
-import ConnectionDefinitionBuilder from './connection_definition_builder'
-import PropertyDefinitionBuilder from './property_definition_builder'
-import InputDefinitionBuilder from './input_definition_builder'
-import OutputDefinitionBuilder from './output_definition_builder'
+import {Validate} from '~/src/util/validate'
+import {TickletRepository} from './ticklet_repository'
+import {ComponentRepository} from './component_repository'
+import {ComponentDefinition} from './component_definition'
+import {InstanceDefinitionBuilder} from './instance_definition_builder'
+import {ConnectionDefinitionBuilder} from './connection_definition_builder'
+import {PropertyDefinitionBuilder} from './property_definition_builder'
+import {InputDefinitionBuilder} from './input_definition_builder'
+import {OutputDefinitionBuilder} from './output_definition_builder'
 
-export default class ComponentDefinitionBuilder {
+export class ComponentDefinitionBuilder {
   constructor(tickletRepository, componentRepository) {
     Validate.isA(tickletRepository, TickletRepository)
     Validate.isA(componentRepository, ComponentRepository)

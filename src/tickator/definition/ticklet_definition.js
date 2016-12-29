@@ -1,4 +1,4 @@
-export default class TickletDefinition {
+export class TickletDefinition {
   constructor(klass, name, comment, inputs, outputs, properties, autostart=false) {
     this._klass = klass
     this._name = name

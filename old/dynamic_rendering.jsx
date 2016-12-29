@@ -2,7 +2,7 @@ import {lookupInScene, generateUUID} from "../utils/store_helpers"
 import Line from "../geom/line"
 import Point from "../geom/point"
 
-export default function dynamicRenderingReducer(state, action) {
+export function dynamicRenderingReducer(state, action) {
   switch (action.type) {
     case 'mouse.down':
       action.selectedObjects.forEach(o=>{

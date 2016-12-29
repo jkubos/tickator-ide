@@ -10,3 +10,11 @@ export function generateUUID(){
     });
     return uuid;
 }
+
+export function toCamelCase(str) {
+  return str.replace(/[_-]([a-z])/g, g=>g[1].toUpperCase())
+}
+
+export function capitalize(str) {
+  return str.charAt(0).toUpperCase() + str.slice(1)
+}

@@ -1,7 +1,7 @@
-import Validate from '../../util/validate'
-import Ticklet from '~/src/tickator/instance/ticklet'
+import {Validate} from '../../util/validate'
+import {Ticklet} from '~/src/tickator/instance/ticklet'
 
-export default class Sum extends Ticklet {
+export class Sum extends Ticklet {
 
   static define(b) {
     b.klass(Sum)

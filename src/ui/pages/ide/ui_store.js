@@ -1,6 +1,6 @@
 import {observable} from 'mobx'
 
-export default class UiStore {
+export class UiStore {
   @observable selectedBottomTab = 'console'
   @observable contentWidth = 800
   @observable contentHeight = 600

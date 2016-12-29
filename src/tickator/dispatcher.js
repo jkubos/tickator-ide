@@ -1,9 +1,9 @@
-import Ticklet from '~/src/tickator/instance/ticklet'
-import Output from '~/src/tickator/instance/output'
-import Validate from '~/src/util/validate'
-import PlatformApi from '~/src/business/platform_api'
+import {Ticklet} from '~/src/tickator/instance/ticklet'
+import {Output} from '~/src/tickator/instance/output'
+import {Validate} from '~/src/util/validate'
+import {PlatformApi} from '~/src/business/platform_api'
 
-export default class Dispatcher {
+export class Dispatcher {
   constructor(platformApi) {
     Validate.isA(platformApi, PlatformApi)
 

@@ -1,4 +1,4 @@
-export default class OutputDefinition {
+export class OutputDefinition {
   constructor(name, validator, side, ratio, defaultValue) {
     this._name = name
     this._validator = validator

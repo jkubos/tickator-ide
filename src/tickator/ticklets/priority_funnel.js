@@ -1,7 +1,7 @@
-import Validate from '../../util/validate'
-import Ticklet from '~/src/tickator/instance/ticklet'
+import {Validate} from '../../util/validate'
+import {Ticklet} from '~/src/tickator/instance/ticklet'
 
-export default class PriorityFunnel extends Ticklet {
+export class PriorityFunnel extends Ticklet {
 
   static define(b) {
     b.klass(PriorityFunnel)

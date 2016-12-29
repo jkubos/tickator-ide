@@ -1,18 +1,29 @@
 import React from 'react'
+import {observer} from "mobx-react"
 import styles from './style.less'
-import UiStore from '../../pages/ide/ui_store'
+import {UiState} from '~/src/business/ui_state'
 
-export default class TabHeader extends React.Component {
+@observer
+export class TabHeader extends React.Component {
+
+  static propTypes = {
+    name: React.PropTypes.string.isRequired
+  }
 
   static contextTypes = {
-    selectedTab: React.PropTypes.string.isRequired,
-    uiStore: React.PropTypes.instanceOf(UiStore).isRequired
+    tabsName: React.PropTypes.string.isRequired,
+    defaultTab: React.PropTypes.string.isRequired,
+    uiState: React.PropTypes.instanceOf(UiState).isRequired
   }
 
   render() {
-    const stateClassName = this.props.name==this.context.selectedTab ? styles.enabled : styles.disabled
+    const selectedTab = this.context.uiState.getSelectedTab(this.context.tabsName, this.context.defaultTab)
 
-    return <div className={[styles.main, stateClassName].join(' ')} onClick={e=>this.context.uiStore.selectBottomTab(this.props.name)}>
+    const stateClassName = this.props.name==selectedTab ? styles.enabled : styles.disabled
+
+    return <div
+      className={[styles.main, stateClassName].join(' ')}
+      onClick={e=>this.context.uiState.setSelectedTab(this.context.tabsName, this.props.name)}>
       {this.props.title}
     </div>
   }

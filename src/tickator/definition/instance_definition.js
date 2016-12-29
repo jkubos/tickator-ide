@@ -1,6 +1,6 @@
-import InstanceProperty from './instance_property'
+import {InstanceProperty} from './instance_property'
 
-export default class InstanceDefinition {
+export class InstanceDefinition {
   constructor (name, ticklet, component, propertiesVal, x, y, inputPosition, outputPosition) {
     this._name = name
     this._ticklet = ticklet

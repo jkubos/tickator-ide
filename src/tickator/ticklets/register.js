@@ -1,7 +1,7 @@
-import Validate from '~/src/util/validate'
-import Ticklet from '~/src/tickator/instance/ticklet'
+import {Validate} from '~/src/util/validate'
+import {Ticklet} from '~/src/tickator/instance/ticklet'
 
-export default class Register extends Ticklet {
+export class Register extends Ticklet {
   static define(b) {
     b.klass(Register)
 

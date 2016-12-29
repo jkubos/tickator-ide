@@ -7,4 +7,4 @@ export const components = [
   'test_input',
   'fibonacci_generator',
   'chained_registers'
-].map(file=>require('./'+file).default)
+].map(file=>require('./'+file).defineFunction)

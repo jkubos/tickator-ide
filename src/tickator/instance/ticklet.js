@@ -1,13 +1,13 @@
-import Validate from '~/src/util/validate'
-import Dispatcher from '~/src/tickator/dispatcher'
-import TickletDefinition from '~/src/tickator/definition/ticklet_definition'
-import InstanceDefinition from '~/src/tickator/definition/instance_definition'
-import Input from './input'
-import Output from './output'
-import Property from './property'
-import Component from './component'
+import {Validate} from '~/src/util/validate'
+import {Dispatcher} from '~/src/tickator/dispatcher'
+import {TickletDefinition} from '~/src/tickator/definition/ticklet_definition'
+import {InstanceDefinition} from '~/src/tickator/definition/instance_definition'
+import {Input} from './input'
+import {Output} from './output'
+import {Property} from './property'
+import {Component} from './component'
 
-export default class Ticklet {
+export class Ticklet {
 
   constructor(dispatcher, instanceDefinition, ownerComponent) {
     Validate.isA(dispatcher, Dispatcher)

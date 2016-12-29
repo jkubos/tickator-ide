@@ -1,7 +1,7 @@
 import React from 'react';
 import ConnectionDefinition from '~/src/tickator/definition/connection_definition'
 
-export default class Connection extends React.Component {
+export class Connection extends React.Component {
   render() {
     return <g>
       {/*<polyline

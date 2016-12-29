@@ -1,4 +1,4 @@
-export default class InputDefinition {
+export class InputDefinition {
   constructor(nameVal, validatorVal, sideVal, ratioVal) {
     this.nameVal = nameVal
     this.validatorVal = validatorVal

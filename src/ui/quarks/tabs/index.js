@@ -1,15 +1,22 @@
 import React from 'react'
 import styles from './style.less'
 
-export default class Tabs extends React.Component {
+export class Tabs extends React.Component {
+
+  static propTypes = {
+    tabsName: React.PropTypes.string.isRequired,
+    defaultTab: React.PropTypes.string.isRequired
+  }
 
   static childContextTypes = {
-    selectedTab: React.PropTypes.string.isRequired
+    tabsName: React.PropTypes.string.isRequired,
+    defaultTab: React.PropTypes.string.isRequired
   }
 
   getChildContext() {
     return {
-      selectedTab: this.props.selectedTab
+      tabsName: this.props.tabsName,
+      defaultTab: this.props.defaultTab
     }
   }
 

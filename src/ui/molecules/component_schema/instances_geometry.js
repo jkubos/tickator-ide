@@ -8,7 +8,7 @@ import Point from '~/src/util/geometry/point'
 import Vector from '~/src/util/geometry/vector'
 import ShortestPathFinder from './shortest_wire_finder'
 
-export default class InstancesGeometry {
+export class InstancesGeometry {
   constructor() {
     this._data = {}
     this._shortestPathFinder = new ShortestPathFinder()

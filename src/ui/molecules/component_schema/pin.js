@@ -2,7 +2,7 @@ import React from 'react';
 import InputDefinition from '~/src/tickator/definition/input_definition'
 import OutputDefinition from '~/src/tickator/definition/output_definition'
 
-export default class Pin extends React.Component {
+export class Pin extends React.Component {
   render() {
     return <g>
       <circle

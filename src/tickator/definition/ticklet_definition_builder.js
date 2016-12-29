@@ -1,11 +1,11 @@
-import Validate from '~/src/util/validate'
-import Ticklet from '~/src/tickator/instance/ticklet'
-import TickletDefinition from './ticklet_definition'
-import InputDefinitionBuilder from './input_definition_builder'
-import OutputDefinitionBuilder from './output_definition_builder'
-import PropertyDefinitionBuilder from './property_definition_builder'
+import {Validate} from '~/src/util/validate'
+import {Ticklet} from '~/src/tickator/instance/ticklet'
+import {TickletDefinition} from './ticklet_definition'
+import {InputDefinitionBuilder} from './input_definition_builder'
+import {OutputDefinitionBuilder} from './output_definition_builder'
+import {PropertyDefinitionBuilder} from './property_definition_builder'
 
-export default class TickletDefinitionBuilder {
+export class TickletDefinitionBuilder {
   constructor() {
     this.commentVal = ""
     this.inputs = []

@@ -1,7 +1,7 @@
-import Validate from '~/src/util/validate'
-import OutputDefinition from './output_definition'
+import {Validate} from '~/src/util/validate'
+import {OutputDefinition} from './output_definition'
 
-export default class OutputDefinitionBuilder {
+export class OutputDefinitionBuilder {
 
   constructor() {
     this.side = 'left'

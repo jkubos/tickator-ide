@@ -7,7 +7,7 @@ import {
 } from '~/src/business/commands/commands'
 import CommandsDispatcher from '~/src/business/commands_dispatcher'
 
-export default class Unit extends React.Component {
+export class Unit extends React.Component {
   render() {
 
     return <g

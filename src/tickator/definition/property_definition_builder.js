@@ -1,7 +1,7 @@
-import Validate from '~/src/util/validate'
-import PropertyDefinition from './property_definition'
+import {Validate} from '~/src/util/validate'
+import {PropertyDefinition} from './property_definition'
 
-export default class PropertyDefinitionBuilder {
+export class PropertyDefinitionBuilder {
 
     build() {
       return new PropertyDefinition(this._name, this._defaultValue)

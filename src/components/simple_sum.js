@@ -1,6 +1,6 @@
-import Validate from '~/src/util/validate'
+import {Validate} from '~/src/util/validate'
 
-export default function defineFunction(b) {
+export function defineFunction(b) {
   b.name('SimpleSum')
 
   b.instance(b=>{

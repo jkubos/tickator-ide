@@ -1,6 +1,6 @@
 import Validate from '~/src/util/validate'
 
-export default class CommandsDispatcher {
+export class CommandsDispatcher {
   constructor() {
     this._handlers = {}
   }

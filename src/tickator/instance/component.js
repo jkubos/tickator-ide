@@ -1,9 +1,9 @@
-import Validate from '~/src/util/validate'
-import Dispatcher from '~/src/tickator/dispatcher'
-import InstanceDefinition from '~/src/tickator/definition/instance_definition'
-import Property from '~/src/tickator/instance/property'
+import {Validate} from '~/src/util/validate'
+import {Dispatcher} from '~/src/tickator/dispatcher'
+import {InstanceDefinition} from '~/src/tickator/definition/instance_definition'
+import {Property} from '~/src/tickator/instance/property'
 
-export default class Component {
+export class Component {
   constructor(dispatcher, instanceDefinition, parent) {
     Validate.isA(dispatcher, Dispatcher)
     Validate.isA(instanceDefinition, InstanceDefinition)

@@ -1,6 +1,6 @@
 import Point from "./point"
 
-export default class Line {
+export class Line {
   constructor(from, to) {
     this.from = from;
     this.to = to;

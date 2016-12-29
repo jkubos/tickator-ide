@@ -1,8 +1,8 @@
-import Validate from '~/src/util/validate'
-import TickletDefinitionBuilder from './ticklet_definition_builder'
-import TickletDefinition from './ticklet_definition'
+import {Validate} from '~/src/util/validate'
+import {TickletDefinitionBuilder} from './ticklet_definition_builder'
+import {TickletDefinition} from './ticklet_definition'
 
-export default class TickletRepository {
+export class TickletRepository {
   constructor() {
     this.definitionsVal = {}
   }

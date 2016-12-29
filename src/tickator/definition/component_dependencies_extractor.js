@@ -1,6 +1,6 @@
-import Validate from '~/src/util/validate'
+import {Validate} from '~/src/util/validate'
 
-export default class ComponentDependenciesExtractor {
+export class ComponentDependenciesExtractor {
   constructor() {
     this._dependencies = []
   }

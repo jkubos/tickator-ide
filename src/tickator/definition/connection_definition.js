@@ -1,4 +1,4 @@
-export default class ConnectionDefinition {
+export class ConnectionDefinition {
   constructor(uuid, fromInstance, fromOutput,
     toInstance, toInput) {
     this._uuid = uuid

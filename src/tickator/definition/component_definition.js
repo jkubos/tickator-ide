@@ -1,4 +1,4 @@
-export default class ComponentDefinition {
+export class ComponentDefinition {
   constructor(name, instances, connections, properties, inputs, outputs) {
     this._name = name
     this._instances = instances

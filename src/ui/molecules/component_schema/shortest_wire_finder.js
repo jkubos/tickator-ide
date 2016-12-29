@@ -2,7 +2,7 @@ import BinaryArray2D from '~/src/util/binary_array_2d'
 import Size from '~/src/util/geometry/size'
 import Point from '~/src/util/geometry/point'
 
-export default class ShortestPathFinder {
+export class ShortestPathFinder {
   constructor() {
     this._cellSize = 5
   }

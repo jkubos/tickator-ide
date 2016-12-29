@@ -1,7 +1,7 @@
-import Validate from '~/src/util/validate'
-import InstanceProperty from '~/src/tickator/definition/instance_property'
+import {Validate} from '~/src/util/validate'
+import {InstanceProperty} from '~/src/tickator/definition/instance_property'
 
-export default class Property {
+export class Property {
   constructor(instanceProperty, parentProperties) {
     Validate.isA(instanceProperty, InstanceProperty)
     Validate.notNull(parentProperties)

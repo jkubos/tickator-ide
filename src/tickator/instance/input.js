@@ -1,9 +1,9 @@
-import Validate from '~/src/util/validate'
-import Ticklet from './ticklet'
-import InputDefinition from '~/src/tickator/definition/input_definition'
-import Output from './output'
+import {Validate} from '~/src/util/validate'
+import {Ticklet} from './ticklet'
+import {InputDefinition} from '~/src/tickator/definition/input_definition'
+import {Output} from './output'
 
-export default class Input {
+export class Input {
   constructor(ticklet, definition) {
     Validate.isA(ticklet, Ticklet)
     Validate.isA(definition, InputDefinition)

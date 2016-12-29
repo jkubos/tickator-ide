@@ -1,8 +1,8 @@
 import {generateUUID} from '~/src/util/tools'
-import Validate from '~/src/util/validate'
-import ConnectionDefinition from './connection_definition'
+import {Validate} from '~/src/util/validate'
+import {ConnectionDefinition} from './connection_definition'
 
-export default class ConnectionDefinitionBuilder {
+export class ConnectionDefinitionBuilder {
   constructor(instances, inputs, outputs) {
     this._instances = instances
     this._inputs = inputs

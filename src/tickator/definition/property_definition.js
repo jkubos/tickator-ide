@@ -1,4 +1,4 @@
-export default class PropertyDefinition {
+export class PropertyDefinition {
   constructor(name, defaultValue) {
     this._name = name
     this._defaultValue = defaultValue

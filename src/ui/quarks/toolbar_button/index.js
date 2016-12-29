@@ -1,7 +1,7 @@
 import React from 'react'
 import styles from './style.less'
 
-export default class ToolbarButton extends React.Component {
+export class ToolbarButton extends React.Component {
 
   render() {
     return <div className={styles.main} title={this.props.label}>

@@ -1,6 +1,6 @@
 import Point from "~/src/util/geometry/point"
 
-export default class BinaryArray2D {
+export class BinaryArray2D {
   constructor(size) {
     this._size = size
 

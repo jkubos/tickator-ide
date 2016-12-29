@@ -1,4 +1,4 @@
-export default class Size {
+export class Size {
   constructor(width, height) {
     this.width = width
     this.height = height

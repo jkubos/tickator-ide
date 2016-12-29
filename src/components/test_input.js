@@ -1,4 +1,4 @@
-export default function defineFunction(b) {
+export function defineFunction(b) {
   b.name('TestInput')
 
   b.instance(b=>{

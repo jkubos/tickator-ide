@@ -1,7 +1,7 @@
-import Validate from '~/src/util/validate'
-import InputDefinition from './input_definition'
+import {Validate} from '~/src/util/validate'
+import {InputDefinition} from './input_definition'
 
-export default class InputDefinitionBuilder {
+export class InputDefinitionBuilder {
 
   constructor() {
     this.side = 'left'

@@ -1,9 +1,9 @@
-import Validate from '~/src/util/validate'
-import ComponentDefinitionBuilder from './component_definition_builder'
-import TickletRepository from './ticklet_repository'
-import ComponentDependenciesExtractor from './component_dependencies_extractor'
+import {Validate} from '~/src/util/validate'
+import {ComponentDefinitionBuilder} from './component_definition_builder'
+import {TickletRepository} from './ticklet_repository'
+import {ComponentDependenciesExtractor} from './component_dependencies_extractor'
 
-export default class ComponentRepository {
+export class ComponentRepository {
   constructor(tickletRepository) {
     Validate.isA(tickletRepository, TickletRepository)
 
