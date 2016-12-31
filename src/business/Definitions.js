@@ -15,4 +15,12 @@ export class Definitions {
     this._componentRepository = new ComponentRepository(this._tickletRepository)
     this._componentRepository.addAll(components)
   }
+
+  getTickletsRepository() {
+    return this._tickletRepository
+  }
+
+  getComponentsRepository() {
+    return this._componentRepository
+  }
 }

@@ -1,7 +1,7 @@
 import React from 'react'
 import {observer} from "mobx-react"
 import styles from './style.less'
-import {UiState} from '~/src/business/ui_state'
+import {UiState} from '~/src/business/UiState'
 
 @observer
 export class TabContent extends React.Component {

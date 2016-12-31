@@ -1,7 +1,7 @@
 import {Ticklet} from '~/src/tickator/instance/ticklet'
 import {Output} from '~/src/tickator/instance/output'
 import {Validate} from '~/src/util/validate'
-import {PlatformApi} from '~/src/business/platform_api'
+import {PlatformApi} from '~/src/business/PlatformApi'
 
 export class Dispatcher {
   constructor(platformApi) {

@@ -12,6 +12,10 @@ export class ComponentDefinition {
     return this._name
   }
 
+  id() {
+    return this._name
+  }
+
   comment() {
     return 'todo'
   }

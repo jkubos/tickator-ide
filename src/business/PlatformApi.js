@@ -4,6 +4,7 @@ export class PlatformApi {
 
   constructor() {
     this.onTickHandlers = []
+    this.onLogHandlers = []
   }
 
   setTick(tick) {
@@ -16,4 +17,11 @@ export class PlatformApi {
     this.onTickHandlers.push(handler)
   }
 
+  log(msg) {
+    this.onLogHandlers.forEach(h=>h(msg))
+  }
+
+  onLog(handler) {
+    this.onLogHandlers.push(handler)
+  }
 }

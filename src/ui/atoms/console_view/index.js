@@ -1,18 +1,27 @@
 import React from 'react'
+import {observer} from 'mobx-react'
 import deepEqual from 'deep-equal'
+import {UiState} from '~/src/business/UiState'
 
+@observer
 export class ConsoleView extends React.Component {
+
+  static contextTypes = {
+    uiState: React.PropTypes.instanceOf(UiState).isRequired
+  }
 
   constructor() {
     super()
     this.padding = "\u00a0\u00a0\u00a0\u00a0"
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return !deepEqual(this.props, nextProps, true)
-  }
-
   render() {
+    let logLines = []
+
+    if (this.context.uiState.currentContextStore) {
+      logLines = this.context.uiState.currentContextStore.getEngine().logLines
+    }
+
     return <div
       ref='topDiv'
       style={{
@@ -26,9 +35,9 @@ export class ConsoleView extends React.Component {
         maxHeight: 300
       }}
     >
-      {this.props.lines.map((line, i)=><div key={i}>
+      {logLines.map((line, i)=><div key={i}>
         <span style={{fontWeight: 'bold', color: '#b58900'}}>
-          {i-1>=0 && this.props.lines[i-1].tick===line.tick ? this.padding : this.getPaddedTimestamp(line.tick)}
+          {i-1>=0 && logLines[i-1].tick===line.tick ? this.padding : this.getPaddedTimestamp(line.tick)}
         </span>
         &nbsp;
         {line.message}
@@ -40,10 +49,6 @@ export class ConsoleView extends React.Component {
     const val = ''+ts
     const zeroPadding = Array(this.padding.length+1).join('0')
     return zeroPadding.substring(0, zeroPadding.length - val.length) + val
-  }
-
-  getChildContext() {
-    return {}
   }
 
   componentWillUpdate() {
@@ -58,14 +63,4 @@ export class ConsoleView extends React.Component {
       node.scrollTop = node.scrollHeight
     }
   }
-}
-
-ConsoleView.propTypes = {
-  lines: React.PropTypes.array.isRequired
-}
-
-ConsoleView.defaultProps = {
-}
-
-ConsoleView.childContextTypes = {
 }

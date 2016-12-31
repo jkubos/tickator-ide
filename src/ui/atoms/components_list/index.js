@@ -1,33 +1,28 @@
 import React from 'react'
-import Engine from '~/src/business/engine'
-import CommandsDispatcher from '~/src/business/commands_dispatcher'
-import {
-  ENGINE_LOAD_COMPONENT
-} from '~/src/business/commands/commands'
+import {UiState} from '~/src/business/UiState'
 
 export class ComponentsList extends React.Component {
 
-  render() {
-    const definitions = this.context.engine.componentRepository().definitions()
-    const selectedComponent = this.context.engine.rootInstance().definition().name()
+  static contextTypes = {
+    uiState: React.PropTypes.instanceOf(UiState).isRequired
+  }
 
-    return <ul className="list-group">
-      {definitions.map((comp, i)=><li
+  render() {
+    const definitions = this.context.uiState.getDefinitions().getComponentsRepository().definitions()
+    const selectedComponent = ''
+
+    return <div>
+      {definitions.map((comp, i)=><div
         className={`list-group-item ${comp.name()===selectedComponent ? 'active': ''}`}
         key={i}
         onClick={e=>this._onSelect(comp)}
       >
         {comp.name()}
-      </li>)}
-    </ul>
+      </div>)}
+    </div>
   }
 
   _onSelect(component) {
-    this.context.commandsDispatcher.dispatch(ENGINE_LOAD_COMPONENT, {name: component.name()})
+    this.context.uiState.openContext(component.id())
   }
-}
-
-ComponentsList.contextTypes = {
-  engine: React.PropTypes.instanceOf(Engine).isRequired,
-  commandsDispatcher: React.PropTypes.instanceOf(CommandsDispatcher).isRequired
 }
