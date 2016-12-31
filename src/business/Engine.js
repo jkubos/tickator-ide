@@ -65,6 +65,10 @@ export class Engine {
     this._load()
   }
 
+  getRootComponent() {
+    return this._rootInstance
+  }
+
   _load() {
     this._dispatcher = new Dispatcher(this._platformApi)
 

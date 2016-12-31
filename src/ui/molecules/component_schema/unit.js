@@ -1,13 +1,14 @@
 import React from 'react';
-import InstanceDefinition from '~/src/tickator/definition/instance_definition'
-import Pin from './pin'
-import {
-  SELECT_INSTANCE,
-  DIVE_INTO_INSTANCE
-} from '~/src/business/commands/commands'
-import CommandsDispatcher from '~/src/business/commands_dispatcher'
+import {InstanceDefinition} from '~/src/tickator/definition/instance_definition'
+import {Pin} from './pin'
 
 export class Unit extends React.Component {
+  static propTypes = {
+    def: React.PropTypes.instanceOf(InstanceDefinition).isRequired,
+    geom: React.PropTypes.object.isRequired,
+    selected: React.PropTypes.bool.isRequired
+  }
+
   render() {
 
     return <g
@@ -87,14 +88,4 @@ export class Unit extends React.Component {
       }
     </g>
   }
-}
-
-Unit.propTypes = {
-  def: React.PropTypes.instanceOf(InstanceDefinition).isRequired,
-  geom: React.PropTypes.object.isRequired,
-  selected: React.PropTypes.bool.isRequired
-}
-
-Unit.contextTypes = {
-  commandsDispatcher: React.PropTypes.instanceOf(CommandsDispatcher).isRequired
 }

@@ -1,4 +1,4 @@
-import Point from "~/src/util/geometry/point"
+import {Point} from "~/src/util/geometry/point"
 
 export class BinaryArray2D {
   constructor(size) {

@@ -1,5 +1,5 @@
 import React from 'react';
-import ConnectionDefinition from '~/src/tickator/definition/connection_definition'
+import {ConnectionDefinition} from '~/src/tickator/definition/connection_definition'
 
 export class Connection extends React.Component {
   render() {

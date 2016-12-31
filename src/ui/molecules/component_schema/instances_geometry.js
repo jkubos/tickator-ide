@@ -1,12 +1,12 @@
-import Validate from '~/src/util/validate'
-import ComponentDefinition from '~/src/tickator/definition/component_definition'
-import InstanceDefinition from '~/src/tickator/definition/instance_definition'
-import InputDefinition from '~/src/tickator/definition/input_definition'
-import OutputDefinition from '~/src/tickator/definition/output_definition'
-import Rectangle from '~/src/util/geometry/rectangle'
-import Point from '~/src/util/geometry/point'
-import Vector from '~/src/util/geometry/vector'
-import ShortestPathFinder from './shortest_wire_finder'
+import {Validate} from '~/src/util/validate'
+import {ComponentDefinition} from '~/src/tickator/definition/component_definition'
+import {InstanceDefinition} from '~/src/tickator/definition/instance_definition'
+import {InputDefinition} from '~/src/tickator/definition/input_definition'
+import {OutputDefinition} from '~/src/tickator/definition/output_definition'
+import {Rectangle} from '~/src/util/geometry/rectangle'
+import {Point} from '~/src/util/geometry/point'
+import {Vector} from '~/src/util/geometry/vector'
+import {ShortestPathFinder} from './shortest_wire_finder'
 
 export class InstancesGeometry {
   constructor() {

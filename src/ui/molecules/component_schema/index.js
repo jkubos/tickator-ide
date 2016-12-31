@@ -1,30 +1,26 @@
 import React from 'react'
-import deepEqual from 'deep-equal'
-import Component from '~/src/tickator/instance/component'
-import Unit from './unit'
-import Connection from './connection'
-import Pin from './pin'
-import InstancesGeometry from './instances_geometry'
+import {Component} from '~/src/tickator/instance/component'
+import {Unit} from './unit'
+import {Connection} from './connection'
+import {Pin} from './pin'
+import {InstancesGeometry} from './instances_geometry'
 //import BitArrayVisualization from '~/src/ui/util/bit_array_visualization'
-import {
-  SELECT_INSTANCE,
-  EMERGE_FROM_INSTANCE
-} from '~/src/business/commands/commands'
-import CommandsDispatcher from '~/src/business/commands_dispatcher'
 
 export class ComponentSchema extends React.Component {
+  static propTypes = {
+    width: React.PropTypes.number.isRequired,
+    height: React.PropTypes.number.isRequired,
+    instance: React.PropTypes.instanceOf(Component).isRequired,
+    selectedInstanceName: React.PropTypes.string.isRequired,
+    povInstancePath: React.PropTypes.array.isRequired
+  }
 
   constructor() {
     super()
     this.instances_geometry = new InstancesGeometry()
   }
 
-  shouldComponentUpdate(nextProps, nextState) {
-    return !deepEqual(this.props, nextProps, true)
-  }
-
   render() {
-
     let instancePov = this.props.instance
 
     this.props.povInstancePath.forEach(name=>{
@@ -90,16 +86,4 @@ export class ComponentSchema extends React.Component {
 
       </svg>
   }
-}
-
-ComponentSchema.propTypes = {
-  width: React.PropTypes.number.isRequired,
-  height: React.PropTypes.number.isRequired,
-  instance: React.PropTypes.instanceOf(Component).isRequired,
-  selectedInstanceName: React.PropTypes.string.isRequired,
-  povInstancePath: React.PropTypes.array.isRequired
-}
-
-ComponentSchema.contextTypes = {
-  commandsDispatcher: React.PropTypes.instanceOf(CommandsDispatcher).isRequired
 }

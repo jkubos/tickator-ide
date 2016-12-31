@@ -1,6 +1,6 @@
 import React from 'react';
-import InputDefinition from '~/src/tickator/definition/input_definition'
-import OutputDefinition from '~/src/tickator/definition/output_definition'
+import {InputDefinition} from '~/src/tickator/definition/input_definition'
+import {OutputDefinition} from '~/src/tickator/definition/output_definition'
 
 export class Pin extends React.Component {
   render() {

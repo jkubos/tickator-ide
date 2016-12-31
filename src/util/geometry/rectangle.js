@@ -1,5 +1,5 @@
-import Size from "./size"
-import Validate from '~/src/util/validate'
+import {Size} from "./size"
+import {Validate} from '~/src/util/validate'
 
 export class Rectangle {
   constructor(x, y, width, height) {

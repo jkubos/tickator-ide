@@ -13,7 +13,7 @@ import {Tabs} from '~/src/ui/quarks/tabs'
 import {TabHeader} from '~/src/ui/quarks/tab_header'
 import {TabContent} from '~/src/ui/quarks/tab_content'
 
-// import {ComponentSchema} from '~/src/ui/molecules/component_schema'
+import {ComponentSchema} from '~/src/ui/molecules/component_schema'
 import {ConsoleView} from '~/src/ui/atoms/console_view'
 // import {InputLine} from '~/src/ui/atoms/input_line'
 // import {PropertiesView} from '~/src/ui/atoms/properties_view'
@@ -32,6 +32,10 @@ export class IDE extends React.Component {
 
   constructor() {
     super()
+
+    jQuery(window).resize(e=>{
+      this.onResize()
+    })
   }
 
   getChildContext() {
@@ -41,6 +45,10 @@ export class IDE extends React.Component {
   }
 
   componentDidMount() {
+    this.onResize()
+  }
+
+  onResize() {
     this.props.uiState.updateContentSize(jQuery("#main_schema").width(), jQuery("#main_schema").height())
   }
 
@@ -68,13 +76,13 @@ export class IDE extends React.Component {
         </div>
 
         <div id="main_schema" className={styles.mainContentBar}>
-          {/* <ComponentSchema
-            instance={this.props.engine.rootInstance()}
-            width={this._uiStore.contentWidth}
-            height={this._uiStore.contentHeight}
-            selectedInstanceName={this.props.uiState.get('ui', 'selectedInstanceName')}
-            povInstancePath={this.props.uiState.get('ui', 'povInstancePath')}
-          /> */}
+          {this.props.uiState.currentContextStore && <ComponentSchema
+            instance={this.props.uiState.currentContextStore.getEngine().getRootComponent()}
+            width={this.props.uiState.width}
+            height={this.props.uiState.height}
+            selectedInstanceName={''}
+            povInstancePath={[]}
+          />}
         </div>
 
       </div>
