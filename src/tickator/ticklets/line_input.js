@@ -14,10 +14,10 @@ export class LineInput extends Ticklet {
     })
   }
 
-  constructor(dispatcher, instanceDefinition) {
-    super(dispatcher, instanceDefinition)
+  constructor(dispatcher, instanceDefinition, ownerComponent) {
+    super(dispatcher, instanceDefinition, ownerComponent)
 
-    dispatcher.getPlatformApi().registerOnUserInputLine(value=>{
+    dispatcher.getPlatformApi().onInput(value=>{
       this._lastValue = value
       this._dispatcher.schedule(this)
     })

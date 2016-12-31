@@ -2,6 +2,7 @@ import React from 'react'
 import {observer} from 'mobx-react'
 import deepEqual from 'deep-equal'
 import {UiState} from '~/src/business/UiState'
+import styles from './style.less'
 
 @observer
 export class ConsoleView extends React.Component {
@@ -24,19 +25,10 @@ export class ConsoleView extends React.Component {
 
     return <div
       ref='topDiv'
-      style={{
-        border: '1px solid gray',
-        background: '#002b36',
-        color: '#859900',
-        padding: 3,
-        overflow: 'auto',
-        fontFamily: 'monospace',
-        minHeight: 300,
-        maxHeight: 300
-      }}
+      className={styles.main}
     >
       {logLines.map((line, i)=><div key={i}>
-        <span style={{fontWeight: 'bold', color: '#b58900'}}>
+        <span className={styles.tick}>
           {i-1>=0 && logLines[i-1].tick===line.tick ? this.padding : this.getPaddedTimestamp(line.tick)}
         </span>
         &nbsp;

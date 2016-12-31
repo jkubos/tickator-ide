@@ -15,7 +15,7 @@ import {TabContent} from '~/src/ui/quarks/tab_content'
 
 import {ComponentSchema} from '~/src/ui/molecules/component_schema'
 import {ConsoleView} from '~/src/ui/atoms/console_view'
-// import {InputLine} from '~/src/ui/atoms/input_line'
+import {InputLine} from '~/src/ui/atoms/input_line'
 // import {PropertiesView} from '~/src/ui/atoms/properties_view'
 import {ComponentsList} from '~/src/ui/atoms/components_list'
 
@@ -109,7 +109,7 @@ export class IDE extends React.Component {
         <Tabs tabsName='bottom' defaultTab='console'>
           <TabHeader name='console' title='Console'/>
           <TabContent for='console'>
-            {/* <InputLine /> */}
+            <InputLine />
             <ConsoleView />
           </TabContent>
 

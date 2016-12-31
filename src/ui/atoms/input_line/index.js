@@ -1,14 +1,13 @@
 import React from 'react'
+import {observer} from 'mobx-react'
+import jQuery from 'jquery'
 import ReactDOM from 'react-dom'
-import CommandsDispatcher from '~/src/business/commands_dispatcher'
-import {
-  USER_INPUT_LINE
-} from '~/src/business/commands/commands'
+import {UiState} from '~/src/business/UiState'
 
+@observer
 export class InputLine extends React.Component {
-
-  constructor() {
-    super()
+  static contextTypes = {
+    uiState: React.PropTypes.instanceOf(UiState).isRequired
   }
 
   componentDidMount(){
@@ -27,14 +26,12 @@ export class InputLine extends React.Component {
 
   _onKeyUp(e) {
     if (e.keyCode == 13) {
-      const value = $(e.target).val()
-      $(e.target).val("")
+      const value = jQuery(e.target).val()
+      jQuery(e.target).val("")
 
-      this.context.commandsDispatcher.dispatch(USER_INPUT_LINE, {value})
+      if (this.context.uiState.currentContextStore) {
+        this.context.uiState.currentContextStore.getEngine().getPlatformApi().input(value)
+      }
     }
   }
-}
-
-InputLine.contextTypes = {
-  commandsDispatcher: React.PropTypes.instanceOf(CommandsDispatcher).isRequired
 }
