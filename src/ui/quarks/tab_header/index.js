@@ -13,7 +13,8 @@ export class TabHeader extends React.Component {
   static contextTypes = {
     tabsName: React.PropTypes.string.isRequired,
     defaultTab: React.PropTypes.string.isRequired,
-    uiState: React.PropTypes.instanceOf(UiState).isRequired
+    uiState: React.PropTypes.instanceOf(UiState).isRequired,
+    onChange: React.PropTypes.func
   }
 
   render() {
@@ -23,8 +24,16 @@ export class TabHeader extends React.Component {
 
     return <div
       className={[styles.main, stateClassName].join(' ')}
-      onClick={e=>this.context.uiState.setSelectedTab(this.context.tabsName, this.props.name)}>
+      onClick={e=>this.onClick(e)}>
       {this.props.title}
     </div>
+  }
+
+  onClick(e) {
+    this.context.uiState.setSelectedTab(this.context.tabsName, this.props.name)
+
+    if (this.context.onChange) {
+      this.context.onChange(this.props.name)
+    }
   }
 }

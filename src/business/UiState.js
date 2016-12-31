@@ -9,7 +9,7 @@ export class UiState {
 
   @observable currentContextStore = undefined
 
-  _contextStores = []
+  @observable contextStores = []
   selectedTabs = {}
 
   @observable fake = 0
@@ -46,7 +46,11 @@ export class UiState {
 
   openContext(componentId) {
     const contextStore = new ContextStore(this._definitions, componentId)
-    this._contextStores.push(contextStore)
+    this.contextStores.push(contextStore)
     this.currentContextStore = contextStore
+  }
+
+  selectContextStore(uuid) {
+    this.currentContextStore = this.contextStores.filter(c=>c.getUuid()==uuid)[0]
   }
 }

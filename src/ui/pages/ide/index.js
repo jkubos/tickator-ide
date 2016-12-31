@@ -53,6 +53,8 @@ export class IDE extends React.Component {
   }
 
   render() {
+    const contextStores = this.props.uiState.contextStores
+
     return <div className={styles.main}>
 
       <div className={styles.toolBar}>
@@ -63,9 +65,9 @@ export class IDE extends React.Component {
 
         <div className={styles.treeBar}>
 
-         <ComponentsList
-          engine={this.props.engine}
-          commandsDispatcher={this.props.commandsDispatcher}/>
+          <ComponentsList
+           engine={this.props.engine}
+           commandsDispatcher={this.props.commandsDispatcher}/>
 
         {/*
         <PropertiesView
@@ -76,19 +78,35 @@ export class IDE extends React.Component {
         </div>
 
         <div id="main_schema" className={styles.mainContentBar}>
-          {this.props.uiState.currentContextStore && <ComponentSchema
-            instance={this.props.uiState.currentContextStore.getEngine().getRootComponent()}
-            width={this.props.uiState.width}
-            height={this.props.uiState.height}
-            selectedInstanceName={''}
-            povInstancePath={[]}
-          />}
-        </div>
+          <Tabs
+            tabsName='content'
+            defaultTab={contextStores.length>0 ? contextStores[0].getUuid() : ''}
+            onChange={name=>this.props.uiState.selectContextStore(name)}>
+            {
+              contextStores.map(context=>{
+                return <TabHeader name={context.getUuid()} title={context.getLabel()} key={context.getUuid()}/>
+              })
+            }
 
+            {
+              contextStores.map(context=>{
+                return <TabContent for={context.getUuid()} key={context.getUuid()}>
+                    <ComponentSchema
+                      instance={context.getEngine().getRootComponent()}
+                      width={this.props.uiState.width}
+                      height={this.props.uiState.height-25}
+                      selectedInstanceName={''}
+                      povInstancePath={[]}
+                    />
+                </TabContent>
+              })
+            }
+          </Tabs>
+        </div>
       </div>
 
       <div className={styles.bottomBar}>
-        <Tabs tabsName={'bottom'} defaultTab={'console'}>
+        <Tabs tabsName='bottom' defaultTab='console'>
           <TabHeader name='console' title='Console'/>
           <TabContent for='console'>
             {/* <InputLine /> */}

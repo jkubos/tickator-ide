@@ -1,4 +1,4 @@
-import {generateUUID} from '~/src/util/tools'
+import {Tools} from '~/src/util/tools'
 import {Validate} from '~/src/util/validate'
 import {ConnectionDefinition} from './connection_definition'
 
@@ -35,7 +35,7 @@ export class ConnectionDefinitionBuilder {
       `Cannot find input ${this._toInput}`)
     }
 
-    return new ConnectionDefinition(generateUUID(), this._fromInstance, this._fromOutput,
+    return new ConnectionDefinition(Tools.generateUUID(), this._fromInstance, this._fromOutput,
       this._toInstance, this._toInput)
   }
 
