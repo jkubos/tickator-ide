@@ -22,7 +22,7 @@ export class PropertiesView extends React.Component {
     const properties = selectedInstance.propertyInstances()
 
     return <div>
-      <table className="table table-striped table-bordered table-condensed">
+      <table className={styles.table}>
         <thead>
           <tr>
             <th>Property</th>
