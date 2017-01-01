@@ -3,6 +3,7 @@ import {observer} from 'mobx-react'
 import jQuery from 'jquery'
 import ReactDOM from 'react-dom'
 import {UiState} from '~/src/business/UiState'
+import styles from './style.less'
 
 @observer
 export class InputLine extends React.Component {
@@ -15,12 +16,8 @@ export class InputLine extends React.Component {
   }
 
   render() {
-    return <div style={{
-      padding: 3
-    }}>
-      <input ref="inputLine" style={{
-        width: "100%"
-      }} onKeyUp={e=>this._onKeyUp(e)}/>
+    return <div className={styles.main}>
+      <input ref="inputLine" className={styles.input} onKeyUp={e=>this._onKeyUp(e)}/>
     </div>
   }
 

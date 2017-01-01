@@ -1,22 +1,27 @@
 import React from 'react'
-import Engine from '~/src/business/engine'
+import {observer} from 'mobx-react'
 import Ticklet from '~/src/tickator/instance/ticklet'
 import Component from '~/src/tickator/instance/component'
+import {UiState} from '~/src/business/UiState'
+import styles from './style.less'
 
+@observer
 export class PropertiesView extends React.Component {
 
-  render() {
-    let selectedInstance = this.props.instance
+  static contextTypes = {
+    uiState: React.PropTypes.instanceOf(UiState).isRequired
+  }
 
-    if (this.props.selectedInstanceName) {
-      selectedInstance = selectedInstance._findInstance(this.props.selectedInstanceName)
+  render() {
+    if (!this.context.uiState.currentContextStore) {
+      return null
     }
+
+    const selectedInstance = this.context.uiState.currentContextStore.getSelectedInstance()
 
     const properties = selectedInstance.propertyInstances()
 
     return <div>
-      <strong>Selected: {this.props.selectedInstanceName || "root"}</strong>
-
       <table className="table table-striped table-bordered table-condensed">
         <thead>
           <tr>
@@ -36,16 +41,4 @@ export class PropertiesView extends React.Component {
       </table>
     </div>
   }
-}
-
-PropertiesView.propTypes = {
-  instance: React.PropTypes.oneOfType([
-    React.PropTypes.instanceOf(Ticklet),
-    React.PropTypes.instanceOf(Component)
-  ]).isRequired,
-  selectedInstanceName: React.PropTypes.string.isRequired
-}
-
-PropertiesView.contextTypes = {
-  engine: React.PropTypes.instanceOf(Engine).isRequired
 }

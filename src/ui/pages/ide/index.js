@@ -16,7 +16,7 @@ import {TabContent} from '~/src/ui/quarks/tab_content'
 import {ComponentSchema} from '~/src/ui/molecules/component_schema'
 import {ConsoleView} from '~/src/ui/atoms/console_view'
 import {InputLine} from '~/src/ui/atoms/input_line'
-// import {PropertiesView} from '~/src/ui/atoms/properties_view'
+import {PropertiesView} from '~/src/ui/atoms/properties_view'
 import {ComponentsList} from '~/src/ui/atoms/components_list'
 
 @observer
@@ -69,12 +69,6 @@ export class IDE extends React.Component {
            engine={this.props.engine}
            commandsDispatcher={this.props.commandsDispatcher}/>
 
-        {/*
-        <PropertiesView
-          instance={this.props.engine.rootInstance()}
-          selectedInstanceName={this.props.uiState.get('ui', 'selectedInstanceName')}
-        /> */}
-
         </div>
 
         <div id="main_schema" className={styles.mainContentBar}>
@@ -92,7 +86,6 @@ export class IDE extends React.Component {
               contextStores.map(context=>{
                 return <TabContent for={context.getUuid()} key={context.getUuid()}>
                     <ComponentSchema
-                      instance={context.getEngine().getRootComponent()}
                       width={this.props.uiState.width}
                       height={this.props.uiState.height-25}
                       selectedInstanceName={''}
@@ -103,6 +96,10 @@ export class IDE extends React.Component {
             }
           </Tabs>
         </div>
+      </div>
+
+      <div className={styles.propertiesBar}>
+        <PropertiesView/>
       </div>
 
       <div className={styles.bottomBar}>

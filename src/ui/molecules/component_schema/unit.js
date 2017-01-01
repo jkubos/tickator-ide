@@ -1,21 +1,29 @@
 import React from 'react';
+import {observer} from 'mobx-react'
 import {InstanceDefinition} from '~/src/tickator/definition/instance_definition'
 import {Pin} from './pin'
+import {UiState} from '~/src/business/UiState'
 
+@observer
 export class Unit extends React.Component {
+
   static propTypes = {
     def: React.PropTypes.instanceOf(InstanceDefinition).isRequired,
     geom: React.PropTypes.object.isRequired,
     selected: React.PropTypes.bool.isRequired
   }
 
+  static contextTypes = {
+    uiState: React.PropTypes.instanceOf(UiState).isRequired
+  }
+
   render() {
 
     return <g
-        onClick={e=>this.context.commandsDispatcher.dispatch(SELECT_INSTANCE, {instance: this.props.def.name()})}
+        onClick={e=>this.context.uiState.currentContextStore.selectInstance(this.props.def.name())}
         onDoubleClick={e=> {
           if (this.props.def.definition().type()!=='ticklet') {
-            this.context.commandsDispatcher.dispatch(DIVE_INTO_INSTANCE, {instance: this.props.def.name()})
+            this.context.uiState.currentContextStore.drillDown(this.props.def.name())
           }
         }}
       >

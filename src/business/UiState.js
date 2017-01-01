@@ -17,6 +17,11 @@ export class UiState {
   constructor(definitions) {
     Validate.isA(definitions, Definitions)
     this._definitions = definitions
+
+    //test initialization
+    this.openContext('FibonacciGenerator')
+    // this.openContext('TestInput')
+    // this.openContext('Iteration')
   }
 
   updateContentSize(width, height) {

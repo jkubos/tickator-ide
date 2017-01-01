@@ -1,18 +1,25 @@
 import React from 'react'
+import {observer} from 'mobx-react'
 import {Component} from '~/src/tickator/instance/component'
 import {Unit} from './unit'
 import {Connection} from './connection'
 import {Pin} from './pin'
 import {InstancesGeometry} from './instances_geometry'
 //import BitArrayVisualization from '~/src/ui/util/bit_array_visualization'
+import {UiState} from '~/src/business/UiState'
 
+@observer
 export class ComponentSchema extends React.Component {
+
   static propTypes = {
     width: React.PropTypes.number.isRequired,
     height: React.PropTypes.number.isRequired,
-    instance: React.PropTypes.instanceOf(Component).isRequired,
     selectedInstanceName: React.PropTypes.string.isRequired,
     povInstancePath: React.PropTypes.array.isRequired
+  }
+
+  static contextTypes = {
+    uiState: React.PropTypes.instanceOf(UiState).isRequired
   }
 
   constructor() {
@@ -21,11 +28,7 @@ export class ComponentSchema extends React.Component {
   }
 
   render() {
-    let instancePov = this.props.instance
-
-    this.props.povInstancePath.forEach(name=>{
-      instancePov = instancePov._findInstance(name)
-    })
+    let instancePov = this.context.uiState.currentContextStore.getDisplayedInstance()
 
     this.instances_geometry.update(instancePov.definition(), this.props.width, this.props.height)
 
@@ -33,7 +36,6 @@ export class ComponentSchema extends React.Component {
         style={{display: 'inline', userSelect: 'none'}}
         width={this.props.width}
         height={this.props.height}
-
       >
 
       <rect
@@ -46,10 +48,10 @@ export class ComponentSchema extends React.Component {
         style={{
           fill: '#fdf6e3' ,
           strokeWidth: 2,
-          stroke: this.props.selectedInstanceName==='' ? '#cb4b16' : '#586e75'
+          stroke: this.context.uiState.currentContextStore.selectedInstanceName===undefined ? '#cb4b16' : '#586e75'
         }}
-        onClick={e=>this.context.commandsDispatcher.dispatch(SELECT_INSTANCE, {instance: ''})}
-        onDoubleClick={e=>this.context.commandsDispatcher.dispatch(EMERGE_FROM_INSTANCE, {})}
+        onClick={e=>this.context.uiState.currentContextStore.selectInstance(undefined)}
+        onDoubleClick={e=>this.context.uiState.currentContextStore.rollUp()}
         >
       </rect>
 
@@ -63,7 +65,7 @@ export class ComponentSchema extends React.Component {
         def={def}
         geom={this.instances_geometry.getForInstance(def.name())}
         key={def.name()}
-        selected={this.props.selectedInstanceName===def.name()}
+        selected={this.context.uiState.currentContextStore.selectedInstanceName===def.name()}
       />)}
 
       {instancePov.definition().inputs().map(i=><Pin

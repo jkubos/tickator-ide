@@ -33,7 +33,7 @@
 .bottomBar {
   position: absolute;
   height: @bottomBarHeight;
-  left: 0px;
+  left: @treeBarWidth;
   right: 0px;
   bottom: 0px;
 }
@@ -46,6 +46,18 @@
   bottom: 0px;
 
   border-right: 2px solid @base01;
+}
+
+.propertiesBar {
+  position: absolute;
+  height: @bottomBarHeight;
+  left: 0px;
+  width: @treeBarWidth;
+  bottom: 0px;
+
+  border-right: 2px solid @base01;
+
+  overflow: auto;
 }
 
 .mainContentBar {

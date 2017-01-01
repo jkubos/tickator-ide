@@ -5,6 +5,10 @@ import {Engine} from '~/src/business/Engine'
 import {Tools} from '~/src/util/tools'
 
 export class ContextStore {
+
+  @observable selectedInstanceName = undefined
+  @observable displayedComponentPath = []
+
   constructor(definitions, rootComponent) {
     Validate.isA(definitions, Definitions)
 
@@ -24,5 +28,39 @@ export class ContextStore {
 
   getEngine() {
     return this._engine
+  }
+
+  getDisplayedInstance() {
+    let res = this._engine.getRootComponent()
+
+    this.displayedComponentPath.forEach(name=>{
+      res = res._findInstance(name)
+    })
+
+    return res
+  }
+
+  getSelectedInstance() {
+    let res = this.getDisplayedInstance()
+
+    if (this.selectedInstanceName!==undefined) {
+      res = res._findInstance(this.selectedInstanceName)
+    }
+
+    return res
+  }
+
+  selectInstance(instanceName) {
+    this.selectedInstanceName = instanceName
+  }
+
+  drillDown(instanceName) {
+    this.selectedInstanceName = undefined
+    this.displayedComponentPath.push(instanceName)
+  }
+
+  rollUp(instanceName) {
+    this.selectedInstanceName = undefined
+    this.displayedComponentPath.pop()
   }
 }
