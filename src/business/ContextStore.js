@@ -30,6 +30,18 @@ export class ContextStore {
     return this._engine
   }
 
+  getDisplayedPath() {
+    let act = this._engine.getRootComponent()
+    const res = [act.instanceDefinition().name()]
+
+    this.displayedComponentPath.forEach(name=>{
+      act = act._findInstance(name)
+      res.push(act.instanceDefinition().name())
+    })
+
+    return res
+  }
+
   getDisplayedInstance() {
     let res = this._engine.getRootComponent()
 

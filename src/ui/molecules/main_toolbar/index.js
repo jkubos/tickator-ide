@@ -26,9 +26,7 @@ export class MainToolbar extends React.Component {
 
       <ToolbarSeparator />
 
-      {/* <Breadcrumb
-        povInstancePath={this.context.uiState.get('ui', 'povInstancePath')}
-      /> */}
+      <Breadcrumb /> 
 
       <ToolbarSeparator />
 

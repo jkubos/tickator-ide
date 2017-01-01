@@ -12,7 +12,7 @@ export class EngineInfo extends React.Component {
 
   render() {
     if (!this.context.uiState.currentContextStore) {
-      return <span/>
+      return null
     }
 
     const engine = this.context.uiState.currentContextStore.getEngine()
