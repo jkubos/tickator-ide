@@ -1,5 +1,6 @@
 import React from 'react'
 import {UiState} from '~/src/business/UiState'
+import style from './style.less'
 
 export class ComponentsList extends React.Component {
 
@@ -13,11 +14,11 @@ export class ComponentsList extends React.Component {
 
     return <div>
       {definitions.map((comp, i)=><div
-        className={`list-group-item ${comp.name()===selectedComponent ? 'active': ''}`}
+        className={style.item}
         key={i}
         onClick={e=>this._onSelect(comp)}
       >
-        {comp.name()}
+        ⤷{comp.name()}
       </div>)}
     </div>
   }
