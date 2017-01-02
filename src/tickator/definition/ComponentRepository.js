@@ -8,7 +8,9 @@ export class ComponentRepository {
     Validate.isA(tickletRepository, TickletRepository)
 
     this.tickletRepository = tickletRepository
-    this.definitionsVal = {}
+    this._root = {
+      _subs: {}
+    }
   }
 
   addAll(components) {
@@ -20,22 +22,30 @@ export class ComponentRepository {
 
     while (doneComponents.length<components.length) {
       const component = components.find(component=>
-        !doneComponents.includes(component)
+        !doneComponents.includes(component.func)
         &&
-        componentDependencies[component].every(name=>this.isDefined(name))
+        componentDependencies[component.func].every(name=>this.isDefined(name))
       )
 
       if (component===undefined) {
-        throw "Cyclic dependency? TODO: provide better debug info"
+        const deps = []
+
+        components.forEach(component=>{
+          if (!doneComponents.includes(component.func)) {
+            componentDependencies[component.func].forEach(dep=>deps.push(dep))
+          }
+        })
+
+        throw `Cyclic dependency? Missing dependencies are: ${[...new Set(deps)].join(', ')}`
       }
 
-      doneComponents.push(component)
+      doneComponents.push(component.func)
 
-      Validate.isFunctionWithArity(component, 1)
+      Validate.isFunctionWithArity(component.func, 1)
 
-      const componentBuilder = new ComponentDefinitionBuilder(this.tickletRepository, this)
+      const componentBuilder = new ComponentDefinitionBuilder(this.tickletRepository, this, component.path)
 
-      const res = component(componentBuilder)
+      const res = component.func(componentBuilder)
 
       Validate.isNull(res)
 
@@ -46,39 +56,87 @@ export class ComponentRepository {
         'color: #000000; font-weight: normal',
         componentDefinition.toDebug())
 
-      Validate.notSet(this.definitionsVal, componentDefinition.name())
+      const [namespaceParts, name] = this.splitId(componentDefinition.id())
 
-      this.definitionsVal[componentDefinition.name()] = componentDefinition
+      let act = this._root
+
+      namespaceParts.forEach(part=>{
+        if (act._subs[part]===undefined) {
+          act._subs[part] = {
+            _subs: {}
+          }
+        }
+
+        act = act._subs[part]
+      })
+
+      Validate.notSet(act, name)
+
+      act[name] = componentDefinition
     }
   }
 
-  definitions() {
-    return Object.keys(this.definitionsVal).map(k=>this.definitionsVal[k])
+  splitId(id) {
+    const fullPath = id.split(".")
+    const namespaceParts = fullPath.slice(0, -1)
+    const name = fullPath[fullPath.length-1]
+
+    return [namespaceParts, name]
   }
 
-  isDefined(componentName) {
-    return this.definitionsVal[componentName]!==undefined
+  getTreeRoot() {
+    return this._root
   }
 
-  get(componentName) {
-    Validate.isSet(this.definitionsVal, componentName)
+  isDefined(id) {
+    const [namespaceParts, name] = this.splitId(id)
 
-    return this.definitionsVal[componentName]
+    let act = this._root
+
+    namespaceParts.forEach(part=>{
+      if (act!==undefined) {
+        act = act._subs[part]
+      }
+    })
+
+    if (act===undefined) {
+      return false
+    }
+
+    return act[name]!==undefined
+  }
+
+  get(id) {
+    const [namespaceParts, name] = this.splitId(id)
+
+    let act = this._root
+
+    namespaceParts.forEach(part=>{
+      if (act!==undefined) {
+        act = act._subs[part]
+      }
+    })
+
+    Validate.notNull(act)
+
+    Validate.isSet(act, name)
+
+    return act[name]
   }
 
   _extractDependencies(components) {
     const componentDependencies = {}
 
     components.forEach(component=>{
-      Validate.isFunctionWithArity(component, 1)
+      Validate.isFunctionWithArity(component.func, 1)
 
       const componentDependenciesExtractor = new ComponentDependenciesExtractor()
 
-      const res = component(componentDependenciesExtractor)
+      const res = component.func(componentDependenciesExtractor)
 
       Validate.isNull(res)
 
-      componentDependencies[component] = componentDependenciesExtractor.getDependencies()
+      componentDependencies[component.func] = componentDependenciesExtractor.getDependencies()
     })
 
     return componentDependencies

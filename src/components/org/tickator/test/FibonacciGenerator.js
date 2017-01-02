@@ -6,7 +6,7 @@ export function defineFunction(b) {
 
   b.instance(b=>{
     b.name('regs')
-    b.component('ChainedRegisters')
+    b.component('org.tickator.core.ChainedRegisters')
     b.property('value', 0)
     b.property('halfValue', 1)
     b.x(300)

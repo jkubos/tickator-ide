@@ -5,7 +5,7 @@ export function defineFunction(b) {
 
   b.instance(b=>{
     b.name('c1')
-    b.component('SimpleSum')
+    b.component('org.tickator.test.SimpleSum')
     b.x(100)
     b.y(100)
   })

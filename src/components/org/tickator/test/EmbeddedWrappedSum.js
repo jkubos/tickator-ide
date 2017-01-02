@@ -21,7 +21,7 @@ export function defineFunction(b) {
 
   b.instance(b=>{
     b.name('s')
-    b.component('WrappedSum')
+    b.component('org.tickator.test.WrappedSum')
     b.x(300)
     b.y(200)
   })

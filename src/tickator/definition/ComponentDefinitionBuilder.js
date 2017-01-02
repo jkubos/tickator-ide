@@ -9,13 +9,15 @@ import {InputDefinitionBuilder} from './InputDefinitionBuilder'
 import {OutputDefinitionBuilder} from './OutputDefinitionBuilder'
 
 export class ComponentDefinitionBuilder {
-  constructor(tickletRepository, componentRepository) {
+  constructor(tickletRepository, componentRepository, path) {
     Validate.isA(tickletRepository, TickletRepository)
     Validate.isA(componentRepository, ComponentRepository)
+    Validate.isArray(path)
 
     this.tickletRepository = tickletRepository
     this.componentRepository = componentRepository
 
+    this.path = path
     this.instances = {}
     this.connections = {}
     this.properties = []
@@ -25,7 +27,7 @@ export class ComponentDefinitionBuilder {
 
   build() {
     return new ComponentDefinition(this.nameVal, this.instances, this.connections,
-      this.properties, this.inputs, this.outputs)
+      this.properties, this.inputs, this.outputs, this.path)
   }
 
   name (nameVal) {

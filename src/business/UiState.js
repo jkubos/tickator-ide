@@ -19,7 +19,7 @@ export class UiState {
     this._definitions = definitions
 
     //test initialization
-    this.openContext('FibonacciGenerator')
+    this.openContext('org.tickator.test.FibonacciGenerator')
     // this.openContext('TestInput')
     // this.openContext('Iteration')
   }

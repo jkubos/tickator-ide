@@ -9,17 +9,22 @@ export class ComponentsList extends React.Component {
   }
 
   render() {
-    const definitions = this.context.uiState.getDefinitions().getComponentsRepository().definitions()
-    const selectedComponent = ''
+    return this.renderNode(this.context.uiState.getDefinitions().getComponentsRepository().getTreeRoot())
+  }
 
+  renderNode(node) {
     return <div>
-      {definitions.map((comp, i)=><div
-        className={style.item}
-        key={i}
-        onClick={e=>this._onSelect(comp)}
-      >
-        ⤷{comp.name()}
+      {Object.keys(node._subs).map((name, i)=><div key={i} className={style.node}>
+        {name}
+        <div className={style.subnode}>
+          {this.renderNode(node._subs[name])}
+        </div>
       </div>)}
+
+      {Object.keys(node).filter(n=>n!=='_subs').map((name, i)=><div
+        key={i}
+        className={style.item}
+        onClick={e=>this._onSelect(node[name])}>{name}</div>)}
     </div>
   }
 
