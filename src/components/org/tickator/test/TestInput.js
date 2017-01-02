@@ -1,6 +1,4 @@
 export function defineFunction(b) {
-  b.name('TestInput')
-
   b.instance(b=>{
     b.name('i')
     b.ticklet('LineInput')

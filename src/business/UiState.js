@@ -19,9 +19,8 @@ export class UiState {
     this._definitions = definitions
 
     //test initialization
-    this.openContext('org.tickator.test.FibonacciGenerator')
-    // this.openContext('TestInput')
-    // this.openContext('Iteration')
+    // this.openContext('org.tickator.test.FibonacciGenerator')
+    this.openContext('org.tickator.test.calculator.Calculator')
   }
 
   updateContentSize(width, height) {

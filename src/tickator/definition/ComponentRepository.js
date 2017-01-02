@@ -43,7 +43,7 @@ export class ComponentRepository {
 
       Validate.isFunctionWithArity(component.func, 1)
 
-      const componentBuilder = new ComponentDefinitionBuilder(this.tickletRepository, this, component.path)
+      const componentBuilder = new ComponentDefinitionBuilder(this.tickletRepository, this, component.path, component.name)
 
       const res = component.func(componentBuilder)
 

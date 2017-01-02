@@ -1,8 +1,6 @@
 import {Validate} from '~/src/util/Validate'
 
 export function defineFunction(b) {
-  b.name('ChainedRegisters')
-
   b.input(b=>{
     b.name("in")
     b.position('left', 0.5)

@@ -2,8 +2,6 @@
 import {Validate} from '~/src/util/Validate'
 
 export function defineFunction(b) {
-  b.name('FibonacciGenerator')
-
   b.instance(b=>{
     b.name('regs')
     b.component('org.tickator.core.ChainedRegisters')

@@ -1,8 +1,6 @@
 import {Validate} from '~/src/util/Validate'
 
 export function defineFunction(b) {
-  b.name('WrappedSum')
-
   b.input(b=>{
     b.name("a1")
     b.validate(Validate.isNumber)

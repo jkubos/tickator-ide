@@ -1,8 +1,6 @@
 import {Validate} from '~/src/util/Validate'
 
 export function defineFunction(b) {
-  b.name('EmbedSimpleSum')
-
   b.instance(b=>{
     b.name('c1')
     b.component('org.tickator.test.SimpleSum')
