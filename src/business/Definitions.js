@@ -1,7 +1,7 @@
 import {observable} from 'mobx'
-import Validate from '~/src/util/validate'
-import {TickletRepository} from '~/src/tickator/definition/ticklet_repository'
-import {ComponentRepository} from '~/src/tickator/definition/component_repository'
+import Validate from '~/src/util/Validate'
+import {TickletRepository} from '~/src/tickator/definition/TickletRepository'
+import {ComponentRepository} from '~/src/tickator/definition/ComponentRepository'
 import {ticklets} from '~/src/tickator/ticklets/index'
 import {components} from '~/src/components/index'
 

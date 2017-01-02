@@ -1,10 +1,10 @@
-import {toCamelCase, capitalize} from '~/src/util/tools'
+import {toCamelCase, capitalize} from '~/src/util/Tools'
 
 export const ticklets = [
-  'sum',
-  'const',
-  'print',
-  'line_input',
-  'register',
-  'priority_funnel'
+  'Sum',
+  'Const',
+  'Print',
+  'LineInput',
+  'Register',
+  'PriorityFunnel'
 ].map(file=>require('./'+file)[capitalize(toCamelCase(file))])

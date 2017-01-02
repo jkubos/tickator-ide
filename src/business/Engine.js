@@ -1,9 +1,9 @@
 import {observable} from 'mobx'
-import {Validate} from '~/src/util/validate'
+import {Validate} from '~/src/util/Validate'
 
-import {Component} from '~/src/tickator/instance/component'
-import {Dispatcher} from '~/src/tickator/dispatcher'
-import {InstanceDefinitionBuilder} from '~/src/tickator/definition/instance_definition_builder'
+import {Component} from '~/src/tickator/instance/Component'
+import {Dispatcher} from '~/src/tickator/Dispatcher'
+import {InstanceDefinitionBuilder} from '~/src/tickator/definition/InstanceDefinitionBuilder'
 import {PlatformApi} from './PlatformApi'
 import {Definitions} from './Definitions'
 

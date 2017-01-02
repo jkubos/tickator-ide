@@ -1,4 +1,4 @@
-import {Validate} from '~/src/util/validate'
+import {Validate} from '~/src/util/Validate'
 
 export class PlatformApi {
 
