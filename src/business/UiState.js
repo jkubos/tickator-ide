@@ -4,8 +4,8 @@ import {Definitions} from '~/src/business/Definitions'
 import {ContextStore} from './ContextStore'
 
 export class UiState {
-  @observable width = 800
-  @observable height = 800
+  @observable width = 2000
+  @observable height = 2000
 
   @observable currentContextStore = undefined
 
