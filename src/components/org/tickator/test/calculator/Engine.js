@@ -70,6 +70,11 @@ export function defineFunction(b) {
   })
 
   b.output(b=>{
+    b.name("processed")
+    b.position('top', 0.5)
+  })
+
+  b.output(b=>{
     b.name("display")
     b.position('right', 0.5)
   })
