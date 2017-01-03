@@ -10,14 +10,17 @@ export class ValueDetector extends Ticklet {
 
     b.input(b=>{
       b.name("value")
-      b.validate(Validate.isNumber)
-      b.position('left', 0.8)
+      b.position('left', 0.7)
     })
 
     b.output(b=>{
-      b.name("res")
-      b.validate(Validate.isNumber)
-      b.position('right', 0.8)
+      b.name("eq")
+      b.position('right', 0.7)
+    })
+
+    b.output(b=>{
+      b.name("neq")
+      b.position('bottom', 0.5)
     })
 
     b.property(b=>{

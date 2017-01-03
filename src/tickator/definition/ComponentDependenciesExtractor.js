@@ -50,4 +50,8 @@ export class ComponentDependenciesExtractor {
 
   output(block) {
   }
+
+  size(width, height) {
+
+  }
 }

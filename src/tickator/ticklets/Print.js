@@ -12,6 +12,8 @@ export class Print extends Ticklet {
       b.name("val")
       b.position('left', 0.5)
     })
+
+    b.size(70, 70)
   }
 
   tick() {

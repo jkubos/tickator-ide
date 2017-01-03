@@ -132,7 +132,7 @@ export class InstancesGeometry {
       headDirection = headDirection.multiplied(-1)
     }
 
-    const headMountPosition = instanceMountPosition.added(headDirection.multiplied(15))
+    const headMountPosition = instanceMountPosition.added(headDirection.multiplied(5))
     const headCenter = headMountPosition.added(headDirection.multiplied(headRadius))
     const headConnectionPoin = headCenter.added(headDirection.multiplied(headRadius))
     const wireEndPoint = headCenter.added(headDirection.multiplied(headRadius+10))

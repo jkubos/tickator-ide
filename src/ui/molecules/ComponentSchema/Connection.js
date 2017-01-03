@@ -1,5 +1,6 @@
 import React from 'react';
 import {ConnectionDefinition} from '~/src/tickator/definition/ConnectionDefinition'
+import style from './style.less'
 
 export class Connection extends React.Component {
   render() {
@@ -13,9 +14,10 @@ export class Connection extends React.Component {
 
       <polyline
         points={this.props.geom.map(a=>`${a.x},${a.y}`).join(" ")}
-        stroke="#268bd2"
         strokeWidth="2"
-        fill="none" />
+        fill="none"
+        className={style.connection}
+      />
     </g>
   }
 }

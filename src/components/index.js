@@ -8,7 +8,9 @@ export const components = [
   'org/tickator/test/FibonacciGenerator',
   'org/tickator/test/calculator/Calculator',
   'org/tickator/test/calculator/Engine',
-  'org/tickator/core/ChainedRegisters'
+  'org/tickator/core/ChainedRegisters',
+  'org/tickator/core/NumberCharDetector',
+  'org/tickator/core/OperatorCharDetector'
 ].map(file=>{
   const parts = file.split('/')
 

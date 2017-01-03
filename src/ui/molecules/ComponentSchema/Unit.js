@@ -41,6 +41,7 @@ export class Unit extends React.Component {
           stroke: this.props.selected ? '#cb4b16' : '#586e75'
         }}
         >
+          <title>{this.props.def.definition().comment()}</title>
       </rect>
 
       <text
@@ -53,6 +54,7 @@ export class Unit extends React.Component {
         y={this.props.geom.bbox.y+this.props.geom.bbox.height/3}
         fill="white">
           {this.props.def.name()}
+          <title>{this.props.def.definition().comment()}</title>
       </text>
 
       <text
@@ -65,6 +67,7 @@ export class Unit extends React.Component {
         y={this.props.geom.bbox.y+this.props.geom.bbox.height/3+15}
         fill="white">
           {this.props.def.definition().name()}
+          <title>{this.props.def.definition().comment()}</title>
       </text>
 
       <text
@@ -77,6 +80,7 @@ export class Unit extends React.Component {
         y={this.props.geom.bbox.y+12}
         fill="#586e75">
           {this.props.def.definition().type()==='ticklet' ? "\uf013" : "\uf12e"}
+          <title>{this.props.def.definition().comment()}</title>
       </text>
 
       {this.props.def.definition().inputs().map(i=><Pin

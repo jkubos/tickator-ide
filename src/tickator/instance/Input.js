@@ -27,6 +27,10 @@ export class Input {
     return this._outputs[0].get()
   }
 
+  outputs() {
+    return this._outputs
+  }
+
   isTriggering() {
     return this._outputs.some(output=>output.isTriggering())
   }

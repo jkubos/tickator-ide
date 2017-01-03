@@ -10,8 +10,10 @@ export class LineInput extends Ticklet {
 
     b.output(b=>{
       b.name("res")
-      b.position('right', 0.5)
+      b.position('right', 0.8)
     })
+
+    b.size(70, 70)
   }
 
   constructor(dispatcher, instanceDefinition, ownerComponent) {
