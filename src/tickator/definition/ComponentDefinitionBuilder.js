@@ -7,6 +7,7 @@ import {ConnectionDefinitionBuilder} from './ConnectionDefinitionBuilder'
 import {PropertyDefinitionBuilder} from './PropertyDefinitionBuilder'
 import {InputDefinitionBuilder} from './InputDefinitionBuilder'
 import {OutputDefinitionBuilder} from './OutputDefinitionBuilder'
+import {Size} from '~/src/util/geometry/Size'
 
 export class ComponentDefinitionBuilder {
   constructor(tickletRepository, componentRepository, path, name) {
@@ -25,11 +26,12 @@ export class ComponentDefinitionBuilder {
     this.properties = []
     this.inputs = []
     this.outputs = []
+    this._size = new Size(90, 140)
   }
 
   build() {
     return new ComponentDefinition(this._name, this.instances, this.connections,
-      this.properties, this.inputs, this.outputs, this._path)
+      this.properties, this.inputs, this.outputs, this._path, this._size)
   }
 
   instance (block) {
@@ -109,5 +111,12 @@ export class ComponentDefinitionBuilder {
     , `Duplicit output name '${outputObj.name()}'`)
 
     this.outputs.push(outputObj)
+  }
+
+  size(width, height) {
+    Validate.isGreaterThanZero(width)
+    Validate.isGreaterThanZero(height)
+
+    this._size = new Size(width, height)
   }
 }

@@ -1,5 +1,5 @@
 export class TickletDefinition {
-  constructor(klass, name, comment, inputs, outputs, properties, autostart=false) {
+  constructor(klass, name, comment, inputs, outputs, properties, autostart, size) {
     this._klass = klass
     this._name = name
     this._comment = comment
@@ -7,6 +7,7 @@ export class TickletDefinition {
     this._outputs = outputs
     this._properties = properties
     this._autostart = autostart
+    this._size = size
   }
 
   toDebug() {
@@ -46,6 +47,10 @@ export class TickletDefinition {
 
   autostart() {
     return this._autostart
+  }
+
+  size() {
+    return this._size
   }
 
   type() {

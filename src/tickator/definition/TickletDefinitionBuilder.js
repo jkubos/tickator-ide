@@ -4,6 +4,7 @@ import {TickletDefinition} from './TickletDefinition'
 import {InputDefinitionBuilder} from './InputDefinitionBuilder'
 import {OutputDefinitionBuilder} from './OutputDefinitionBuilder'
 import {PropertyDefinitionBuilder} from './PropertyDefinitionBuilder'
+import {Size} from '~/src/util/geometry/Size'
 
 export class TickletDefinitionBuilder {
   constructor() {
@@ -11,11 +12,12 @@ export class TickletDefinitionBuilder {
     this.inputs = []
     this.outputs = []
     this.properties = []
+    this._size = new Size(90, 140)
   }
 
   build(name) {
     return new TickletDefinition(this.klassVal, name, this.commentVal, this.inputs, this.outputs,
-      this.properties, this.autostartVal)
+      this.properties, this.autostartVal, this._size)
   }
 
   klass(val) {
@@ -26,6 +28,13 @@ export class TickletDefinitionBuilder {
   comment(val) {
     Validate.notBlank(val)
     this.commentVal = val
+  }
+
+  size(width, height) {
+    Validate.isGreaterThanZero(width)
+    Validate.isGreaterThanZero(height)
+
+    this._size = new Size(width, height)
   }
 
   input(block) {

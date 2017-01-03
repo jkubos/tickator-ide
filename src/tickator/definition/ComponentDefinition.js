@@ -1,5 +1,5 @@
 export class ComponentDefinition {
-  constructor(name, instances, connections, properties, inputs, outputs, path) {
+  constructor(name, instances, connections, properties, inputs, outputs, path, size) {
     this._id = [...path, name].join('.')
     this._name = name
     this._instances = instances
@@ -7,6 +7,7 @@ export class ComponentDefinition {
     this._properties = properties
     this._inputs = inputs
     this._outputs = outputs
+    this._size = size
   }
 
   name() {
@@ -31,6 +32,10 @@ export class ComponentDefinition {
 
   properties() {
     return this._properties
+  }
+
+  size() {
+    return this._size
   }
 
   instances() {

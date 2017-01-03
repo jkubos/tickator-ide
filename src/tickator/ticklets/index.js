@@ -6,5 +6,6 @@ export const ticklets = [
   'Print',
   'LineInput',
   'Register',
-  'PriorityFunnel'
+  'PriorityFunnel',
+  'ValueDetector'
 ].map(file=>require('./'+file)[capitalize(toCamelCase(file))])

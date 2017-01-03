@@ -102,8 +102,8 @@ export class InstancesGeometry {
 
     Validate.notSet(this._data.instances, instanceDef.name())
 
-    const boxWidth = 90
-    const boxHeight = 140
+    const boxWidth = instanceDef.definition().size().width
+    const boxHeight = instanceDef.definition().size().height
 
     const bbox = new Rectangle(instanceDef.x()-boxWidth/2+this._border, instanceDef.y()-140/2+this._border, boxWidth, boxHeight)
     const inputs = instanceDef.definition().inputs().reduce((res, i)=>{
