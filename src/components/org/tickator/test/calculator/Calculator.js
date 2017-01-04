@@ -30,10 +30,9 @@ export function defineFunction(b) {
 
   b.instance(b=>{
     b.name('c')
-    b.ticklet('Countdown')
+    b.ticklet('WaitForAll')
     b.x(200)
     b.y(400)
-    b.property('value', 2)
 
     b.inputPosition('value', 'right', 0.7)
     b.inputPosition('reset', 'left', 0.7)

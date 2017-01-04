@@ -31,9 +31,10 @@ export class ValueDetector extends Ticklet {
   }
 
   tick() {
-    if (this.in().a().get()===this.properties().value()) {
-      this.out().res().set(true)
+    if (this.in().value().get()===this.properties().value()) {
+      this.out().eq().set(true)
+    } else {
+      this.out().neq().set(true)
     }
-
   }
 }

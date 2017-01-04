@@ -26,6 +26,10 @@ export class StringIterator extends Ticklet {
     b.size(90, 70)
   }
 
+  initialize() {
+    this._shouldSend = true
+  }
+
   tick() {
     this._value = this._value || ''
 
@@ -37,7 +41,7 @@ export class StringIterator extends Ticklet {
       this._shouldSend = false
 
       if (this._value.length>0) {
-        this.out().res().set(this._value[0])
+        this.out().character().set(this._value[0])
         this._value = this._value.slice(1)
       } else {
         this._shouldSend = true
