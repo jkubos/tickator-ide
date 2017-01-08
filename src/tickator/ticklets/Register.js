@@ -25,6 +25,8 @@ export class Register extends Ticklet {
     b.property(b=>{
       b.name('value')
     })
+
+    b.size(80, 60)
   }
 
   initialize() {

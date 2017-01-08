@@ -13,16 +13,23 @@ export class LineInput extends Ticklet {
       b.position('right', 0.8)
     })
 
+    b.property(b=>{
+      b.name('autoinput')
+    })
+
     b.size(70, 70)
   }
 
-  constructor(dispatcher, instanceDefinition, ownerComponent) {
-    super(dispatcher, instanceDefinition, ownerComponent)
-
-    dispatcher.getPlatformApi().onInput(value=>{
+  initialize() {
+    this._dispatcher.getPlatformApi().onInput(value=>{
       this._lastValue = value
       this._dispatcher.schedule(this)
     })
+
+    if (this.properties().autoinput()) {
+      this._lastValue = this.properties().autoinput()
+      this._dispatcher.schedule(this)
+    }
   }
 
   tick() {

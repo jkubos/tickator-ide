@@ -28,7 +28,7 @@ export class Pin extends React.Component {
         fontSize="10"
         x={this.props.geom.textPosition.x}
         y={this.props.geom.textPosition.y}
-        fill={this.props.isOnRoot ? "black" : "white"}>
+        fill={this.props.isOnRoot ? "white" : "white"}>
           {this.props.def.name()}
       </text>
 

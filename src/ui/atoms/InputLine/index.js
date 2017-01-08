@@ -17,7 +17,7 @@ export class InputLine extends React.Component {
 
   render() {
     return <div className={styles.main}>
-      <input ref="inputLine" defaultValue="1+1" className={styles.input} onKeyUp={e=>this._onKeyUp(e)}/>
+      <input ref="inputLine" defaultValue="" className={styles.input} onKeyUp={e=>this._onKeyUp(e)}/>
     </div>
   }
 

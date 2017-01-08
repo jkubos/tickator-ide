@@ -5,6 +5,7 @@ export function defineFunction(b) {
     b.ticklet('LineInput')
     b.x(50)
     b.y(200)
+    b.property('autoinput', '1+1=')
   })
 
   b.instance(b=>{
@@ -49,7 +50,7 @@ export function defineFunction(b) {
   b.instance(b=>{
     b.name('od')
     b.component('org.tickator.core.OperatorCharDetector')
-    b.x(610)
+    b.x(600)
     b.y(450)
   })
 
@@ -88,7 +89,7 @@ export function defineFunction(b) {
     b.toInput('char')
   });
 
-  ['add', 'sub', 'mul', 'div'].forEach(c=>{
+  ['add', 'sub', 'mul', 'div', 'eq'].forEach(c=>{
     b.connect(b=>{
       b.fromInstance('od')
       b.fromOutput(c)

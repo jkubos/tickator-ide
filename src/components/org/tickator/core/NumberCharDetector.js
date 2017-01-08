@@ -72,5 +72,5 @@ export function defineFunction(b) {
     b.toInput('fail')
   })
 
-  b.size(120, 160)
+  b.size(120, 200)
 }

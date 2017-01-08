@@ -4,7 +4,8 @@ const operators = {
   add: '+',
   sub: '-',
   mul: '*',
-  div: '/'
+  div: '/',
+  eq: '='
 }
 
 export function defineFunction(b) {
@@ -16,7 +17,7 @@ export function defineFunction(b) {
   Object.keys(operators).forEach((o, i)=>{
     b.output(b=>{
       b.name(o)
-      b.position('top', 0.2+i*0.2)
+      b.position('top', 0.2+i*0.15)
     })
   })
 
@@ -79,5 +80,5 @@ export function defineFunction(b) {
     b.toInput('fail')
   })
 
-  b.size(160, 80)
+  b.size(180, 80)
 }
