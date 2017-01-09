@@ -1,12 +1,12 @@
 import {Validate} from '../../util/Validate'
 import {Ticklet} from '~/src/tickator/instance/Ticklet'
 
-export class Sum extends Ticklet {
+export class Multiply extends Ticklet {
 
   static define(b) {
-    b.klass(Sum)
+    b.klass(Multiply)
 
-    b.comment("Sums two numbers")
+    b.comment("Multiply two numbers")
 
     b.input(b=>{
       b.name("a")
@@ -32,6 +32,6 @@ export class Sum extends Ticklet {
   tick() {
     const a = this.in().a().get() || 0
     const b = this.in().b().get() || 0
-    this.out().res().set(a+b)
+    this.out().res().set(a*b)
   }
 }

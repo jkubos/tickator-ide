@@ -17,6 +17,8 @@ export class Const extends Ticklet {
     })
 
     b.autostart()
+
+    b.size(60, 60)
   }
 
   tick() {

@@ -32,11 +32,11 @@ export class ContextStore {
 
   getDisplayedPath() {
     let act = this._engine.getRootComponent()
-    const res = [act.instanceDefinition().name()]
+    const res = [`${act.instanceDefinition().name()}[${act.instanceDefinition().definition().name()}]`]
 
     this.displayedComponentPath.forEach(name=>{
       act = act._findInstance(name)
-      res.push(act.instanceDefinition().name())
+      res.push(`${act.instanceDefinition().name()}[${act.instanceDefinition().definition().name()}]`)
     })
 
     return res

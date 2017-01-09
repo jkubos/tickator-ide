@@ -11,7 +11,8 @@ export const components = [
   'org/tickator/core/ChainedRegisters',
   'org/tickator/core/NumberCharDetector',
   'org/tickator/core/OperatorCharDetector',
-  'org/tickator/core/InputToNumber'
+  'org/tickator/core/InputToNumber',
+  'org/tickator/core/DecimalShift'
 ].map(file=>{
   const parts = file.split('/')
 

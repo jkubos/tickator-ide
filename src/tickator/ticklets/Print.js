@@ -17,6 +17,6 @@ export class Print extends Ticklet {
   }
 
   tick() {
-    this.dispatcher().getPlatformApi().log(this.in().val().get())
+    this.in().val().outputs().forEach(o=>this.dispatcher().getPlatformApi().log(o.get()))
   }
 }
