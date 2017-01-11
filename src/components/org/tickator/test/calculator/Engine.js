@@ -28,7 +28,7 @@ export function defineFunction(b) {
     b.name('i2n')
     b.component('org.tickator.core.InputToNumber')
     b.x(200)
-    b.y(200)
+    b.y(250)
   })
 
   for (let i=0;i<10;++i) {
@@ -43,39 +43,25 @@ export function defineFunction(b) {
   b.instance(b=>{
     b.name('dc')
     b.component('org.tickator.core.DecimalShift')
-    b.x(400)
-    b.y(200)
+    b.x(350)
+    b.y(300)
   })
 
   b.instance(b=>{
     b.name('cr')
     b.component('org.tickator.core.ChainedRegisters')
-    b.x(600)
-    b.y(200)
-  })
-
-  b.instance(b=>{
-    b.name('p')
-    b.ticklet('Print')
-    b.x(800)
-    b.y(200)
+    b.x(500)
+    b.y(300)
+    b.property('halfValue', 0)
+    b.property('value', 0)
   })
 
   b.instance(b=>{
     b.name('sa')
     b.ticklet('SelectAny')
-    b.x(600)
-    b.y(400)
+    b.x(500)
+    b.y(500)
   });
-
-  ["add", "sub", "mul", "div", 'eq'].forEach((name, i)=>{
-    b.connect(b=>{
-      b.fromThis()
-      b.fromOutput(name)
-      b.toInstance('sa')
-      b.toInput('in')
-    })
-  })
 
   b.instance(b=>{
     b.name('sa2')
@@ -92,11 +78,155 @@ export function defineFunction(b) {
     b.property('value', 0)
   })
 
+  b.instance(b=>{
+    b.name('sa3')
+    b.ticklet('SelectAny')
+    b.x(800)
+    b.y(200)
+  })
+
+  b.instance(b=>{
+    b.name('pfa')
+    b.ticklet('PassFirst')
+    b.x(650)
+    b.y(250)
+  })
+
+  b.instance(b=>{
+    b.name('pfb')
+    b.ticklet('PassFirst')
+    b.x(650)
+    b.y(350)
+  })
+
+  b.instance(b=>{
+    b.name('pfeq')
+    b.ticklet('PassFirst')
+    b.x(650)
+    b.y(500)
+  })
+
+  b.instance(b=>{
+    b.name('ca')
+    b.component('org.tickator.test.calculator.Calculation')
+    b.x(800)
+    b.y(300)
+  });
+
+  ["add", "sub", "mul", "div"].forEach((name, i)=>{
+    b.connect(b=>{
+      b.fromThis()
+      b.fromOutput(name)
+      b.toInstance('sa')
+      b.toInput('in')
+    })
+
+    b.connect(b=>{
+      b.fromThis()
+      b.fromOutput(name)
+      b.toInstance('ca')
+      b.toInput(name)
+    })
+  })
+
+  b.connect(b=>{
+    b.fromThis()
+    b.fromOutput('eq')
+    b.toInstance('sa')
+    b.toInput('in')
+  });
+
+  ["add", "sub", "mul", "div"].forEach((name, i)=>{
+    b.connect(b=>{
+      b.fromThis()
+      b.fromOutput(name)
+      b.toInstance('sa2')
+      b.toInput('in')
+    })
+  })
+
+  b.connect(b=>{
+    b.fromInstance('ca')
+    b.fromOutput('result')
+    b.toInstance('sa3')
+    b.toInput('in')
+  })
+
+  b.connect(b=>{
+    b.fromInstance('ca')
+    b.fromOutput('result')
+    b.toInstance('sa2')
+    b.toInput('in')
+  })
+
+  b.connect(b=>{
+    b.fromInstance('cr')
+    b.fromOutput('half_res')
+    b.toInstance('pfb')
+    b.toInput('value')
+  })
+
+  b.connect(b=>{
+    b.fromInstance('cr')
+    b.fromOutput('res')
+    b.toInstance('pfa')
+    b.toInput('value')
+  })
+
   b.connect(b=>{
     b.fromInstance('r')
     b.fromOutput('res')
     b.toInstance('dc')
     b.toInput('set')
+  })
+
+  b.connect(b=>{
+    b.fromInstance('pfa')
+    b.fromOutput('res')
+    b.toInstance('ca')
+    b.toInput('a')
+  })
+
+  b.connect(b=>{
+    b.fromInstance('pfb')
+    b.fromOutput('res')
+    b.toInstance('ca')
+    b.toInput('b')
+  })
+
+  b.connect(b=>{
+    b.fromThis()
+    b.fromOutput('eq')
+    b.toInstance('pfa')
+    b.toInput('reset')
+  })
+
+  b.connect(b=>{
+    b.fromThis()
+    b.fromOutput('eq')
+    b.toInstance('pfb')
+    b.toInput('reset')
+  })
+
+  b.connect(b=>{
+    b.fromThis()
+    b.fromOutput('eq')
+    b.toInstance('pfeq')
+    b.toInput('reset')
+  })
+
+  b.connect(b=>{
+    b.fromInstance('pfeq')
+    b.fromOutput('res')
+    b.toInstance('ca')
+    b.toInput('eq')
+  })
+
+  b.connect(b=>{
+    b.fromInstance('pfa')
+    b.fromOutput('res')
+    b.toInstance('pfeq')
+    b.toInput('value')
   })
 
   b.connect(b=>{
@@ -121,17 +251,17 @@ export function defineFunction(b) {
   })
 
   b.connect(b=>{
-    b.fromInstance('cr')
-    b.fromOutput('half_res')
-    b.toInstance('p')
-    b.toInput('val')
+    b.fromInstance('dc')
+    b.fromOutput('result')
+    b.toInstance('sa3')
+    b.toInput('in')
   })
 
   b.connect(b=>{
-    b.fromInstance('cr')
+    b.fromInstance('sa3')
     b.fromOutput('res')
-    b.toInstance('p')
-    b.toInput('val')
+    b.toThis()
+    b.toInput('display')
   })
 
   b.connect(b=>{
@@ -145,13 +275,6 @@ export function defineFunction(b) {
     b.fromInstance('dc')
     b.fromOutput('result')
     b.toInstance('cr')
-    b.toInput('in')
-  })
-
-  b.connect(b=>{
-    b.fromInstance('sa')
-    b.fromOutput('res')
-    b.toInstance('sa2')
     b.toInput('in')
   })
 

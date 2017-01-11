@@ -8,6 +8,7 @@ export const components = [
   'org/tickator/test/FibonacciGenerator',
   'org/tickator/test/calculator/Calculator',
   'org/tickator/test/calculator/Engine',
+  'org/tickator/test/calculator/Calculation',
   'org/tickator/core/ChainedRegisters',
   'org/tickator/core/NumberCharDetector',
   'org/tickator/core/OperatorCharDetector',

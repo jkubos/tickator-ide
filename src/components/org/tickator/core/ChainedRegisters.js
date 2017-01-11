@@ -86,4 +86,6 @@ export function defineFunction(b) {
   b.property(b=>{
     b.name('value')
   })
+
+  b.size(100, 100)
 }

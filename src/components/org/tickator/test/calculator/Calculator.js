@@ -5,7 +5,7 @@ export function defineFunction(b) {
     b.ticklet('LineInput')
     b.x(50)
     b.y(200)
-    b.property('autoinput', '41+1=')
+    b.property('autoinput', '41+1=1+1=100000+42=')
   })
 
   b.instance(b=>{

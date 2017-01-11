@@ -121,4 +121,6 @@ export function defineFunction(b) {
     b.toInstance('sa')
     b.toInput('in')
   })
+
+  b.size(100, 100)
 }
