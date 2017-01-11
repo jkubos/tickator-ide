@@ -6,6 +6,7 @@ export class PlatformApi {
     this.onTickHandlers = []
     this.onLogHandlers = []
     this.onInputHandlers = []
+    this.onProbeChangeHandlers = []
   }
 
   setTick(tick) {
@@ -32,5 +33,13 @@ export class PlatformApi {
 
   onInput(handler) {
     this.onInputHandlers.push(handler)
+  }
+
+  probeChange(name, oldValue, value) {
+    this.onProbeChangeHandlers.forEach(h=>h(name, oldValue, value))
+  }
+
+  onProbeChange(handler) {
+    this.onProbeChangeHandlers.push(handler)
   }
 }

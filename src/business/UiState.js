@@ -4,8 +4,8 @@ import {Definitions} from '~/src/business/Definitions'
 import {ContextStore} from './ContextStore'
 
 export class UiState {
-  @observable width = 2000
-  @observable height = 2000
+  @observable width = -1
+  @observable height = -1
 
   @observable currentContextStore = undefined
 
@@ -21,6 +21,8 @@ export class UiState {
     //test initialization
     // this.openContext('org.tickator.test.FibonacciGenerator')
     this.openContext('org.tickator.test.calculator.Calculator')
+    // this.openContext('org.tickator.test.calculator.Engine')
+    // this.openContext('org.tickator.test.calculator.Calculation')
   }
 
   updateContentSize(width, height) {

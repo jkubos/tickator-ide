@@ -57,13 +57,18 @@ export class Component {
         if (instanceFrom.instanceDefinition().definition().type()==='ticklet') {
           const output = instanceFrom.out()[connection.fromOutput()]()
 
-          const inputs = this._findOppositeInputs(connection)
+          const probes = []
+
+          const inputs = this._findOppositeInputs(connection, probes)
 
           if (inputs.length>0) {
             console.log(inputs.length+" opposite inputs found, wiring");
 
             inputs.forEach(input=>{
               output.addDepending(input)
+
+              probes.forEach(probe=>output.addProbe(probe))
+
               input.bind(output)
             })
           } else {
@@ -80,7 +85,11 @@ export class Component {
     })
   }
 
-  _findOppositeInputs(connection) {
+  _findOppositeInputs(connection, probes) {
+
+    if (connection.hasProbe()) {
+      probes.push(connection.probeName())
+    }
 
     //connected to something inside of this component
     if (connection.toInstance()) {
@@ -94,7 +103,7 @@ export class Component {
         const res = []
 
         instanceTo._findConnectionsFromInputPort(connection.toInput()).forEach(subConnection=>{
-          res.push(...instanceTo._findOppositeInputs(subConnection))
+          res.push(...instanceTo._findOppositeInputs(subConnection, probes))
         })
 
         return res
@@ -107,7 +116,7 @@ export class Component {
       if (this._parent) {
         this._parent._findConnectionsToFromInstance(this._instanceDefinition.name(), connection.toInput())
         .forEach(subConnection=>{
-          res.push(...this._parent._findOppositeInputs(subConnection))
+          res.push(...this._parent._findOppositeInputs(subConnection, probes))
         })
       }
 

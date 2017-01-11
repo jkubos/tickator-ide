@@ -21,8 +21,17 @@ export class Engine {
     this._platformApi = new PlatformApi()
 
     this._platformApi.onTick(tick=>this.currentTick=tick)
+
     this._platformApi.onLog(log=>{
-      this.logLines.push({tick: this.currentTick, message: log})
+      this.logLines.push({type: 'log', tick: this.currentTick, message: log})
+
+      if (this.logLines.length>100) {
+        this.logLines = this.logLines.slice(-100)
+      }
+    })
+
+    this._platformApi.onProbeChange((name, oldValue, value)=>{
+      this.logLines.push({type: 'probe', tick: this.currentTick, name, oldValue, value})
 
       if (this.logLines.length>100) {
         this.logLines = this.logLines.slice(-100)

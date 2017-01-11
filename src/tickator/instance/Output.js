@@ -16,6 +16,12 @@ export class Output {
     this._validFrom = [-1, -2]
 
     this._depending = []
+    this._probes = []
+  }
+
+  addProbe(name) {
+    Validate.notBlank(name)
+    this._probes.push(name)
   }
 
   set(value) {
@@ -25,6 +31,8 @@ export class Output {
 
       this._value[upcomingIndex] = value
       this._validFrom[upcomingIndex] = currentTick+1
+
+      this._probes.forEach(probe=>this._ticklet.dispatcher().getPlatformApi().probeChange(probe, this.get(), value))
 
       this._ticklet.dispatcher().markChangedOutput(this)
     //}

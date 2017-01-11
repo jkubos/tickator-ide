@@ -28,6 +28,10 @@ export class ComponentSchema extends React.Component {
   }
 
   render() {
+    if (this.props.width<=0 || this.props.height<=0) {
+      return null
+    }
+
     let instancePov = this.context.uiState.currentContextStore.getDisplayedInstance()
 
     this.instances_geometry.update(instancePov.definition(), this.props.width, this.props.height)

@@ -1,11 +1,14 @@
+import {Validate} from '~/src/util/Validate'
+
 export class ConnectionDefinition {
   constructor(uuid, fromInstance, fromOutput,
-    toInstance, toInput) {
+    toInstance, toInput, probe) {
     this._uuid = uuid
     this._fromInstance = fromInstance
     this._fromOutput = fromOutput
     this._toInstance = toInstance
     this._toInput = toInput
+    this._probe = probe
   }
 
   uuid() {
@@ -26,6 +29,15 @@ export class ConnectionDefinition {
 
   toInput() {
     return this._toInput
+  }
+
+  hasProbe() {
+    return this._probe!==undefined
+  }
+
+  probeName() {
+    Validate.valid(this.hasProbe())
+    return this._probe
   }
 
   toDebug() {

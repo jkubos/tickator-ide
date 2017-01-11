@@ -17,6 +17,7 @@ export class InstancesGeometry {
   }
 
   update(componentDef, width, height) {
+    console.log("Start layouting");
     Validate.isA(componentDef, ComponentDefinition)
 
     this._data = {
@@ -35,6 +36,8 @@ export class InstancesGeometry {
     componentDef.connections().forEach(connectionDef=>this._computeConnection(connectionDef))
 
     this._data.instances['karel'] = this._shortestPathFinder._bitArray
+
+    console.log("Layouting done");
   }
 
   getForInstance(name) {
@@ -123,7 +126,7 @@ export class InstancesGeometry {
   }
 
   _computePin(bbox, side, ratio, isForRoot) {
-    const headRadius = 5
+    const headRadius = 3
 
     const instanceMountPosition = this._computeMountPosition(bbox, side, ratio)
     let headDirection = this._computeHeadDirection(side)

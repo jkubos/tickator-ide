@@ -32,7 +32,8 @@ export class ConsoleView extends React.Component {
           {i-1>=0 && logLines[i-1].tick===line.tick ? this.padding : this.getPaddedTimestamp(line.tick)}
         </span>
         &nbsp;
-        {line.message}
+        {line.type=='log' && line.message}
+        {line.type=='probe' && `probe "${line.name}": [${line.oldValue}] -> [${line.value}]`}
       </div>)}
     </div>
   }

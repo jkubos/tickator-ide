@@ -36,7 +36,7 @@ export class ConnectionDefinitionBuilder {
     }
 
     return new ConnectionDefinition(Tools.generateUUID(), this._fromInstance, this._fromOutput,
-      this._toInstance, this._toInput)
+      this._toInstance, this._toInput, this._probe)
   }
 
   fromInstance(name) {
@@ -65,5 +65,10 @@ export class ConnectionDefinitionBuilder {
   toInput(name) {
     Validate.notBlank(name)
     this._toInput = name
+  }
+
+  probe(name) {
+    Validate.notBlank(name)
+    this._probe = name
   }
 }
