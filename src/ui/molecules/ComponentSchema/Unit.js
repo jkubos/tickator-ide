@@ -26,6 +26,7 @@ export class Unit extends React.Component {
             this.context.uiState.currentContextStore.drillDown(this.props.def.name())
           }
         }}
+        style={{cursor: 'pointer'}}
       >
 
       <rect
