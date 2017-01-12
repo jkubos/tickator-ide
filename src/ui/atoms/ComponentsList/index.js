@@ -9,23 +9,25 @@ export class ComponentsList extends React.Component {
   }
 
   render() {
-    return this.renderNode(this.context.uiState.getDefinitions().getComponentsRepository().getTreeRoot())
+    return <div className={style.tree}>
+      {this.renderNode(this.context.uiState.getDefinitions().getComponentsRepository().getTreeRoot())}
+    </div>
   }
 
   renderNode(node) {
-    return <div>
-      {Object.keys(node._subs).map((name, i)=><div key={i} className={style.node}>
-        {name}
-        <div className={style.subnode}>
-          {this.renderNode(node._subs[name])}
-        </div>
-      </div>)}
+    return <ul className={style.level}>
 
-      {Object.keys(node).filter(n=>n!=='_subs').map((name, i)=><div
-        key={i}
-        className={style.item}
-        onClick={e=>this._onSelect(node[name])}>{name}</div>)}
-    </div>
+        {Object.keys(node._subs).map((name, i)=><li key={i} className={style.item}>
+          <span className={style.name}>{name}</span>
+          {this.renderNode(node._subs[name])}
+        </li>)}
+
+        {Object.keys(node).filter(n=>n!=='_subs').map((name, i)=><li
+          key={i}
+          className={style.item}
+          onClick={e=>this._onSelect(node[name])}><span className={style.name}>{name}</span></li>)}
+
+    </ul>
   }
 
   _onSelect(component) {
