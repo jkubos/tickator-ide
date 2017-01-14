@@ -7,6 +7,7 @@ import {Pin} from './Pin'
 import {InstancesGeometry} from './InstancesGeometry'
 //import BitArrayVisualization from '~/src/ui/util/bit_array_visualization'
 import {UiState} from '~/src/business/UiState'
+import {Size} from '~/src/util/geometry/Size'
 
 @observer
 export class ComponentSchema extends React.Component {
@@ -28,18 +29,17 @@ export class ComponentSchema extends React.Component {
   }
 
   render() {
-    if (this.props.width<=0 || this.props.height<=0) {
-      return null
-    }
-
     let instancePov = this.context.uiState.currentContextStore.getDisplayedInstance()
 
-    this.instances_geometry.update(instancePov.definition(), this.props.width, this.props.height)
+    let safeWidth = Math.max(200, this.props.width)
+    let safeHeight = Math.max(200, this.props.height)
+
+    this.instances_geometry.update(instancePov.definition(), safeWidth, safeHeight)
 
     return <svg
         style={{display: 'inline', userSelect: 'none'}}
-        width={this.props.width}
-        height={this.props.height}
+        width={this.instances_geometry.getRealSize().width}
+        height={this.instances_geometry.getRealSize().height}
       >
 
       <rect

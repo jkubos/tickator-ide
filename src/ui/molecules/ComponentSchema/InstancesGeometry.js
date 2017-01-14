@@ -7,6 +7,7 @@ import {Rectangle} from '~/src/util/geometry/Rectangle'
 import {Point} from '~/src/util/geometry/Point'
 import {Vector} from '~/src/util/geometry/Vector'
 import {ShortestPathFinder} from './ShortestWireFinder'
+import {Size} from '~/src/util/geometry/Size'
 
 export class InstancesGeometry {
   constructor() {
@@ -14,6 +15,10 @@ export class InstancesGeometry {
     this._shortestPathFinder = new ShortestPathFinder()
 
     this._border = 40
+  }
+
+  getRealSize() {
+    return this._realSize
   }
 
   update(componentDef, width, height) {
@@ -26,11 +31,14 @@ export class InstancesGeometry {
       self: {}
     }
 
-    this._computeSelf(componentDef, width, height)
+    this._realSize = new Size(width, height)
 
+    //update content size, must be before _computeSelf
     componentDef.instances().forEach(instanceDef=>this._computeInstance(instanceDef))
 
-    this._shortestPathFinder.update(width, height,
+    this._computeSelf(componentDef, this._realSize.width, this._realSize.height)
+
+    this._shortestPathFinder.update(this._realSize.width, this._realSize.height,
       Object.keys(this._data.instances).map(k=>this._data.instances[k]))
 
     componentDef.connections().forEach(connectionDef=>this._computeConnection(connectionDef))
@@ -109,6 +117,10 @@ export class InstancesGeometry {
     const boxHeight = instanceDef.definition().size().height
 
     const bbox = new Rectangle(instanceDef.x()-boxWidth/2+this._border, instanceDef.y()-140/2+this._border, boxWidth, boxHeight)
+
+    this._realSize.width = Math.max(this._realSize.width, bbox.x+bbox.width+50)
+    this._realSize.height = Math.max(this._realSize.height, bbox.y+bbox.height+50)
+
     const inputs = instanceDef.definition().inputs().reduce((res, i)=>{
       res[i.name()] = this._computePin(bbox, instanceDef.inputSide(i.name()), instanceDef.inputRatio(i.name()), false)
       return res
