@@ -45,6 +45,8 @@ export function defineFunction(b) {
     b.component('org.tickator.core.DecimalShift')
     b.x(350)
     b.y(300)
+
+    b.inputPosition('set', 'bottom', 0.5)
   })
 
   b.instance(b=>{
@@ -73,9 +75,11 @@ export function defineFunction(b) {
   b.instance(b=>{
     b.name('r')
     b.ticklet('Register')
-    b.x(300)
-    b.y(100)
+    b.x(350)
+    b.y(500)
     b.property('value', 0)
+
+    b.outputPosition('res', 'top', 0.5)
   })
 
   b.instance(b=>{
@@ -129,13 +133,11 @@ export function defineFunction(b) {
     b.toInput('in')
   });
 
-  ["add", "sub", "mul", "div"].forEach((name, i)=>{
-    b.connect(b=>{
-      b.fromThis()
-      b.fromOutput(name)
-      b.toInstance('sa2')
-      b.toInput('in')
-    })
+  b.connect(b=>{
+    b.fromInstance('sa')
+    b.fromOutput('res')
+    b.toInstance('sa2')
+    b.toInput('in')
   })
 
   b.connect(b=>{
