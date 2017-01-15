@@ -68,6 +68,7 @@ export function defineFunction(b) {
     b.fromOutput('a')
     b.toInstance('ra')
     b.toInput('in')
+    b.probe('a')
   })
 
   b.connect(b=>{
@@ -75,6 +76,7 @@ export function defineFunction(b) {
     b.fromOutput('b')
     b.toInstance('rb')
     b.toInput('in')
+    b.probe('b')
   })
 
   b.connect(b=>{
@@ -96,6 +98,7 @@ export function defineFunction(b) {
     b.fromOutput('res')
     b.toThis()
     b.toInput('result')
+    b.probe('res')
   })
 
   b.connect(b=>{

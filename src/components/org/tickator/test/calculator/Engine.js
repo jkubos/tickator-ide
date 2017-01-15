@@ -124,6 +124,13 @@ export function defineFunction(b) {
       b.toInstance('ca')
       b.toInput(name)
     })
+
+    b.connect(b=>{
+      b.fromThis()
+      b.fromOutput(name)
+      b.toInstance('sa2')
+      b.toInput('in')
+    })
   })
 
   b.connect(b=>{
@@ -132,13 +139,6 @@ export function defineFunction(b) {
     b.toInstance('sa')
     b.toInput('in')
   });
-
-  b.connect(b=>{
-    b.fromInstance('sa')
-    b.fromOutput('res')
-    b.toInstance('sa2')
-    b.toInput('in')
-  })
 
   b.connect(b=>{
     b.fromInstance('ca')
