@@ -118,8 +118,8 @@ export class InstancesGeometry {
 
     const bbox = new Rectangle(instanceDef.x()-boxWidth/2+this._border, instanceDef.y()-140/2+this._border, boxWidth, boxHeight)
 
-    this._realSize.width = Math.max(this._realSize.width, bbox.x+bbox.width+50)
-    this._realSize.height = Math.max(this._realSize.height, bbox.y+bbox.height+50)
+    this._realSize.width = Math.max(this._realSize.width, bbox.x+bbox.width+100)
+    this._realSize.height = Math.max(this._realSize.height, bbox.y+bbox.height+100)
 
     const inputs = instanceDef.definition().inputs().reduce((res, i)=>{
       res[i.name()] = this._computePin(bbox, instanceDef.inputSide(i.name()), instanceDef.inputRatio(i.name()), false)

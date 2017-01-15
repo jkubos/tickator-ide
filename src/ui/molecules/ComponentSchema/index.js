@@ -31,8 +31,8 @@ export class ComponentSchema extends React.Component {
   render() {
     let instancePov = this.context.uiState.currentContextStore.getDisplayedInstance()
 
-    let safeWidth = Math.max(200, this.props.width)
-    let safeHeight = Math.max(200, this.props.height)
+    let safeWidth = Math.max(200, this.props.width-20)
+    let safeHeight = Math.max(200, this.props.height-20)
 
     this.instances_geometry.update(instancePov.definition(), safeWidth, safeHeight)
 
