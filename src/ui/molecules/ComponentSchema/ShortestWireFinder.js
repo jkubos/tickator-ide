@@ -4,7 +4,7 @@ import {Point} from '~/src/util/geometry/Point'
 
 export class ShortestPathFinder {
   constructor() {
-    this._cellSize = 10
+    this._cellSize = 7
   }
 
   update(width, height, instanceGeoms) {

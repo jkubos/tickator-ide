@@ -5,7 +5,7 @@ import {Unit} from './Unit'
 import {Connection} from './Connection'
 import {Pin} from './Pin'
 import {InstancesGeometry} from './InstancesGeometry'
-//import BitArrayVisualization from '~/src/ui/util/bit_array_visualization'
+import {BitArray} from '~/src/ui/atoms/BitArray'
 import {UiState} from '~/src/business/UiState'
 import {Size} from '~/src/util/geometry/Size'
 
@@ -88,7 +88,7 @@ export class ComponentSchema extends React.Component {
         />)
       }
 
-      {/*<BitArrayVisualization array={this.instances_geometry.getForInstance('karel')}/>*/}
+      {/* <BitArray array={this.instances_geometry._shortestPathFinder._bitArray}/> */}
 
       </svg>
   }

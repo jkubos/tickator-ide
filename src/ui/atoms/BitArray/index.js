@@ -1,7 +1,12 @@
 import React from 'react';
-import Point from "~/src/util/geometry/Point"
+import {Point} from "~/src/util/geometry/Point"
+import {BinaryArray2D} from "~/src/util/BinaryArray2d"
 
 export class BitArray extends React.Component {
+
+  static propTypes = {
+    array: React.PropTypes.instanceOf(BinaryArray2D).isRequired
+  }
 
   render() {
 
