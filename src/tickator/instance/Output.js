@@ -21,7 +21,10 @@ export class Output {
 
   addProbe(name) {
     Validate.notBlank(name)
-    this._probes.push(name)
+
+    if (!this._probes.includes(name)) {
+      this._probes.push(name)
+    }
   }
 
   set(value) {

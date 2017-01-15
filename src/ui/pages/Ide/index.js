@@ -18,6 +18,7 @@ import {ConsoleView} from '~/src/ui/atoms/ConsoleView'
 import {InputLine} from '~/src/ui/atoms/InputLine'
 import {PropertiesView} from '~/src/ui/atoms/PropertiesView'
 import {ComponentsList} from '~/src/ui/atoms/ComponentsList'
+import {Oscilloscope} from '~/src/ui/atoms/Oscilloscope'
 
 @observer
 export class IDE extends React.Component {
@@ -103,7 +104,7 @@ export class IDE extends React.Component {
       </div>
 
       <div className={styles.bottomBar}>
-        <Tabs tabsName='bottom' defaultTab='console'>
+        <Tabs tabsName='bottom' defaultTab='oscilloscope'>
           <TabHeader name='console' title='Console'/>
           <TabContent for='console'>
             <InputLine />
@@ -112,7 +113,7 @@ export class IDE extends React.Component {
 
           <TabHeader name='oscilloscope' title='Oscilloscope' />
           <TabContent for='oscilloscope'>
-            osciloskop
+            <Oscilloscope />
           </TabContent>
         </Tabs>
       </div>

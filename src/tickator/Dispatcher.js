@@ -59,7 +59,7 @@ export class Dispatcher {
     this._scheduledTicklets = []
     this._changedOutputs = []
 
-    this._platformApi.log('----------------------------------------')
+    // this._platformApi.log('----------------------------------------')
 
     this._toProcess.forEach(ticklet=>{
       try {

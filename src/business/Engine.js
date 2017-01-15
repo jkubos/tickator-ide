@@ -11,6 +11,8 @@ export class Engine {
   @observable isRunning = false
   @observable currentTick = 0
   @observable logLines = []
+  @observable probesData = {}
+  @observable probesHack = 0
 
   constructor(definitions, component) {
     Validate.isA(definitions, Definitions)
@@ -31,11 +33,21 @@ export class Engine {
     })
 
     this._platformApi.onProbeChange((name, oldValue, value)=>{
-      this.logLines.push({type: 'probe', tick: this.currentTick, name, oldValue, value})
-
-      if (this.logLines.length>100) {
-        this.logLines = this.logLines.slice(-100)
+      if (!this.probesData[name]) {
+        this.probesData[name] = []
       }
+
+      this.probesData[name].push({
+        tick: this.currentTick,
+        oldValue,
+        value
+      })
+
+      Object.keys(this.probesData).forEach(name=>{
+        this.probesData[name] = this.probesData[name].filter(i=>i.tick>this.currentTick-200)
+      })
+
+      this.probesHack = this.probesHack + 1
     })
 
     this._component = component
@@ -71,6 +83,7 @@ export class Engine {
   reset() {
     this._stop()
     this.logLines = []
+    this.probesData = {}
     this._load()
   }
 
