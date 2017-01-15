@@ -17,12 +17,12 @@ export class ComponentsList extends React.Component {
   renderNode(node) {
     return <ul className={style.level}>
 
-        {Object.keys(node._subs).map((name, i)=><li key={i} className={style.item}>
+        {Object.keys(node._subs).sort().map((name, i)=><li key={i} className={style.item}>
           <span className={style.name}>{name}</span>
           {this.renderNode(node._subs[name])}
         </li>)}
 
-        {Object.keys(node).filter(n=>n!=='_subs').map((name, i)=><li
+        {Object.keys(node).filter(n=>n!=='_subs').sort().map((name, i)=><li
           key={i}
           className={style.item}
           onClick={e=>this._onSelect(node[name])}><span className={style.name}>{name}</span></li>)}
