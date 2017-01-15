@@ -13,7 +13,8 @@ export const components = [
   'org/tickator/core/NumberCharDetector',
   'org/tickator/core/OperatorCharDetector',
   'org/tickator/core/InputToNumber',
-  'org/tickator/core/DecimalShift'
+  'org/tickator/core/DecimalShift',
+  'org/tickator/core/DualPassFirst'
 ].map(file=>{
   const parts = file.split('/')
 
