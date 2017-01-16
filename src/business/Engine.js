@@ -65,7 +65,9 @@ export class Engine {
     this.isRunning = true
 
     this._intervalId = window.setInterval(()=>{
-      this._doStep()
+      for (let i=0;i<100;++i) {
+        this._doStep()
+      }
     }, 0)
   }
 

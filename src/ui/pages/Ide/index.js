@@ -104,7 +104,7 @@ export class IDE extends React.Component {
       </div>
 
       <div className={styles.bottomBar}>
-        <Tabs tabsName='bottom' defaultTab='oscilloscope'>
+        <Tabs tabsName='bottom' defaultTab='console'>
           <TabHeader name='console' title='Console'/>
           <TabContent for='console'>
             <InputLine />
