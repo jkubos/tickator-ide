@@ -94,7 +94,7 @@ export function defineFunction(b) {
     b.component('org.tickator.core.DualPassFirst')
     b.x(650)
     b.y(300)
-  });
+  })
 
   b.instance(b=>{
     b.name('pfeq')

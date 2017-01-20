@@ -83,5 +83,5 @@ export function defineFunction(b) {
     b.toInput('resB')
   })
 
-  b.size(100, 100)
+  b.size(80, 80)
 }

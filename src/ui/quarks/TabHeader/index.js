@@ -25,7 +25,7 @@ export class TabHeader extends React.Component {
     return <div
       className={[styles.main, stateClassName].join(' ')}
       onClick={e=>this.onClick(e)}>
-      {this.props.title}
+      {this.props.title} <i className="fa fa-times"/>
     </div>
   }
 
