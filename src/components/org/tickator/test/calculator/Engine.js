@@ -90,13 +90,6 @@ export function defineFunction(b) {
   })
 
   b.instance(b=>{
-    b.name('dpf')
-    b.component('org.tickator.core.DualPassFirst')
-    b.x(650)
-    b.y(300)
-  })
-
-  b.instance(b=>{
     b.name('pfeq')
     b.ticklet('PassFirst')
     b.x(650)
@@ -157,15 +150,15 @@ export function defineFunction(b) {
   b.connect(b=>{
     b.fromInstance('cr')
     b.fromOutput('half_res')
-    b.toInstance('dpf')
-    b.toInput('valueB')
+    b.toInstance('ca')
+    b.toInput('b')
   })
 
   b.connect(b=>{
     b.fromInstance('cr')
     b.fromOutput('res')
-    b.toInstance('dpf')
-    b.toInput('valueA')
+    b.toInstance('ca')
+    b.toInput('a')
   })
 
   b.connect(b=>{
@@ -173,27 +166,6 @@ export function defineFunction(b) {
     b.fromOutput('res')
     b.toInstance('dc')
     b.toInput('set')
-  })
-
-  b.connect(b=>{
-    b.fromInstance('dpf')
-    b.fromOutput('resA')
-    b.toInstance('ca')
-    b.toInput('a')
-  })
-
-  b.connect(b=>{
-    b.fromInstance('dpf')
-    b.fromOutput('resB')
-    b.toInstance('ca')
-    b.toInput('b')
-  })
-
-  b.connect(b=>{
-    b.fromThis()
-    b.fromOutput('eq')
-    b.toInstance('dpf')
-    b.toInput('reset')
   })
 
   b.connect(b=>{
@@ -211,8 +183,8 @@ export function defineFunction(b) {
   })
 
   b.connect(b=>{
-    b.fromInstance('dpf')
-    b.fromOutput('resA')
+    b.fromInstance('cr')
+    b.fromOutput('res')
     b.toInstance('pfeq')
     b.toInput('value')
   })
