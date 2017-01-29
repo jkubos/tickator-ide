@@ -90,6 +90,13 @@ export function defineFunction(b) {
   })
 
   b.instance(b=>{
+    b.name('sa4')
+    b.ticklet('SelectAny')
+    b.x(100)
+    b.y(600)
+  })
+
+  b.instance(b=>{
     b.name('pfeq')
     b.ticklet('PassFirst')
     b.x(650)
@@ -121,9 +128,16 @@ export function defineFunction(b) {
     b.connect(b=>{
       b.fromThis()
       b.fromOutput(name)
-      b.toInstance('sa2')
+      b.toInstance('sa4')
       b.toInput('in')
     })
+  })
+
+  b.connect(b=>{
+    b.fromInstance('sa4')
+    b.fromOutput('res')
+    b.toInstance('sa2')
+    b.toInput('in')
   })
 
   b.connect(b=>{
