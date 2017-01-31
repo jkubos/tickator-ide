@@ -12,6 +12,10 @@ export class Oscilloscope extends React.Component {
   }
 
   render() {
+    if (!this.context.uiState.currentContextStore) {
+      return null
+    }
+
     let logLines = []
 
     const hack = this.context.uiState.currentContextStore.getEngine().probesHack + 1

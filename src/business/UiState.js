@@ -20,7 +20,7 @@ export class UiState {
 
     //test initialization
     // this.openContext('org.tickator.test.FibonacciGenerator')
-    this.openContext('org.tickator.test.calculator.Calculator')
+    // this.openContext('org.tickator.test.calculator.Calculator')
     // this.openContext('org.tickator.test.calculator.Engine')
     // this.openContext('org.tickator.test.calculator.Calculation')
   }

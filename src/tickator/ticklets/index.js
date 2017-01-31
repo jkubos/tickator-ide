@@ -1,5 +1,3 @@
-import {toCamelCase, capitalize} from '~/src/util/Tools'
-
 export const ticklets = [
   'Sum',
   'Const',
@@ -14,4 +12,4 @@ export const ticklets = [
   'SelectAny',
   'Multiply',
   'PassFirst'
-].map(file=>require('./'+file)[capitalize(toCamelCase(file))])
+].map(file=>require('./'+file)[file])
