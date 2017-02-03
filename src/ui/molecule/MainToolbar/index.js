@@ -43,6 +43,11 @@ export class MainToolbar extends React.Component {
       <ToolbarButton icon='fa-pause' label='Pause' disabled={false} onClick={e=>{}} />
       <ToolbarButton icon='fa-step-forward' label='Step' disabled={false} onClick={e=>{}} />
       <ToolbarButton icon='fa-stop' label='Stop' disabled={false} onClick={e=>{}} />
+
+      <ToolbarSeparator/>
+
+      <ToolbarButton icon='fa-question' label='Help' disabled={false} onClick={e=>{}} />
+
     </Toolbar>
   }
 
