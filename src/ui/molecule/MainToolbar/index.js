@@ -1,6 +1,7 @@
 import React from 'react'
 import {observer} from 'mobx-react'
 import {UiState} from '~/src/business/UiState'
+import {Screens} from '~/src/business/Screens'
 
 import {Toolbar} from '~/src/ui/quark/Toolbar'
 import {ToolbarButton} from '~/src/ui/quark/ToolbarButton'
@@ -21,7 +22,7 @@ export class MainToolbar extends React.Component {
 
       <ToolbarSeparator/>
 
-      <ToolbarButton icon='fa-plus' label='Add' disabled={false} onClick={e=>{}} />
+      <ToolbarButton icon='fa-plus' label='Add' disabled={false} onClick={e=>this._onAdd()} />
 
       <ToolbarSeparator/>
 
@@ -43,5 +44,9 @@ export class MainToolbar extends React.Component {
       <ToolbarButton icon='fa-step-forward' label='Step' disabled={false} onClick={e=>{}} />
       <ToolbarButton icon='fa-stop' label='Stop' disabled={false} onClick={e=>{}} />
     </Toolbar>
+  }
+
+  _onAdd() {
+    this.context.uiState.navigate(Screens.SELECT_ADDED_ELEMENT_TYPE)
   }
 }

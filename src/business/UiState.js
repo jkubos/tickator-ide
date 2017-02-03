@@ -7,7 +7,8 @@ export class UiState {
   @observable width = -1
   @observable height = -1
 
-  @observable context = undefined
+  @observable navigation = []
+  @observable _navigationIndex = -1
 
   constructor(definitions) {
     Validate.isA(definitions, Definitions)
@@ -21,5 +22,26 @@ export class UiState {
 
   getDefinitions() {
     return this._definitions
+  }
+
+  @computed get selectedScreen() {
+    if (this._navigationIndex>=0 && this._navigationIndex<this.navigation.length) {
+      return this.navigation[this._navigationIndex].screen
+    } else {
+      return undefined
+    }
+  }
+
+  @computed get selectedUuid() {
+    if (this._navigationIndex>=0 && this._navigationIndex<this.navigation.length) {
+      return this.navigation[this._navigationIndex].uuid
+    } else {
+      return undefined
+    }
+  }
+
+  navigate(screen, uuid) {
+    this._navigationIndex = this.navigation.length
+    this.navigation.push({screen, uuid})
   }
 }

@@ -58,6 +58,8 @@ export class IDE extends React.Component {
 
   _renderSandbox() {
     return <div className={styles.sandbox}>
+      <div>{this.props.uiState.selectedScreen}:{this.props.uiState.selectedUuid}</div>
+
       {this.props.uiState.getDefinitions().getConnectorsRepository().all.map(c=>{
         return <div>
           {c.name}[{c.uuid}]
