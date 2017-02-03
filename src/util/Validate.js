@@ -158,4 +158,8 @@ export class Validate {
       throw message || `Expected non empty array`
     }
   }
+
+  static never(msg) {
+    throw `This should never happen due to: ${msg}`
+  }
 }

@@ -8,7 +8,7 @@ require('./src/style/main.css')
 import {UiState} from '~/src/business/UiState'
 import {Definitions} from '~/src/business/Definitions'
 
-import {IDE} from '~/src/ui/pages/Ide'
+import {IDE} from '~/src/ui/page/Ide'
 
 const definitions = new Definitions()
 const uiState = new UiState(definitions)
