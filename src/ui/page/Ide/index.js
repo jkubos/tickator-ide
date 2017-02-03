@@ -9,6 +9,7 @@ import {UiState} from '~/src/business/UiState'
 import {Connector} from '~/src/connector/Connector'
 
 import {MainToolbar} from '~/src/ui/molecule/MainToolbar'
+import {Content} from '~/src/ui/molecule/Content'
 import {Logo} from '~/src/ui/quark/Logo'
 
 @observer
@@ -50,9 +51,7 @@ export class IDE extends React.Component {
     return <div className={styles.main}>
       <MainToolbar/>
       <Logo/>
-
-      {this._renderSandbox()}
-
+      <Content/>
     </div>
   }
 
