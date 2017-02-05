@@ -12,7 +12,7 @@ export class ToolbarButton extends React.Component {
 
   render() {
     return <div
-      className={classNames(styles.main, styles.disabled ? this.props.disabled : '')}
+      className={classNames(styles.main, this.props.disabled ? styles.disabled : '')}
       title={this.props.label}
       onClick={e=>this._onClick(e)}>
         <i className={`fa ${this.props.icon}`} />

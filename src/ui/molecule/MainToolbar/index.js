@@ -33,9 +33,9 @@ export class MainToolbar extends React.Component {
       <ToolbarSeparator/>
 
       <ToolbarButton icon='fa-sitemap' label='Hierarchy' disabled={false} onClick={e=>{}} />
-      <ToolbarButton icon='fa-arrow-left' label='Previously seen' disabled={false} onClick={e=>{}} />
+      <ToolbarButton icon='fa-arrow-left' label='Previously seen' disabled={!this._canNavigatePrevious()} onClick={e=>this._navigatePrevious()} />
       <ToolbarButton icon='fa-history' label='Last seen' disabled={false} onClick={e=>{}} />
-      <ToolbarButton icon='fa-arrow-right' label='Next seen' disabled={false} onClick={e=>{}} />
+      <ToolbarButton icon='fa-arrow-right' label='Next seen' disabled={!this._canNavigateNext()} onClick={e=>this._navigateNext()} />
 
       <ToolbarSeparator/>
 
@@ -48,10 +48,28 @@ export class MainToolbar extends React.Component {
 
       <ToolbarButton icon='fa-question' label='Help' disabled={false} onClick={e=>{}} />
 
+      {this.context.uiState._navigationIndex}
+
     </Toolbar>
   }
 
   _onAdd() {
     this.context.uiState.navigate(Screens.SELECT_ADDED_ELEMENT_TYPE)
+  }
+
+  _navigatePrevious() {
+    this.context.uiState.navigatePrevious()
+  }
+
+  _navigateNext() {
+    this.context.uiState.navigateNext()
+  }
+
+  _canNavigateNext() {
+    return this.context.uiState.canNavigateNext
+  }
+
+  _canNavigatePrevious() {
+    return this.context.uiState.canNavigatePrevious
   }
 }

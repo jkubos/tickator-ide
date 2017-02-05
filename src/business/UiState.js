@@ -44,4 +44,20 @@ export class UiState {
     this._navigationIndex = this.navigation.length
     this.navigation.push({screen, uuid})
   }
+
+  @computed get canNavigateNext() {
+    return this._navigationIndex + 1 < this.navigation.length
+  }
+
+  @computed get canNavigatePrevious() {
+    return this._navigationIndex >= 0
+  }
+
+  navigatePrevious() {
+    this._navigationIndex = Math.max(-1, this._navigationIndex-1)
+  }
+
+  navigateNext() {
+    this._navigationIndex = Math.min(this.navigation.length-1, this._navigationIndex+1)
+  }
 }
