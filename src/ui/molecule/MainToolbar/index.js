@@ -47,9 +47,6 @@ export class MainToolbar extends React.Component {
       <ToolbarSeparator/>
 
       <ToolbarButton icon='fa-question' label='Help' disabled={false} onClick={e=>{}} />
-
-      {this.context.uiState._navigationIndex}
-
     </Toolbar>
   }
 

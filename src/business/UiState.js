@@ -41,6 +41,9 @@ export class UiState {
   }
 
   navigate(screen, uuid) {
+    //remove same items from history
+    this.navigation = this.navigation.filter(i=>i.screen!=screen || i.uuid!=uuid)
+
     this._navigationIndex = this.navigation.length
     this.navigation.push({screen, uuid})
   }
