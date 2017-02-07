@@ -6,6 +6,9 @@ import {Modals} from '~/src/business/Modals'
 
 import {ImageButton} from '~/src/ui/quark/ImageButton'
 
+const WIDTH = 800
+const MIN_HEIGHT = 300
+
 @observer
 export class ConnectorForm extends React.Component {
 
@@ -14,49 +17,49 @@ export class ConnectorForm extends React.Component {
   }
 
   render() {
-    return <svg className={styles.main} width={1400} height={800}>
+
+    const data = {
+      name: "binary operation",
+      definitionSideName: "operation",
+      otherSideName: "request",
+      pins: [
+        {name: "a", direction: 'in'},
+        {name: "b", direction: 'in'},
+        {name: "res", direction: 'out'}
+      ]
+    }
+
+    return <svg className={styles.main} width={WIDTH} height={MIN_HEIGHT}>
       <text
         textAnchor='middle'
-        alignmentBaseline='middle'
+        alignmentBaseline='hanging'
         fontSize="30"
         x={400}
-        y={50}
+        y={10}
         fill='white'
         onClick={e=>this._onTitleClick(e)}
         >
-          Binary operation
-      </text>
-
-      <text
-        textAnchor='middle'
-        alignmentBaseline='middle'
-        fontSize="30"
-        x={400}
-        y={750}
-        fill='white'
-        onClick={e=>this._onTitleClick(e)}
-        >
-          Binary operation 2
-      </text>
-
-      <text
-        textAnchor='end'
-        alignmentBaseline='middle'
-        fontSize="20"
-        x={1100}
-        y={100}
-        fill='white'>
-          Request
+          {data.name}
       </text>
 
       <text
         textAnchor='start'
         alignmentBaseline='middle'
         fontSize="20"
-        x={100}
-        y={100}
+        x={50}
+        y={50}
         fill='white'>
-          Operation
+          {data.definitionSideName}
+      </text>
+
+      <text
+        textAnchor='end'
+        alignmentBaseline='middle'
+        fontSize="20"
+        x={750}
+        y={50}
+        fill='white'>
+          {data.otherSideName}
       </text>
     </svg>
   }
