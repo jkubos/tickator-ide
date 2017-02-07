@@ -1,7 +1,9 @@
+@import "const.less";
+
 html, body {
     height: 100%;
     overflow: hidden;
-    font-family: helvetica, arial, sans-serif;
+    font-family: helvetica, verdana, arial, sans-serif;
     font-size: 12px;
 
     -webkit-touch-callout: none;
@@ -20,4 +22,14 @@ html, body {
   bottom: 0px;
 
   overflow: hidden;
+}
+
+a {
+  text-decoration: none;
+  color: @linkColor;
+  font-weight: bold;
+}
+
+a:visited {
+  color: @linkColor;
 }

@@ -4,7 +4,7 @@
   "version": "0.0.1",
   "private": false,
   "scripts": {
-    "start": "webpack-dev-server --progress --colors --port 8200 --inline --hot",
+    "start": "webpack-dev-server --progress --colors --port 8200 --host 0.0.0.0 --inline --hot",
     "build": "webpack ./entry.jsx"
   },
   "dependencies": {

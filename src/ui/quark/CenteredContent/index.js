@@ -1,11 +1,12 @@
 import React from 'react'
+import classNames from 'classnames'
 import styles from './style.less'
 
-export class Logo extends React.Component {
+export class CenteredContent extends React.Component {
 
   render() {
     return <div className={styles.main}>
-      <a href="http://www.tickator.org/" target="_blank">Tickator IDE 0.0.1</a>
+      {this.props.children}
     </div>
   }
 }

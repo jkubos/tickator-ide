@@ -2,6 +2,7 @@ import {observable, computed, createTransformer} from 'mobx'
 import {Validate} from '~/src/util/Validate'
 import {Definitions} from '~/src/business/Definitions'
 import {ContextStore} from './ContextStore'
+import {Screens} from '~/src/business/Screens'
 
 export class UiState {
   @observable width = -1
@@ -10,9 +11,17 @@ export class UiState {
   @observable navigation = []
   @observable _navigationIndex = -1
 
+  @observable openedModal = undefined
+
   constructor(definitions) {
     Validate.isA(definitions, Definitions)
     this._definitions = definitions
+
+    //open help as default
+    this.navigate(Screens.HELP)
+
+    //temporary
+    this.navigate(Screens.CONNECTOR_FORM)
   }
 
   updateContentSize(width, height) {
@@ -62,5 +71,13 @@ export class UiState {
 
   navigateNext() {
     this._navigationIndex = Math.min(this.navigation.length-1, this._navigationIndex+1)
+  }
+
+  openModal(name, params, onDone) {
+    this.openedModal = name
+  }
+
+  closeModal() {
+    this.openedModal = undefined
   }
 }

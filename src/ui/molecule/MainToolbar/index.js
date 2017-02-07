@@ -19,6 +19,7 @@ export class MainToolbar extends React.Component {
       <ToolbarButton icon='fa-floppy-o' label='Save changes' disabled={false} onClick={e=>{}} />
       <ToolbarButton icon='fa-archive' label='Export data' disabled={false} onClick={e=>{}} />
       <ToolbarButton icon='fa-trash' label='Drop changes' disabled={false} onClick={e=>{}} />
+      <ToolbarButton icon='fa-arrows-alt' label='Fullscreen' disabled={false} onClick={e=>this._fullscreen()} />
 
       <ToolbarSeparator/>
 
@@ -46,7 +47,7 @@ export class MainToolbar extends React.Component {
 
       <ToolbarSeparator/>
 
-      <ToolbarButton icon='fa-question' label='Help' disabled={false} onClick={e=>{}} />
+      <ToolbarButton icon='fa-question' label='Help' disabled={false} onClick={e=>this._help()} />
     </Toolbar>
   }
 
@@ -68,5 +69,19 @@ export class MainToolbar extends React.Component {
 
   _canNavigatePrevious() {
     return this.context.uiState.canNavigatePrevious
+  }
+
+  _help() {
+    this.context.uiState.navigate(Screens.HELP)
+  }
+
+  _fullscreen() {
+    if (!document.webkitFullscreenElement) {
+      document.documentElement.webkitRequestFullscreen()
+    } else {
+      if (document.webkitExitFullscreen) {
+        document.webkitExitFullscreen()
+      }
+    }
   }
 }

@@ -10,7 +10,7 @@ import {Connector} from '~/src/connector/Connector'
 
 import {MainToolbar} from '~/src/ui/molecule/MainToolbar'
 import {Content} from '~/src/ui/molecule/Content'
-import {Logo} from '~/src/ui/quark/Logo'
+import {TextInputDialog} from '~/src/ui/atom/TextInputDialog'
 
 @observer
 export class IDE extends React.Component {
@@ -49,8 +49,9 @@ export class IDE extends React.Component {
     const contextStores = this.props.uiState.contextStores
 
     return <div className={styles.main}>
+      <TextInputDialog/>
+
       <MainToolbar/>
-      <Logo/>
       <Content/>
     </div>
   }

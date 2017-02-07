@@ -3,7 +3,7 @@ import ReactDOM from 'react-dom'
 
 const jQuery = require('jquery/dist/jquery.min')
 
-require('./src/style/main.css')
+require('./src/style/main.less')
 
 import {UiState} from '~/src/business/UiState'
 import {Definitions} from '~/src/business/Definitions'
