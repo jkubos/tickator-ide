@@ -33,8 +33,11 @@ export class TypesList extends React.Component {
   }
 
   _addType() {
+    const names = ['T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'new']
+
+
     this.props.types.push({
-      name: "T",
+      name: names[Math.min(names.length-1, this.props.types.length)],
       uuid: Tools.generateUUID()
     })
   }
