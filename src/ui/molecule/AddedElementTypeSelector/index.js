@@ -19,15 +19,15 @@ export class AddedElementTypeSelector extends React.Component {
 
         <div className={styles.buttons}>
           <Button label="Component" huge={true} onClick={e=>this._addComponent()}/>
-          <Button label="Connector" huge={true} onClick={e=>this._addConnector()}/>
+          <Button label="Interface" huge={true} onClick={e=>this._addInterface()}/>
           <Button label="Converter" huge={true} onClick={e=>this._addConverter()}/>
         </div>
       </div>
     </CenteredContent>
   }
 
-  _addConnector() {
-    this.context.uiState.navigate(Screens.CONNECTOR_FORM)
+  _addInterface() {
+    this.context.uiState.navigate(Screens.INTERFACE_FORM)
   }
 
   _addComponent() {

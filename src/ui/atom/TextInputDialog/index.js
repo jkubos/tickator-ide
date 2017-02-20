@@ -13,25 +13,49 @@ export class TextInputDialog extends React.Component {
     uiState: React.PropTypes.instanceOf(UiState).isRequired
   }
 
-  static propTypes = {
-    onApproved: React.PropTypes.func.isRequired
-  }
-
   render() {
     if (this.context.uiState.openedModal!=Modals.TEXT_MODAL) {
       return null;
     }
 
-    return <div className={styles.main} onClick={e=>this.context.uiState.closeModal()}>
+    return <div className={styles.main} onClick={e=>this._onCancel(e)}>
       <div className={styles.content}>
-        <ImageButton glyph="fa-times" huge={true} onClick={e=>this.context.uiState.closeModal()} />
+        <ImageButton glyph="fa-times" huge={true} onClick={e=>this._onCancel(e)} />
         &nbsp;&nbsp;
-        <input autoFocus className={styles.input} onKeyPress={e=>{if(e.key=='Enter')this.context.uiState.closeModal()}}/>
+        <input
+          ref="input"
+          autoFocus
+          className={styles.input}
+          defaultValue={this.context.uiState.openedModalParams.value}
+          onClick={e=>e.stopPropagation()}
+          onKeyPress={e=>this._onKeyPress(e)}
+          onKeyDown={e=>this._onKeyDown(e)}
+        />
         &nbsp;&nbsp;
-        <ImageButton glyph="fa-check" huge={true} onClick={e=>this.context.uiState.closeModal()} />
+        <ImageButton glyph="fa-check" huge={true} onClick={e=>this._onConfirm(e)} />
       </div>
     </div>
   }
 
+  _onConfirm(e) {
+    this.context.uiState.closeModal({confirmed: true, value: this.refs.input.value})
+    e.stopPropagation()
+  }
 
+  _onCancel(e) {
+    this.context.uiState.closeModal({confirmed: false})
+    e.stopPropagation()
+  }
+
+  _onKeyPress(e) {
+    if(e.key=='Enter') {
+      this._onConfirm(e)
+    }
+  }
+
+  _onKeyDown(e) {
+    if (e.key=='Escape') {
+      this._onCancel(e)
+    }
+  }
 }

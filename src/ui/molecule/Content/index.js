@@ -5,12 +5,12 @@ import {UiState} from '~/src/business/UiState'
 import {Screens} from '~/src/business/Screens'
 
 import {AddedElementTypeSelector} from '~/src/ui/molecule/AddedElementTypeSelector'
-import {ConnectorForm} from '~/src/ui/molecule/ConnectorForm'
+import {InterfaceForm} from '~/src/ui/molecule/InterfaceForm'
 import {HelpScreen} from '~/src/ui/molecule/HelpScreen'
 
 const mapping = {}
 mapping[Screens.SELECT_ADDED_ELEMENT_TYPE] = (uuid)=><AddedElementTypeSelector/>
-mapping[Screens.CONNECTOR_FORM] = (uuid)=><ConnectorForm/>
+mapping[Screens.INTERFACE_FORM] = (uuid)=><InterfaceForm/>
 mapping[Screens.HELP] = (uuid)=><HelpScreen/>
 
 @observer

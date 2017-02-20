@@ -12,6 +12,7 @@ export class UiState {
   @observable _navigationIndex = -1
 
   @observable openedModal = undefined
+  _openedModalCallback = undefined
 
   constructor(definitions) {
     Validate.isA(definitions, Definitions)
@@ -21,7 +22,7 @@ export class UiState {
     this.navigate(Screens.HELP)
 
     //temporary
-    this.navigate(Screens.CONNECTOR_FORM)
+    this.navigate(Screens.INTERFACE_FORM)
   }
 
   updateContentSize(width, height) {
@@ -75,9 +76,15 @@ export class UiState {
 
   openModal(name, params, onDone) {
     this.openedModal = name
+    this.openedModalParams = params
+    this._openedModalCallback = onDone
   }
 
-  closeModal() {
+  closeModal(res) {
     this.openedModal = undefined
+    if (this._openedModalCallback) {
+      this._openedModalCallback(res)
+      this._openedModalCallback = undefined
+    }
   }
 }

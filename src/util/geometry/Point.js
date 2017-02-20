@@ -20,6 +20,10 @@ export class Point {
     return `[${this.x}, ${this.y}]`
   }
 
+  toCoord() {
+    return `${this.x},${this.y}`
+  }
+
   distanceTo(other) {
     if (!other instanceof Point) {
       throw `Trying to get distance between point and ${typeof other}`
