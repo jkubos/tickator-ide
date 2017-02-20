@@ -1,4 +1,5 @@
 export const DataTypes = {
+  ANY: "ANY",
   IMPULSE: "IMPULSE",
   BOOLEAN: "BOOLEAN",
   INTEGER: "INTEGER",

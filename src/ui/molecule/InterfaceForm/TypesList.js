@@ -5,6 +5,8 @@ import styles from './style.less'
 import {UiState} from '~/src/business/UiState'
 import {Modals} from '~/src/business/Modals'
 
+import {Tools} from '~/src/util/Tools'
+
 import {Button} from '~/src/ui/quark/Button'
 import {ImageButton} from '~/src/ui/quark/ImageButton'
 
@@ -26,7 +28,14 @@ export class TypesList extends React.Component {
         {this.props.types.length==0 && <span>∅</span>}
       &gt;
 
-      <ImageButton glyph="fa-plus" huge={false} onClick={e=>this._onCancel(e)} />
+      <ImageButton glyph="fa-plus" label="Add type" huge={false} onClick={e=>this._addType()} />
     </span>
+  }
+
+  _addType() {
+    this.props.types.push({
+      name: "T",
+      uuid: Tools.generateUUID()
+    })
   }
 }
