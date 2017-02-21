@@ -29,7 +29,6 @@ export class TextInputDialog extends React.Component {
           defaultValue={this.context.uiState.openedModalParams.value}
           onClick={e=>e.stopPropagation()}
           onKeyPress={e=>this._onKeyPress(e)}
-          onKeyDown={e=>this._onKeyDown(e)}
           onFocus={e=>this._onFocus(e)}
         />
         &nbsp;&nbsp;
@@ -55,12 +54,6 @@ export class TextInputDialog extends React.Component {
   _onKeyPress(e) {
     if(e.key=='Enter') {
       this._onConfirm(e)
-    }
-  }
-
-  _onKeyDown(e) {
-    if (e.key=='Escape') {
-      this._onCancel(e)
     }
   }
 }

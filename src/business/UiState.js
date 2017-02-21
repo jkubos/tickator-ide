@@ -87,4 +87,10 @@ export class UiState {
       this._openedModalCallback = undefined
     }
   }
+
+  onKeyUp(e) {
+    if (e.key=='Escape') {
+      this.closeModal({confirmed: false})
+    }
+  }
 }

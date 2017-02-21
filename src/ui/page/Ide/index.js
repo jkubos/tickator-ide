@@ -31,6 +31,10 @@ export class IDE extends React.Component {
     jQuery(window).resize(e=>{
       this.onResize()
     })
+
+    jQuery(window).keyup(e=>{
+      this.onKeyUp(e)
+    })
   }
 
   getChildContext() {
@@ -45,6 +49,10 @@ export class IDE extends React.Component {
 
   onResize() {
     this.props.uiState.updateContentSize(jQuery("#main_schema").width(), jQuery("#main_schema").height())
+  }
+
+  onKeyUp(e) {
+    this.props.uiState.onKeyUp(e)
   }
 
   render() {
