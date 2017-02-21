@@ -30,11 +30,16 @@ export class TextInputDialog extends React.Component {
           onClick={e=>e.stopPropagation()}
           onKeyPress={e=>this._onKeyPress(e)}
           onKeyDown={e=>this._onKeyDown(e)}
+          onFocus={e=>this._onFocus(e)}
         />
         &nbsp;&nbsp;
         <ImageButton glyph="fa-check" huge={true} onClick={e=>this._onConfirm(e)} />
       </div>
     </div>
+  }
+
+  _onFocus(e) {
+    e.target.select()
   }
 
   _onConfirm(e) {
