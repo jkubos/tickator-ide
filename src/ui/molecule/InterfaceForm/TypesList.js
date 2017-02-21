@@ -23,12 +23,17 @@ export class TypesList extends React.Component {
 
   render() {
     return <span className={styles.types}>
-      &lt;
-        {this.props.types.map(t=><span className={styles.type} onClick={e=>console.log(e)} key={t.uuid}>{t.name}</span>)}
-        {this.props.types.length==0 && <span>∅</span>}
-      &gt;
+      {this.props.types.length>0 && this._renderTypes()}
 
       <ImageButton glyph="fa-plus" label="Add type" huge={false} onClick={e=>this._addType()} />
+    </span>
+  }
+
+  _renderTypes() {
+    return <span>
+      &lt;
+        {this.props.types.map(t=><span className={styles.type} onClick={e=>console.log(e)} key={t.uuid}>{t.name}</span>)}
+      &gt;
     </span>
   }
 

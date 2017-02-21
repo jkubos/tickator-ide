@@ -60,13 +60,13 @@ export class Pins extends React.Component {
         fill="white"
         onClick={e=>this._editLabel(index)}
         >{pin.name}</text>
-      <line x1={0} y1={y} x2={this._WIDTH} y2={y} stroke="white" strokeWidth={2} />
-      {this._renderArrow(new Point(50, y), arrowDirection)}
-      {this._renderArrow(new Point(this._WIDTH-50, y), arrowDirection)}
+      <line x1={0} y1={y} x2={this._WIDTH} y2={y} stroke="white" strokeWidth={2} onClick={e=>this._changeDirection(pin)} />
+      {this._renderArrow(new Point(50, y), arrowDirection, pin)}
+      {this._renderArrow(new Point(this._WIDTH-50, y), arrowDirection, pin)}
     </g>
   }
 
-  _renderArrow(point, dir) {
+  _renderArrow(point, dir, pin) {
     const p1 = point.added(dir.unit().multiplied(this._ARROW_HALF_LENGTH))
 
     const baseEnd = point.added(dir.unit().multiplied(-1*this._ARROW_HALF_LENGTH))
@@ -78,7 +78,16 @@ export class Pins extends React.Component {
       points={[p1, p2, p3].map(p=>p.toCoord()).join(' ')}
       stroke="white"
       strokeWidth="1"
-      fill="white" />
+      fill="white"
+      onClick={e=>this._changeDirection(pin)} />
+  }
+
+  _changeDirection(pin) {
+    if (pin.direction=='in') {
+      pin.direction = 'out'
+    } else {
+      pin.direction = 'in'
+    }
   }
 
   _editLabel(index) {
