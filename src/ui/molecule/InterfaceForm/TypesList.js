@@ -24,8 +24,6 @@ export class TypesList extends React.Component {
   render() {
     return <span className={styles.types}>
       {this.props.types.length>0 && this._renderTypes()}
-
-      <ImageButton glyph="fa-plus" label="Add type" huge={false} onClick={e=>this._addType()} />
     </span>
   }
 
@@ -35,15 +33,5 @@ export class TypesList extends React.Component {
         {this.props.types.map(t=><span className={styles.type} onClick={e=>console.log(e)} key={t.uuid}>{t.name}</span>)}
       &gt;
     </span>
-  }
-
-  _addType() {
-    const names = ['T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'new']
-
-
-    this.props.types.push({
-      name: names[Math.min(names.length-1, this.props.types.length)],
-      uuid: Tools.generateUUID()
-    })
   }
 }

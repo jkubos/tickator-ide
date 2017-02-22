@@ -13,6 +13,8 @@ import {IDE} from '~/src/ui/page/Ide'
 const definitions = new Definitions()
 const uiState = new UiState(definitions)
 
+window.addEventListener("contextmenu", e=>e.preventDefault())
+
 ReactDOM.render(
   <IDE uiState={uiState} definitions={definitions}/>,
   jQuery("#reactRoot").get(0)

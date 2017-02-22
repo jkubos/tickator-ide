@@ -60,6 +60,7 @@ export class InterfaceForm extends React.Component {
 
         <div>
           <ImageButton glyph="fa-plus" label="Add pin" huge={true} onClick={e=>this._addPin()}/>
+          <ImageButton glyph="fa-plus" label="Add type" huge={true} onClick={e=>this._addType()} />
         </div>
       </div>
 
@@ -79,6 +80,15 @@ export class InterfaceForm extends React.Component {
       name: "new",
       type: DataTypes.ANY,
       direction: 'in',
+      uuid: Tools.generateUUID()
+    })
+  }
+
+  _addType() {
+    const names = ['T', 'U', 'V', 'W', 'X', 'Y', 'Z', 'new']
+
+    this._data.types.push({
+      name: names[Math.min(names.length-1, this._data.types.length)],
       uuid: Tools.generateUUID()
     })
   }

@@ -74,10 +74,10 @@ export class UiState {
     this._navigationIndex = Math.min(this.navigation.length-1, this._navigationIndex+1)
   }
 
-  openModal(name, params, onDone) {
-    this.openedModal = name
+  openModal(name, params, onDone) {    
     this.openedModalParams = params
     this._openedModalCallback = onDone
+    this.openedModal = name
   }
 
   closeModal(res) {

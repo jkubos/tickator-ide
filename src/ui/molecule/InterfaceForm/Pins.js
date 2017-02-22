@@ -10,6 +10,8 @@ import {DataTypes} from '~/src/tickator/definition/DataTypes'
 import {Vector} from '~/src/util/geometry/Vector'
 import {Point} from '~/src/util/geometry/Point'
 
+import {LongClickDetector} from '~/src/util/LongClickDetector'
+
 import {Button} from '~/src/ui/quark/Button'
 import {ImageButton} from '~/src/ui/quark/ImageButton'
 
@@ -18,7 +20,7 @@ export class Pins extends React.Component {
 
   _WIDTH = 600
   _PIN_BOX_HEIGHT = 50
-  _ARROW_HALF_LENGTH = 10
+  _ARROW_HALF_LENGTH = 15
 
   static propTypes = {
     pins: React.PropTypes.object.isRequired,
@@ -43,6 +45,8 @@ export class Pins extends React.Component {
     const y = (index+1)*this._PIN_BOX_HEIGHT-20
     const arrowDirection = new Vector(pin.direction=='in'?-1:1, 0)
 
+    const longClickDetector = new LongClickDetector(()=>this._openPinMenu(pin))
+
     return <g key={pin.uuid}>
       <text
         x={this._WIDTH/2-5}
@@ -60,7 +64,16 @@ export class Pins extends React.Component {
         fill="white"
         onClick={e=>this._editLabel(index)}
         >{pin.name}</text>
-      <line x1={0} y1={y} x2={this._WIDTH} y2={y} stroke="white" strokeWidth={2} onClick={e=>this._changeDirection(pin)} />
+      <line
+        x1={0}
+        y1={y}
+        x2={this._WIDTH}
+        y2={y}
+        stroke="white"
+        strokeWidth={4}
+        onMouseDown={e=>longClickDetector.start(e)}
+        onMouseUp={e=>longClickDetector.stop(e)}
+      />
       {this._renderArrow(new Point(50, y), arrowDirection, pin)}
       {this._renderArrow(new Point(this._WIDTH-50, y), arrowDirection, pin)}
     </g>
@@ -79,7 +92,8 @@ export class Pins extends React.Component {
       stroke="white"
       strokeWidth="1"
       fill="white"
-      onClick={e=>this._changeDirection(pin)} />
+      onClick={e=>this._changeDirection(pin)}
+      />
   }
 
   _changeDirection(pin) {
@@ -107,6 +121,22 @@ export class Pins extends React.Component {
     }, e=>{
       if (e.confirmed) {
         this.props.pins[index].type = e.value
+      }
+    })
+  }
+
+  _openPinMenu(pin) {
+    const buttons = {
+      buttons: [
+        {glyph: "fa-trash", label: "Delete", command: "delete"}
+      ]
+    }
+
+    this.context.uiState.openModal(Modals.CONTEXT_MENU, buttons, e=>{
+      if (e.confirmed) {
+        if (e.command==="delete") {
+          this.props.pins.remove(pin)
+        }
       }
     })
   }
