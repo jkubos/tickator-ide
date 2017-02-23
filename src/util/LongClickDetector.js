@@ -9,7 +9,7 @@ export class LongClickDetector {
 
   start(e) {
     if (e.button===0) {
-      this._timeout = setTimeout(()=>this._handler(), 200)
+      this._timeout = setTimeout(()=>this._handler(), 100)
     }
   }
 

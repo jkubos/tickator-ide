@@ -5,6 +5,8 @@ import styles from './style.less'
 import {UiState} from '~/src/business/UiState'
 import {Modals} from '~/src/business/Modals'
 
+import {Tools} from '~/src/util/Tools'
+
 import {DataTypes} from '~/src/tickator/definition/DataTypes'
 
 import {Vector} from '~/src/util/geometry/Vector'
@@ -128,7 +130,8 @@ export class Pins extends React.Component {
   _openPinMenu(pin) {
     const buttons = {
       buttons: [
-        {glyph: "fa-trash", label: "Delete", command: "delete"}
+        {glyph: "fa-trash", label: "Delete", command: "delete"},
+        {glyph: "fa-clone", label: "Clone", command: "clone"}
       ]
     }
 
@@ -136,6 +139,14 @@ export class Pins extends React.Component {
       if (e.confirmed) {
         if (e.command==="delete") {
           this.props.pins.remove(pin)
+        } else if (e.command==="clone") {
+          this.props.pins.push(
+            {
+              name: pin.name,
+              type: pin.type,
+              direction: pin.direction,
+              uuid: Tools.generateUUID()
+            })
         }
       }
     })
