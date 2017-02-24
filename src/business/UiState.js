@@ -58,6 +58,11 @@ export class UiState {
     this.navigation.push({screen, uuid})
   }
 
+  close() {
+    this.navigation.pop()
+    this._navigationIndex = this.navigation.length-1
+  }
+
   @computed get canNavigateNext() {
     return this._navigationIndex + 1 < this.navigation.length
   }
@@ -74,7 +79,7 @@ export class UiState {
     this._navigationIndex = Math.min(this.navigation.length-1, this._navigationIndex+1)
   }
 
-  openModal(name, params, onDone) {    
+  openModal(name, params, onDone) {
     this.openedModalParams = params
     this._openedModalCallback = onDone
     this.openedModal = name

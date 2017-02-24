@@ -13,28 +13,39 @@ export class AddedElementTypeSelector extends React.Component {
   }
 
   render() {
-    return <CenteredContent>
+    return <CenteredContent onClick={e=>this._close(e)}>
       <div className={styles.main}>
         <h1>What should be added?</h1>
 
         <div className={styles.buttons}>
-          <Button label="Component" huge={true} onClick={e=>this._addComponent()}/>
-          <Button label="Interface" huge={true} onClick={e=>this._addInterface()}/>
-          <Button label="Converter" huge={true} onClick={e=>this._addConverter()}/>
+          <Button label="Component" huge={true} onClick={e=>this._addComponent(e)}/>
+          <Button label="Interface" huge={true} onClick={e=>this._addInterface(e)}/>
+          <Button label="Converter" huge={true} onClick={e=>this._addConverter(e)}/>
         </div>
       </div>
     </CenteredContent>
   }
 
-  _addInterface() {
+  _close(e) {
+    this.context.uiState.close()
+    e.stopPropagation()
+  }
+
+  _addInterface(e) {
+    this.context.uiState.close()
     this.context.uiState.navigate(Screens.INTERFACE_FORM)
+    e.stopPropagation()
   }
 
-  _addComponent() {
+  _addComponent(e) {    
+    this.context.uiState.close()
     alert("Not yet implemented!")
+    e.stopPropagation()
   }
 
-  _addConverter() {
+  _addConverter(e) {
+    this.context.uiState.close()
     alert("Not yet implemented!")
+    e.stopPropagation()
   }
 }

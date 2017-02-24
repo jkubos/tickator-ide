@@ -37,6 +37,11 @@ export class HelpScreen extends React.Component {
         </p>
       </div>
 
+      <p className={styles.paragraph}>
+        Usage is pretty straight forward. Just click on objects in order to edit them - overlay
+        page will appear with usable actions.
+      </p>
+
       <p className={classNames(styles.paragraph, styles.centered)}>
         Get more help about principles on <a href='http://www.tickator.org/articles/what-is-tickator' target='_blank'>tickator.org</a> site.
       </p>

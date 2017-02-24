@@ -30,8 +30,26 @@ export class TypesList extends React.Component {
   _renderTypes() {
     return <span>
       &lt;
-        {this.props.types.map(t=><span className={styles.type} onClick={e=>console.log(e)} key={t.uuid}>{t.name}</span>)}
+        {this.props.types.map(t=><span className={styles.type} onClick={e=>this._contextMenu(e, t)} key={t.uuid}>{t.name}</span>)}
       &gt;
     </span>
+  }
+
+  _contextMenu(e, type) {
+    const buttons = {
+      buttons: [
+        {glyph: "fa-trash", label: "Delete", command: "delete"}
+      ]
+    }
+
+    this.context.uiState.openModal(Modals.CONTEXT_MENU, buttons, e=>{
+      if (e.confirmed) {
+        if (e.command==="delete") {
+          this.props.types.remove(type)
+        }
+      }
+    })
+
+    e.stopPropagation()
   }
 }

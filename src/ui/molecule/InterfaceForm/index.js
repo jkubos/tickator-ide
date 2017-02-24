@@ -28,18 +28,12 @@ export class InterfaceForm extends React.Component {
   }
 
   @observable _data = {
-    name: "binary operation",
-    definitionSideName: "operation",
-    otherSideName: "request",
+    name: "new interface",
+    definitionSideName: "side 1",
+    otherSideName: "side 2",
     types: [
-      // {name: "T", uuid: "1232164654"},
-      // {name: "U", uuid: "1456546654654"},
-      // {name: "W", uuid: "154111415"}
     ],
     pins: [
-      // {name: "a", type: "T", direction: 'in', uuid: "59999999"},
-      // {name: "b", type: "U", direction: 'in', uuid: "17889663"},
-      // {name: "res", type: "INTEGER", direction: 'out', uuid: "123154"}
     ]
   }
 

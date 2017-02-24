@@ -21,7 +21,7 @@ import {ImageButton} from '~/src/ui/quark/ImageButton'
 export class Pins extends React.Component {
 
   _WIDTH = 600
-  _PIN_BOX_HEIGHT = 50
+  _PIN_BOX_HEIGHT = 70
   _ARROW_HALF_LENGTH = 15
 
   static propTypes = {
@@ -47,25 +47,35 @@ export class Pins extends React.Component {
     const y = (index+1)*this._PIN_BOX_HEIGHT-20
     const arrowDirection = new Vector(pin.direction=='in'?-1:1, 0)
 
-    const longClickDetector = new LongClickDetector(()=>this._openPinMenu(pin))
-
     return <g key={pin.uuid}>
       <text
         x={this._WIDTH/2-5}
-        y={y-5}
+        y={y-25}
         textAnchor="end"
         alignmentBaseline="baseline"
         fill="white"
         onClick={e=>this._editType(index)}
         >{pin.type}</text>
+
       <text
         x={this._WIDTH/2+5}
-        y={y-5}
+        y={y-25}
         textAnchor="start"
         alignmentBaseline="baseline"
         fill="white"
         onClick={e=>this._editLabel(index)}
         >{pin.name}</text>
+
+      <line
+        x1={0}
+        y1={y}
+        x2={this._WIDTH}
+        y2={y}
+        stroke="#444"
+        strokeWidth={18}
+        onClick={e=>this._openPinMenu(pin)}
+      />
+
       <line
         x1={0}
         y1={y}
@@ -73,9 +83,9 @@ export class Pins extends React.Component {
         y2={y}
         stroke="white"
         strokeWidth={4}
-        onMouseDown={e=>longClickDetector.start(e)}
-        onMouseUp={e=>longClickDetector.stop(e)}
+        onClick={e=>this._openPinMenu(pin)}
       />
+
       {this._renderArrow(new Point(50, y), arrowDirection, pin)}
       {this._renderArrow(new Point(this._WIDTH-50, y), arrowDirection, pin)}
     </g>
