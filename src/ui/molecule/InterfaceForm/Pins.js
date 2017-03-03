@@ -71,7 +71,7 @@ export class Pins extends React.Component {
         y1={y}
         x2={this._WIDTH}
         y2={y}
-        stroke="#444"
+        stroke="#333"
         strokeWidth={18}
         onClick={e=>this._openPinMenu(pin)}
       />
