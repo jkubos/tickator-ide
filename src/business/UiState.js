@@ -23,6 +23,7 @@ export class UiState {
 
     //temporary
     this.navigate(Screens.INTERFACE_FORM)
+    // this.navigate(Screens.HISTORY)
   }
 
   updateContentSize(width, height) {
@@ -77,6 +78,10 @@ export class UiState {
 
   navigateNext() {
     this._navigationIndex = Math.min(this.navigation.length-1, this._navigationIndex+1)
+  }
+
+  listHistory() {
+    return this.navigation
   }
 
   openModal(name, params, onDone) {

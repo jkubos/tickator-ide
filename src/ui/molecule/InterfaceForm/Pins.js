@@ -73,7 +73,7 @@ export class Pins extends React.Component {
         y2={y}
         stroke="#333"
         strokeWidth={18}
-        onClick={e=>this._openPinMenu(pin)}
+        onClick={e=>this._openPinMenu(pin, index)}
       />
 
       <line
@@ -83,7 +83,7 @@ export class Pins extends React.Component {
         y2={y}
         stroke="white"
         strokeWidth={4}
-        onClick={e=>this._openPinMenu(pin)}
+        onClick={e=>this._openPinMenu(pin, index)}
       />
 
       {this._renderArrow(new Point(50, y), arrowDirection, pin)}
@@ -137,7 +137,7 @@ export class Pins extends React.Component {
     })
   }
 
-  _openPinMenu(pin) {
+  _openPinMenu(pin, index) {
     const buttons = {
       buttons: [
         {glyph: "fa-trash", label: "Delete", command: "delete"},
@@ -157,6 +157,8 @@ export class Pins extends React.Component {
               direction: pin.direction,
               uuid: Tools.generateUUID()
             })
+        } else if (e.command==="change type") {
+          this.props.pins[index].type = e.params.type
         }
       }
     })

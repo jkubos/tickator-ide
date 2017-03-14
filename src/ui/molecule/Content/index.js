@@ -7,11 +7,13 @@ import {Screens} from '~/src/business/Screens'
 import {AddedElementTypeSelector} from '~/src/ui/molecule/AddedElementTypeSelector'
 import {InterfaceForm} from '~/src/ui/molecule/InterfaceForm'
 import {HelpScreen} from '~/src/ui/molecule/HelpScreen'
+import {HistoryScreen} from '~/src/ui/molecule/HistoryScreen'
 
 const mapping = {}
 mapping[Screens.SELECT_ADDED_ELEMENT_TYPE] = (uuid)=><AddedElementTypeSelector/>
 mapping[Screens.INTERFACE_FORM] = (uuid)=><InterfaceForm/>
 mapping[Screens.HELP] = (uuid)=><HelpScreen/>
+mapping[Screens.HISTORY] = (uuid)=><HistoryScreen/>
 
 @observer
 export class Content extends React.Component {

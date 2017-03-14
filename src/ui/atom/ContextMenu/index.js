@@ -13,27 +13,44 @@ export class ContextMenu extends React.Component {
     uiState: React.PropTypes.instanceOf(UiState).isRequired
   }
 
+  constructor() {
+    super()
+    this.state = {subindex: undefined}
+  }
+
   render() {
     if (this.context.uiState.openedModal!=Modals.CONTEXT_MENU) {
       return null;
     }
 
+    let buttons = this.context.uiState.openedModalParams.buttons
+
+    if (this.state.subindex!==undefined) {
+      buttons = buttons[this.state.subindex].items
+    }
+
     return <div className={styles.main} onClick={e=>this._onCancel(e)}>
       <div className={styles.content}>
-        {this.context.uiState.openedModalParams.buttons.map(button=>{
+        {buttons.map((button, index)=>{
           return <ImageButton
-            key={button.command}
+            key={index}
             glyph={button.glyph}
             label={button.label}
             huge={true}
-            onClick={e=>this._onConfirm(e, button.command)} />
+            onClick={e=>this._onConfirm(e, button, index)} />
         })}
       </div>
     </div>
   }
 
-  _onConfirm(e, command) {
-    this.context.uiState.closeModal({confirmed: true, command: command})
+  _onConfirm(e, button, index) {
+    if (button.items) {
+        this.setState({subindex: index})
+    } else {
+        this.setState({subindex: undefined})
+        this.context.uiState.closeModal({confirmed: true, command: button.command, params: button.params})
+    }
+
     e.stopPropagation()
   }
 

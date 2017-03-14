@@ -35,7 +35,7 @@ export class MainToolbar extends React.Component {
 
       <ToolbarButton icon='fa-sitemap' label='Hierarchy' disabled={false} onClick={e=>{}} />
       <ToolbarButton icon='fa-arrow-left' label='Previously seen' disabled={!this._canNavigatePrevious()} onClick={e=>this._navigatePrevious()} />
-      <ToolbarButton icon='fa-history' label='Last seen' disabled={false} onClick={e=>{}} />
+      <ToolbarButton icon='fa-history' label='Last seen' disabled={false} onClick={e=>{this._openHistory()}} />
       <ToolbarButton icon='fa-arrow-right' label='Next seen' disabled={!this._canNavigateNext()} onClick={e=>this._navigateNext()} />
 
       <ToolbarSeparator/>
@@ -73,6 +73,10 @@ export class MainToolbar extends React.Component {
 
   _help() {
     this.context.uiState.navigate(Screens.HELP)
+  }
+
+  _openHistory() {
+    this.context.uiState.navigate(Screens.HISTORY)
   }
 
   _fullscreen() {
