@@ -57,8 +57,6 @@ export class IDE extends React.Component {
   }
 
   render() {
-    const contextStores = this.props.uiState.contextStores
-
     return <div className={styles.main}>
       <TextInputDialog/>
       <SelectionInputDialog/>

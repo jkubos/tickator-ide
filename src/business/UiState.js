@@ -1,7 +1,6 @@
 import {observable, computed, createTransformer} from 'mobx'
 import {Validate} from '~/src/util/Validate'
 import {Definitions} from '~/src/business/Definitions'
-import {ContextStore} from './ContextStore'
 import {Screens} from '~/src/business/Screens'
 
 export class UiState {
