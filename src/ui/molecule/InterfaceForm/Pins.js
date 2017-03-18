@@ -7,7 +7,9 @@ import {Modals} from '~/src/business/Modals'
 
 import {Tools} from '~/src/util/Tools'
 
-import {DataTypes} from '~/src/tickator/definition/DataTypes'
+// import {DataTypes} from '~/src/tickator/definition/DataTypes'
+
+var DataTypes = ["axx"] 
 
 import {Vector} from '~/src/util/geometry/Vector'
 import {Point} from '~/src/util/geometry/Point'

@@ -6,6 +6,9 @@ const jQuery = require('jquery/dist/jquery.min')
 import styles from './style.less'
 
 import {UiState} from '~/src/business/UiState'
+
+import {InterfaceDefinition} from '~/src/tickator/definition/InterfaceDefinition'
+
 import {Connector} from '~/src/connector/Connector'
 
 import {MainToolbar} from '~/src/ui/molecule/MainToolbar'
@@ -23,7 +26,8 @@ export class IDE extends React.Component {
   }
 
   static childContextTypes = {
-    uiState: React.PropTypes.instanceOf(UiState).isRequired
+    uiState: React.PropTypes.instanceOf(UiState).isRequired,
+    test: React.PropTypes.instanceOf(InterfaceDefinition).isRequired
   }
 
   constructor() {
@@ -36,11 +40,14 @@ export class IDE extends React.Component {
     jQuery(window).keyup(e=>{
       this.onKeyUp(e)
     })
+
+    this.test = InterfaceDefinition.create()
   }
 
   getChildContext() {
     return {
-      uiState: this.props.uiState
+      uiState: this.props.uiState,
+      test: this.test
     }
   }
 

@@ -1,6 +1,6 @@
 import {observable, computed, createTransformer} from 'mobx'
 import {Validate} from '~/src/util/Validate'
-import {Definitions} from '~/src/business/Definitions'
+// import {Definitions} from '~/src/business/Definitions'
 import {Screens} from '~/src/business/Screens'
 
 export class UiState {
@@ -13,9 +13,9 @@ export class UiState {
   @observable openedModal = undefined
   _openedModalCallback = undefined
 
-  constructor(definitions) {
-    Validate.isA(definitions, Definitions)
-    this._definitions = definitions
+  constructor(/*definitions*/) {
+    // Validate.isA(definitions, Definitions)
+    // this._definitions = definitions
 
     //open help as default
     this.navigate(Screens.HELP)
@@ -92,8 +92,10 @@ export class UiState {
   closeModal(res) {
     this.openedModal = undefined
     if (this._openedModalCallback) {
-      this._openedModalCallback(res)
+      const tmpCallback = this._openedModalCallback
       this._openedModalCallback = undefined
+
+      tmpCallback(res)
     }
   }
 
