@@ -9,9 +9,7 @@ import {Tools} from '~/src/util/Tools'
 
 import {WireDefinition} from '~/src/tickator/definition/WireDefinition'
 
-// import {DataTypes} from '~/src/tickator/definition/DataTypes'
-
-var DataTypes = ["axx"]
+import {DataTypes} from '~/src/tickator/DataTypes'
 
 import {Vector} from '~/src/util/geometry/Vector'
 import {Point} from '~/src/util/geometry/Point'
@@ -56,7 +54,7 @@ export class Wires extends React.Component {
         textAnchor="end"
         alignmentBaseline="baseline"
         fill="white"
-        onClick={e=>this._editType(index)}
+        onClick={e=>this._editType(wire)}
         >{wire.type}</text>
 
       <text
@@ -126,15 +124,30 @@ export class Wires extends React.Component {
     })
   }
 
-  _editType(index) {
-    this.context.uiState.openModal(Modals.CHOICE_MODAL, {
-      value: this.props.pins[index].type,
-      options: []
-        .concat(this.props.types.map(t=>t.name))
-        .concat(Object.keys(DataTypes))
-    }, e=>{
+  _editType(wire) {
+    let options = [];
+
+    options = options.concat(wire.refInterfaceDefinition.refsType.map(t=>{
+        return {
+          label: t.name,
+          value: {uuid: t.businessObject.uuid}
+        }
+    }))
+
+    if (options.length>0) {
+      options = options.concat({separator: true})
+    }
+
+    options = options.concat(Object.keys(DataTypes).map(t=>{
+      return {
+        label: DataTypes[t],
+        value: {type: t}
+      }
+    }))
+
+    this.context.uiState.openModal(Modals.CHOICE_MODAL, {options}, e=>{
       if (e.confirmed) {
-        this.props.pins[index].type = e.value
+        console.log(e)
       }
     })
   }

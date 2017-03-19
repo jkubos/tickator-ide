@@ -35,6 +35,8 @@ export class WireDefinition {
     BusinessObject.definePropertyAccessors(this, this._businessObject, 'name')
     BusinessObject.definePropertyAccessors(this, this._businessObject, 'direction')
     BusinessObject.definePropertyAccessors(this, this._businessObject, 'type')
+
+    BusinessObject.defineRefsAccessors(this, this._businessObject, 'interfaceDefinition')
   }
 
   get businessObject() {

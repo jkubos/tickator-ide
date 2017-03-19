@@ -39,6 +39,13 @@ export class BusinessObject {
     Object.defineProperty(object, "refs"+(name.charAt(0).toUpperCase() + name.slice(1)), {
       get: ()=>businessObject.getRefs(name)
     })
+
+    Object.defineProperty(object, "ref"+(name.charAt(0).toUpperCase() + name.slice(1)), {
+      get: ()=>{
+        Validate.ofSize(businessObject.getRefs(name), 1)
+        return businessObject.getRefs(name)[0]
+      }
+    })
   }
 
   constructor(type, uuid=undefined) {

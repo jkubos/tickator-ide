@@ -18,9 +18,15 @@ export class SelectionInputDialog extends React.Component {
 
     return <div className={styles.main} onClick={e=>this._onCancel(e)}>
       <div className={styles.content}>
-        {this.context.uiState.openedModalParams.options.map(o=><div
-          onClick={e=>this._onConfirm(e, o)}
-          className={styles.option}>{o}</div>)}
+        {this.context.uiState.openedModalParams.options.map(o=>{
+          if (o.separator) {
+            return <hr/>
+          } else {
+            return <div
+              onClick={e=>this._onConfirm(e, o.value)}
+              className={styles.option}>{o.label || '???'}</div>
+          }
+        })}
       </div>
     </div>
   }
