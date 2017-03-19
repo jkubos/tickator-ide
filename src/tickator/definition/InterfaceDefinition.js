@@ -36,6 +36,14 @@ export class InterfaceDefinition {
       if (this.definitionSideName===this.otherSideName) {
         this._businessObject.addPropertyProblem('otherSideName', "Side names must not be equal")
       }
+
+      if (this.wires.length<1) {
+        this._businessObject.addPropertyProblem('wires', "There must be at least one wire in interface")
+      }
+
+      if (this.wires.length!==(new Set(this.wires.map(w=>w.name))).size) {
+        this._businessObject.addPropertyProblem('wires', "Wire names duplicity")
+      }
     })
 
     BusinessObject.definePropertyAccessors(this, this._businessObject, 'name')
@@ -64,5 +72,19 @@ export class InterfaceDefinition {
 
   get wires() {
     return this._businessObject.findBackRefs(WireDefinition)
+  }
+
+  makeNameUnique(name) {
+    const isUniq = (n)=>this.wires.every(w=>w.name!==n)
+
+    if (isUniq(name)) {
+      return name
+    } else {
+      for (let i=1;;++i) {
+        if (isUniq(name+i)) {
+          return name+i
+        }
+      }
+    }
   }
 }

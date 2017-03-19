@@ -100,6 +100,16 @@ export class BusinessObject {
       block()
 
       if (this._changeSignalized) {
+        this.validate()
+
+        Object.keys(this._refs).forEach(name=>{
+          this._refs[name].forEach(ref=>{
+            ref.validate()
+          })
+        })
+
+        this._backRefs.forEach(ref=>ref.validate())
+
         //mobx signal
         ++this._version
       }
@@ -158,10 +168,6 @@ export class BusinessObject {
         this._changeSignalized = true
 
         this._properties[name] = value
-
-        // this._backRefs.forEach(ref=>ref.onRefChanged())
-
-        this.validate()
       })
     }
   }
@@ -206,6 +212,7 @@ export class BusinessObject {
         this._refs[name].push(object.businessObject)
 
         object.businessObject._backRefs.push(this)
+        object.businessObject.validate()
         ++object.businessObject._version
 
         this._backRefs.forEach(ref=>ref.validate())
@@ -213,6 +220,24 @@ export class BusinessObject {
         this._changeSignalized = true
       })
     }
+  }
+
+  removeRef(name) {
+
+    this.bulkChange(()=>{
+      const refs = this._refs[name] || []
+      const origSize = refs.length
+
+      refs.forEach(ref=>{
+        //this is too generic
+        ref._deleteBackRefs(this)
+      })
+
+      if (origSize>0) {
+        this._refs[name] = []
+        this._changeSignalized = true
+      }
+    })
   }
 
   getRefs(name) {
@@ -227,11 +252,11 @@ export class BusinessObject {
   delete() {
     Validate.valid(!this._deleted)
 
-    this._backRefs.forEach(bo=>bo.deleteRefs(this))
+    this._backRefs.forEach(bo=>bo._deleteRefs(this))
 
     Object.keys(this._refs).forEach(name=>{
       this._refs[name].forEach(ref=>{
-        ref.deleteBackRefs(this)
+        ref._deleteBackRefs(this)
       })
     })
 
@@ -241,7 +266,7 @@ export class BusinessObject {
     this._deleted = true
   }
 
-  deleteBackRefs(bo) {
+  _deleteBackRefs(bo) {
     this.bulkChange(()=>{
       const sizeBefore = this._backRefs.length
 
@@ -253,11 +278,9 @@ export class BusinessObject {
     })
   }
 
-  deleteRefs(bo) {
+  _deleteRefs(bo) {
     this.bulkChange(()=>{
       Object.keys(this._refs).forEach(name=>{
-        console.log(name);
-
         const sizeBefore = this._refs[name].length
 
         this._refs[name] = this._refs[name].filter(ref=>ref!==bo)

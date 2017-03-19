@@ -18,11 +18,12 @@ export class SelectionInputDialog extends React.Component {
 
     return <div className={styles.main} onClick={e=>this._onCancel(e)}>
       <div className={styles.content}>
-        {this.context.uiState.openedModalParams.options.map(o=>{
+        {this.context.uiState.openedModalParams.options.map((o, i)=>{
           if (o.separator) {
-            return <hr/>
+            return <hr key={i}/>
           } else {
             return <div
+              key={i}
               onClick={e=>this._onConfirm(e, o.value)}
               className={styles.option}>{o.label || '???'}</div>
           }

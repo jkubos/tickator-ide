@@ -33,7 +33,6 @@ export class InterfaceForm extends React.Component {
     let problems = [];
 
     [this.context.test, ...this.context.test.wires, ...this.context.test.refsType].forEach(obj=>{
-      console.log(obj);
       obj.businessObject.observe()
       problems = problems.concat(obj.businessObject.problems())
     })

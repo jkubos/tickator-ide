@@ -47,15 +47,23 @@ export class Wires extends React.Component {
     const y = (index+1)*this._PIN_BOX_HEIGHT-20
     const arrowDirection = new Vector(wire.direction=='in'?-1:1, 0)
 
+    let typeLabel = '?'
+
+    if (wire.basicType) {
+      typeLabel = DataTypes[wire.basicType]
+    } else if (wire.refType) {
+      typeLabel = wire.refType.name
+    }
+
     return <g key={wire.businessObject.uuid}>
       <text
         x={this._WIDTH/2-5}
         y={y-25}
         textAnchor="end"
         alignmentBaseline="baseline"
-        fill="white"
+        fill={wire.hasValidType() ? 'white' : 'red' }
         onClick={e=>this._editType(wire)}
-        >{wire.type}</text>
+        >{typeLabel}</text>
 
       <text
         x={this._WIDTH/2+5}
@@ -130,7 +138,7 @@ export class Wires extends React.Component {
     options = options.concat(wire.refInterfaceDefinition.refsType.map(t=>{
         return {
           label: t.name,
-          value: {uuid: t.businessObject.uuid}
+          value: {type: t}
         }
     }))
 
@@ -141,13 +149,17 @@ export class Wires extends React.Component {
     options = options.concat(Object.keys(DataTypes).map(t=>{
       return {
         label: DataTypes[t],
-        value: {type: t}
+        value: {basicType: t}
       }
     }))
 
     this.context.uiState.openModal(Modals.CHOICE_MODAL, {options}, e=>{
       if (e.confirmed) {
-        console.log(e)
+        if (e.value.type) {
+          wire.refType = e.value.type
+        } else {
+          wire.basicType = e.value.basicType
+        }
       }
     })
   }
