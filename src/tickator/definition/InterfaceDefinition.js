@@ -80,9 +80,12 @@ export class InterfaceDefinition {
     if (isUniq(name)) {
       return name
     } else {
+      const groups = (/(.*?)[0-9]+/g).exec(name)
+      const nameWithoutNumber = groups && groups.length>1 ? groups[1] : name
+
       for (let i=1;;++i) {
-        if (isUniq(name+i)) {
-          return name+i
+        if (isUniq(nameWithoutNumber+i)) {
+          return nameWithoutNumber+i
         }
       }
     }
