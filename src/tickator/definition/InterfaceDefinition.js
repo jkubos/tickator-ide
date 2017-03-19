@@ -2,6 +2,7 @@ import {Validate} from '~/src/util/Validate'
 
 import {BusinessObject} from '~/src/business/BusinessObject'
 import {TypeDefinition} from './TypeDefinition'
+import {WireDefinition} from './WireDefinition'
 
 export class InterfaceDefinition {
 
@@ -21,15 +22,19 @@ export class InterfaceDefinition {
     this._businessObject.owner = this
     this._businessObject.addValidator(()=>{
       if (!this.name) {
-        this._businessObject.addPropertyProblem('name', "uplne naprd")
+        this._businessObject.addPropertyProblem('name', 'Name must not be blank')
       }
 
       if (!this.definitionSideName) {
-        this._businessObject.addPropertyProblem('definitionSideName', "uplne naprd")
+        this._businessObject.addPropertyProblem('definitionSideName', 'Side name must not be blank')
       }
 
       if (!this.otherSideName) {
-        this._businessObject.addPropertyProblem('otherSideName', "uplne naprd")
+        this._businessObject.addPropertyProblem('otherSideName', 'Side name must not be blank')
+      }
+
+      if (this.definitionSideName===this.otherSideName) {
+        this._businessObject.addPropertyProblem('otherSideName', "Side names must not be equal")
       }
     })
 
@@ -48,8 +53,16 @@ export class InterfaceDefinition {
     const goodName = ['T', 'U', 'V', 'W', 'X', 'Y', 'Z'].find(name=>{
       return this.refsType.every(type=>type.name!==name)
     })
-    
+
     const type = TypeDefinition.create(goodName || "new")
     this._businessObject.addRef("type", type)
+  }
+
+  addWire() {
+    WireDefinition.create(this)
+  }
+
+  get wires() {
+    return this._businessObject.findBackRefs(WireDefinition)
   }
 }

@@ -27,7 +27,6 @@ export class EditableText extends React.Component {
     const cls = this.props.object[this.props.property+'IsValid'] ? '' : styles.error
 
     return <span
-      title={this.props.object[this.props.property+'Problems'].join('\n')}
       className={cls}
       onClick={e=>this._onClick(e)}
     >

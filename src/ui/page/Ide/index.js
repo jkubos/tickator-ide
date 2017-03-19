@@ -42,6 +42,8 @@ export class IDE extends React.Component {
     })
 
     this.test = InterfaceDefinition.create()
+    this.test.addType()
+    this.test.addWire()
   }
 
   getChildContext() {

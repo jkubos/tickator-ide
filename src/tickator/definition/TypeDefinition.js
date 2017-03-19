@@ -19,7 +19,7 @@ export class TypeDefinition {
     this._businessObject.owner = this
     this._businessObject.addValidator(()=>{
       if (!this.name) {
-        this._businessObject.addPropertyProblem('name', "uplne naprd")
+        this._businessObject.addPropertyProblem('name', 'Name must not be blank')
       }
     })
 

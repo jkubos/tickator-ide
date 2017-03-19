@@ -12,10 +12,6 @@ import {Tools} from '~/src/util/Tools'
 
 import {InterfaceDefinition} from '~/src/tickator/definition/InterfaceDefinition'
 
-// import {DataTypes} from '~/src/tickator/definition/DataTypes'
-
-var DataTypes = ["axx"]
-
 import {Point} from '~/src/util/geometry/Point'
 import {Vector} from '~/src/util/geometry/Vector'
 
@@ -23,10 +19,7 @@ import {ImageButton} from '~/src/ui/quark/ImageButton'
 
 import {EditableText} from '~/src/ui/atom/EditableText'
 
-import {Pins} from './Pins'
-
-const WIDTH = 800
-const MIN_HEIGHT = 300
+import {Wires} from './Wires'
 
 @observer
 export class InterfaceForm extends React.Component {
@@ -36,17 +29,15 @@ export class InterfaceForm extends React.Component {
     test: React.PropTypes.instanceOf(InterfaceDefinition).isRequired
   }
 
-  @observable _data = {
-    name: "new interface",
-    definitionSideName: "side 1",
-    otherSideName: "side 2",
-    types: [
-    ],
-    pins: [
-    ]
-  }
-
   render() {
+    let problems = [];
+
+    [this.context.test, ...this.context.test.wires, ...this.context.test.refsType].forEach(obj=>{
+      console.log(obj);
+      obj.businessObject.observe()
+      problems = problems.concat(obj.businessObject.problems())
+    })
+
     return <div className={styles.main}>
       <div className={styles.header}>
         <EditableText object={this.context.test} property={'name'} default='???'/>
@@ -57,7 +48,7 @@ export class InterfaceForm extends React.Component {
         <span>
           {this.context.test.refsType.map(type=>{
             return <span
-              className={styles.type}
+              className={classNames(styles.type, {[styles.error]: !type.nameIsValid})}
               key={type.businessObject.uuid}
               onClick={e=>this._openTypeMenu(e, type)}>
               &lt;{type.name}&gt;
@@ -68,32 +59,27 @@ export class InterfaceForm extends React.Component {
       </div>
 
       <div className={styles.pins}>
-        <Pins pins={this._data.pins} types={this._data.types}/>
+
+        <Wires wires={this.context.test.wires} />
 
         <div>
-          <ImageButton glyph="fa-plus" label="Add pin" huge={true} onClick={e=>this._addPin()}/>
+          <ImageButton glyph="fa-plus" label="Add wire" huge={true} onClick={e=>this._addWire()}/>
           <ImageButton glyph="fa-plus" label="Add type" huge={true} onClick={e=>this._addType()} />
         </div>
       </div>
 
+      {problems.length>0 && <div className={styles.problems}>
+        <h3>Problems:</h3>
+        <ul>
+          {problems.map((problem, i)=><li key={i}>{problem.problem} [{problem.businessType}:{problem.name}]</li>)}
+        </ul>
+      </div>}
+
     </div>
   }
 
-  _editLabel(field) {
-    this.context.uiState.openModal(Modals.TEXT_MODAL, {value: this._data[field]}, e=>{
-      if (e.confirmed) {
-        this._data[field] = e.value
-      }
-    })
-  }
-
-  _addPin() {
-    this._data.pins.push({
-      name: "new",
-      type: DataTypes.ANY,
-      direction: 'in',
-      uuid: Tools.generateUUID()
-    })
+  _addWire() {
+    this.context.test.addWire()
   }
 
   _addType() {
@@ -116,7 +102,6 @@ export class InterfaceForm extends React.Component {
           this.context.uiState.openModal(Modals.TEXT_MODAL, {value: type.name}, e=>{
             if (e.confirmed) {
               type.name = e.value
-              console.log(type.name);
             }
           })
         }

@@ -199,6 +199,7 @@ export class BusinessObject {
         this._refs[name].push(object.businessObject)
 
         object.businessObject._backRefs.push(this)
+        ++object.businessObject._version
 
         this._backRefs.forEach(ref=>ref.validate())
 
@@ -220,8 +221,29 @@ export class BusinessObject {
     Validate.valid(!this._deleted)
 
     this._backRefs.forEach(bo=>bo.deleteRefs(this))
+
+    Object.keys(this._refs).forEach(name=>{
+      this._refs[name].forEach(ref=>{
+        ref.deleteBackRefs(this)
+      })
+    })
+
+    this._refs = []
+    this._properties = []
     this._backRefs = []
     this._deleted = true
+  }
+
+  deleteBackRefs(bo) {
+    this.bulkChange(()=>{
+      const sizeBefore = this._backRefs.length
+
+      this._backRefs = this._backRefs.filter(ref=>ref!==bo)
+
+      if (sizeBefore!==this._backRefs.length) {
+        this._changeSignalized = true
+      }
+    })
   }
 
   deleteRefs(bo) {
@@ -236,5 +258,31 @@ export class BusinessObject {
         this._changeSignalized = this._changeSignalized || this._refs[name].length!==sizeBefore
       })
     })
+  }
+
+  findBackRefs(klass) {
+    return this._backRefs.filter(ref=>ref.owner instanceof klass).map(ref=>ref.owner)
+  }
+
+  problems() {
+    const res = []
+
+    Object.keys(this._propertyProblems).forEach(name=>{
+      this._propertyProblems[name].forEach(problem=>{
+        res.push({type: 'property', name, problem, businessType: this.type})
+      })
+    })
+
+    Object.keys(this._refProblems).forEach(name=>{
+      this._refProblems[name].forEach(problem=>{
+        res.push({type: 'ref', name, problem, businessType: this.type})
+      })
+    })
+
+    return res
+  }
+
+  observe() {
+    const makeDependency = this._version+1
   }
 }
