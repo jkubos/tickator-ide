@@ -6,6 +6,7 @@ const jQuery = require('jquery/dist/jquery.min')
 import styles from './style.less'
 
 import {UiState} from '~/src/business/UiState'
+import {BusinessSpace} from '~/src/business/BusinessSpace'
 
 import {InterfaceDefinition} from '~/src/tickator/definition/InterfaceDefinition'
 
@@ -41,7 +42,9 @@ export class IDE extends React.Component {
       this.onKeyUp(e)
     })
 
-    this.test = InterfaceDefinition.create()
+    this.space = new BusinessSpace()
+
+    this.test = InterfaceDefinition.create(this.space)
     this.test.addType()
     this.test.addWire()
   }

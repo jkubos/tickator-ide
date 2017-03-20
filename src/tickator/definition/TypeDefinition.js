@@ -1,12 +1,15 @@
 import {Validate} from '~/src/util/Validate'
+
 import {BusinessObject} from '~/src/business/BusinessObject'
+import {BusinessSpace} from '~/src/business/BusinessSpace'
 
 export class TypeDefinition {
 
-  static create(name) {
+  static create(businessSpace, name) {
+    Validate.isA(businessSpace, BusinessSpace)
     Validate.notBlank(name)
 
-    const businessObject = new BusinessObject('TypeDefinition')
+    const businessObject = new BusinessObject(businessSpace, 'TypeDefinition')
     businessObject.setProperty("name", name)
 
     return new TypeDefinition(businessObject)

@@ -1,13 +1,17 @@
 import {Validate} from '~/src/util/Validate'
 
 import {BusinessObject} from '~/src/business/BusinessObject'
+import {BusinessSpace} from '~/src/business/BusinessSpace'
+
 import {TypeDefinition} from './TypeDefinition'
 import {WireDefinition} from './WireDefinition'
 
 export class InterfaceDefinition {
 
-  static create() {
-    const businessObject = new BusinessObject('InterfaceDefinition')
+  static create(businessSpace) {
+    Validate.isA(businessSpace, BusinessSpace)
+
+    const businessObject = new BusinessObject(businessSpace, 'InterfaceDefinition')
     businessObject.setProperty("name", "new interface")
     businessObject.setProperty("definitionSideName", "side1")
     businessObject.setProperty("otherSideName", "side2")
@@ -62,7 +66,7 @@ export class InterfaceDefinition {
       return this.refsType.every(type=>type.name!==name)
     })
 
-    const type = TypeDefinition.create(goodName || "new")
+    const type = TypeDefinition.create(this.businessObject.space, goodName || "new")
     this._businessObject.addRef("type", type)
   }
 

@@ -3,6 +3,8 @@ import {observable} from 'mobx'
 import {Validate} from '~/src/util/Validate'
 import {Tools} from '~/src/util/Tools'
 
+import {BusinessSpace} from './BusinessSpace'
+
 export class BusinessObject {
 
   @observable _version = 0
@@ -48,11 +50,20 @@ export class BusinessObject {
     })
   }
 
-  constructor(type, uuid=undefined) {
+  constructor(space, type, uuid=undefined) {
+    Validate.isA(space, BusinessSpace)
     Validate.notBlank(type)
+
+    this._space = space
 
     this._type = type
     this._uuid = uuid || Tools.generateUUID()
+
+    this._space.add(this)
+  }
+
+  get space() {
+    return this._space
   }
 
   get owner() {
@@ -251,6 +262,8 @@ export class BusinessObject {
 
   delete() {
     Validate.valid(!this._deleted)
+
+    this._space.remove(this)
 
     this._backRefs.forEach(bo=>bo._deleteRefs(this))
 

@@ -1,5 +1,8 @@
 import {Validate} from '~/src/util/Validate'
+
 import {BusinessObject} from '~/src/business/BusinessObject'
+import {BusinessSpace} from '~/src/business/BusinessSpace'
+
 import {InterfaceDefinition} from './InterfaceDefinition'
 import {TypeDefinition} from './TypeDefinition'
 
@@ -11,7 +14,7 @@ export class WireDefinition {
     Validate.isA(interfaceDef, InterfaceDefinition)
     Validate.isA(interfaceDef.businessObject, BusinessObject)
 
-    const businessObject = new BusinessObject('WireDefinition')
+    const businessObject = new BusinessObject(interfaceDef.businessObject.space, 'WireDefinition')
     const res = new WireDefinition(businessObject)
 
     businessObject.addRef("interfaceDefinition", interfaceDef)
