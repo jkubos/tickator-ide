@@ -6,6 +6,7 @@ const jQuery = require('jquery/dist/jquery.min')
 import styles from './style.less'
 
 import {UiState} from '~/src/business/UiState'
+import {Screens} from '~/src/business/Screens'
 import {BusinessSpace} from '~/src/business/BusinessSpace'
 
 import {InterfaceDefinition} from '~/src/tickator/definition/InterfaceDefinition'
@@ -23,16 +24,17 @@ import {ContextMenu} from '~/src/ui/atom/ContextMenu'
 export class IDE extends React.Component {
 
   static propTypes = {
-    uiState: React.PropTypes.instanceOf(UiState).isRequired
+    uiState: React.PropTypes.instanceOf(UiState).isRequired,
+    space: React.PropTypes.instanceOf(BusinessSpace).isRequired
   }
 
   static childContextTypes = {
     uiState: React.PropTypes.instanceOf(UiState).isRequired,
-    test: React.PropTypes.instanceOf(InterfaceDefinition).isRequired
+    space: React.PropTypes.instanceOf(BusinessSpace).isRequired
   }
 
-  constructor() {
-    super()
+  constructor(props) {
+    super(props)
 
     jQuery(window).resize(e=>{
       this.onResize()
@@ -42,17 +44,21 @@ export class IDE extends React.Component {
       this.onKeyUp(e)
     })
 
-    this.space = new BusinessSpace()
+    this.props.space.load()
 
-    this.test = InterfaceDefinition.create(this.space)
-    this.test.addType()
-    this.test.addWire()
+    this.props.uiState.navigate(Screens.INTERFACE_FORM, {uuid: 'c5474b87-971f-44f3-ba15-82b1f767388b'})
+
+    // this.test = this._space.get('c5474b87-971f-44f3-ba15-82b1f767388b').owner
+
+    // this.test = InterfaceDefinition.create(this._space)
+    // this.test.addType()
+    // this.test.addWire()
   }
 
   getChildContext() {
     return {
       uiState: this.props.uiState,
-      test: this.test
+      space: this.props.space
     }
   }
 

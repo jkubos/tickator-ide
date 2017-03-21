@@ -1,6 +1,8 @@
 import React from 'react'
 import {observer} from 'mobx-react'
+
 import {UiState} from '~/src/business/UiState'
+import {BusinessSpace} from '~/src/business/BusinessSpace'
 import {Screens} from '~/src/business/Screens'
 
 import {Toolbar} from '~/src/ui/quark/Toolbar'
@@ -11,12 +13,13 @@ import {ToolbarSeparator} from '~/src/ui/quark/ToolbarSeparator'
 export class MainToolbar extends React.Component {
 
   static contextTypes = {
-    uiState: React.PropTypes.instanceOf(UiState).isRequired
+    uiState: React.PropTypes.instanceOf(UiState).isRequired,
+    space: React.PropTypes.instanceOf(BusinessSpace).isRequired
   }
 
   render() {
     return <Toolbar>
-      <ToolbarButton icon='fa-floppy-o' label='Save changes' disabled={false} onClick={e=>{}} />
+      <ToolbarButton icon='fa-floppy-o' label='Save changes' disabled={false} onClick={e=>this._save()} />
       <ToolbarButton icon='fa-archive' label='Export data' disabled={false} onClick={e=>{}} />
       <ToolbarButton icon='fa-trash' label='Drop changes' disabled={false} onClick={e=>{}} />
       <ToolbarButton icon='fa-arrows-alt' label='Fullscreen' disabled={false} onClick={e=>this._fullscreen()} />
@@ -87,5 +90,9 @@ export class MainToolbar extends React.Component {
         document.webkitExitFullscreen()
       }
     }
+  }
+
+  _save() {
+    this.context.space.save()
   }
 }

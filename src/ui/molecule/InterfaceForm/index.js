@@ -6,6 +6,7 @@ import classNames from 'classnames'
 import styles from './style.less'
 
 import {UiState} from '~/src/business/UiState'
+import {BusinessSpace} from '~/src/business/BusinessSpace'
 import {Modals} from '~/src/business/Modals'
 
 import {Tools} from '~/src/util/Tools'
@@ -26,26 +27,28 @@ export class InterfaceForm extends React.Component {
 
   static contextTypes = {
     uiState: React.PropTypes.instanceOf(UiState).isRequired,
-    test: React.PropTypes.instanceOf(InterfaceDefinition).isRequired
+    space: React.PropTypes.instanceOf(BusinessSpace).isRequired
   }
 
   render() {
     let problems = [];
 
-    [this.context.test, ...this.context.test.wires, ...this.context.test.refsType].forEach(obj=>{
+    this._obj = this.context.space.get(this.context.uiState.selectedParams.uuid).owner;
+
+    [this._obj, ...this._obj.wires, ...this._obj.refsType].forEach(obj=>{
       obj.businessObject.observe()
       problems = problems.concat(obj.businessObject.problems())
     })
 
     return <div className={styles.main}>
       <div className={styles.header}>
-        <EditableText object={this.context.test} property={'name'} default='???'/>
+        <EditableText object={this._obj} property={'name'} default='???'/>
       </div>
 
       <div className={styles.subheader}>
-        <EditableText object={this.context.test} property={'definitionSideName'} default='???'/>
+        <EditableText object={this._obj} property={'definitionSideName'} default='???'/>
         <span>
-          {this.context.test.refsType.map(type=>{
+          {this._obj.refsType.map(type=>{
             return <span
               className={classNames(styles.type, {[styles.error]: !type.nameIsValid})}
               key={type.businessObject.uuid}
@@ -54,12 +57,12 @@ export class InterfaceForm extends React.Component {
             </span>
           })}
         </span>
-        <EditableText object={this.context.test} property={'otherSideName'} default='???'/>
+        <EditableText object={this._obj} property={'otherSideName'} default='???'/>
       </div>
 
       <div className={styles.pins}>
 
-        <Wires wires={this.context.test.wires} />
+        <Wires wires={this._obj.wires} />
 
         <div>
           <ImageButton glyph="fa-plus" label="Add wire" huge={true} onClick={e=>this._addWire()}/>
@@ -78,11 +81,11 @@ export class InterfaceForm extends React.Component {
   }
 
   _addWire() {
-    this.context.test.addWire()
+    this._obj.addWire()
   }
 
   _addType() {
-    this.context.test.addType()
+    this._obj.addType()
   }
 
   _openTypeMenu(e, type) {

@@ -21,7 +21,7 @@ export class UiState {
     this.navigate(Screens.HELP)
 
     //temporary
-    this.navigate(Screens.INTERFACE_FORM)
+    // this.navigate(Screens.INTERFACE_FORM)
     // this.navigate(Screens.HISTORY)
   }
 
@@ -42,20 +42,20 @@ export class UiState {
     }
   }
 
-  @computed get selectedUuid() {
+  @computed get selectedParams() {
     if (this._navigationIndex>=0 && this._navigationIndex<this.navigation.length) {
-      return this.navigation[this._navigationIndex].uuid
+      return this.navigation[this._navigationIndex].params
     } else {
-      return undefined
+      return {}
     }
   }
 
-  navigate(screen, uuid) {
+  navigate(screen, params) {
     //remove same items from history
-    this.navigation = this.navigation.filter(i=>i.screen!=screen || i.uuid!=uuid)
+    this.navigation = this.navigation.filter(i=>i.screen!=screen || i.params!=params)
 
     this._navigationIndex = this.navigation.length
-    this.navigation.push({screen, uuid})
+    this.navigation.push({screen, params})
   }
 
   close() {

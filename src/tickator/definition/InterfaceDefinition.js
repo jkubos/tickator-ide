@@ -67,7 +67,7 @@ export class InterfaceDefinition {
     })
 
     const type = TypeDefinition.create(this.businessObject.space, goodName || "new")
-    this._businessObject.addRef("type", type)
+    this._businessObject.addRef("type", type.businessObject)
   }
 
   addWire() {

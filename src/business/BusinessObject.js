@@ -5,6 +5,10 @@ import {Tools} from '~/src/util/Tools'
 
 import {BusinessSpace} from './BusinessSpace'
 
+import {InterfaceDefinition} from '~/src/tickator/definition/InterfaceDefinition'
+import {TypeDefinition} from '~/src/tickator/definition/TypeDefinition'
+import {WireDefinition} from '~/src/tickator/definition/WireDefinition'
+
 export class BusinessObject {
 
   @observable _version = 0
@@ -50,6 +54,35 @@ export class BusinessObject {
     })
   }
 
+  static fromJson(space, obj) {
+    const res = new BusinessObject(space, obj.type, obj.uuid)
+
+    res.bulkChange(()=>{
+      Object.keys(obj.properties).forEach(name=>{
+        res.setProperty(name, obj.properties[name])
+      })
+    })
+
+    switch (res.type) {
+      case "InterfaceDefinition":
+        new InterfaceDefinition(res)
+        break;
+
+      case "TypeDefinition":
+        new TypeDefinition(res)
+        break;
+
+      case "WireDefinition":
+        new WireDefinition(res)
+        break;
+
+      default:
+        throw `Unknown type '${res.type}'`
+    }
+
+    return res
+  }
+
   constructor(space, type, uuid=undefined) {
     Validate.isA(space, BusinessSpace)
     Validate.notBlank(type)
@@ -60,6 +93,32 @@ export class BusinessObject {
     this._uuid = uuid || Tools.generateUUID()
 
     this._space.add(this)
+  }
+
+  loadRefs(obj) {
+
+    this.bulkChange(()=>{
+      Object.keys(obj.refs).forEach(name=>{
+        obj.refs[name].forEach(uuid=>{
+          this.addRef(name, this._space.get(uuid))
+        })
+      })
+    })
+  }
+
+  toJson() {
+    const refs = {}
+
+    Object.keys(this._refs).forEach(name=>{
+      refs[name] = this._refs[name].map(ref=>ref.uuid)
+    })
+
+    return JSON.stringify({
+      uuid: this._uuid,
+      type: this._type,
+      properties: this._properties,
+      refs
+    })
   }
 
   get space() {
@@ -213,18 +272,17 @@ export class BusinessObject {
   addRef(name, object) {
     Validate.valid(!this._deleted)
     Validate.notBlank(name)
-    Validate.notNull(object)
-    Validate.isA(object.businessObject, BusinessObject)
+    Validate.isA(object, BusinessObject)
 
-    if (!this._refs[name] || !this._refs[name].includes(object.businessObject)) {
+    if (!this._refs[name] || !this._refs[name].includes(object)) {
       this.bulkChange(()=>{
         this._refs[name] = this._refs[name] || []
 
-        this._refs[name].push(object.businessObject)
+        this._refs[name].push(object)
 
-        object.businessObject._backRefs.push(this)
-        object.businessObject.validate()
-        ++object.businessObject._version
+        object._backRefs.push(this)
+        object.validate()
+        ++object._version
 
         this._backRefs.forEach(ref=>ref.validate())
 

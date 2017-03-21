@@ -17,7 +17,7 @@ export class WireDefinition {
     const businessObject = new BusinessObject(interfaceDef.businessObject.space, 'WireDefinition')
     const res = new WireDefinition(businessObject)
 
-    businessObject.addRef("interfaceDefinition", interfaceDef)
+    businessObject.addRef("interfaceDefinition", interfaceDef.businessObject)
     businessObject.setProperty('name', interfaceDef.makeNameUnique('new'))
     businessObject.setProperty('direction', 'in')
     businessObject.setProperty('basicType', 'ANY')
@@ -105,7 +105,7 @@ export class WireDefinition {
     Validate.isA(type, TypeDefinition)
 
     this._businessObject.setProperty('basicType', undefined)
-    this._businessObject.addRef('type', type)
+    this._businessObject.addRef('type', type.businessObject)
   }
 
   hasValidType() {
