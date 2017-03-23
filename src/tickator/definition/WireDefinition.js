@@ -10,15 +10,14 @@ import {DataTypes} from '~/src/tickator/DataTypes'
 
 export class WireDefinition {
 
-  static create(interfaceDef) {
-    Validate.isA(interfaceDef, InterfaceDefinition)
-    Validate.isA(interfaceDef.businessObject, BusinessObject)
+  static create(space, name) {
+    Validate.isA(space, BusinessSpace)
+    Validate.notBlank(name)
 
-    const businessObject = new BusinessObject(interfaceDef.businessObject.space, 'WireDefinition')
+    const businessObject = new BusinessObject(space, 'WireDefinition')
     const res = new WireDefinition(businessObject)
 
-    businessObject.addRef("interfaceDefinition", interfaceDef.businessObject)
-    businessObject.setProperty('name', interfaceDef.makeNameUnique('new'))
+    businessObject.setProperty('name', name)
     businessObject.setProperty('direction', 'in')
     businessObject.setProperty('basicType', 'ANY')
 
@@ -67,8 +66,8 @@ export class WireDefinition {
   }
 
   clone() {
-    const wire = WireDefinition.create(this.refInterfaceDefinition)
-    wire.name = this.refInterfaceDefinition.makeNameUnique(this.name)
+    const goodName = this.interfaceDefinition.makeNameUnique(this.name)
+    const wire = WireDefinition.create(this._businessObject.space, goodName)
     wire.direction = this.direction
 
     if (this.refType) {
@@ -76,6 +75,12 @@ export class WireDefinition {
     } else {
       wire.basicType = this.basicType
     }
+
+    this.interfaceDefinition.businessObject.addRef('wire', wire.businessObject)
+  }
+
+  get interfaceDefinition() {
+    return this._businessObject.findSingletonBackRef(InterfaceDefinition)
   }
 
   get basicType() {

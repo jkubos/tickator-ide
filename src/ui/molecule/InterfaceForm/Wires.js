@@ -135,7 +135,7 @@ export class Wires extends React.Component {
   _editType(wire) {
     let options = [];
 
-    options = options.concat(wire.refInterfaceDefinition.refsType.map(t=>{
+    options = options.concat(wire.interfaceDefinition.refsType.map(t=>{
         return {
           label: t.name,
           value: {type: t}

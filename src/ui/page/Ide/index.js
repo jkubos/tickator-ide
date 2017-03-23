@@ -47,6 +47,7 @@ export class IDE extends React.Component {
     this.props.space.load()
 
     this.props.uiState.navigate(Screens.INTERFACE_FORM, {uuid: 'c5474b87-971f-44f3-ba15-82b1f767388b'})
+    this.props.uiState.navigate(Screens.INTERFACE_FORM, {uuid: '069c74ec-0952-4c28-a21d-43ac1ff1f0c5'})
 
     // this.test = this._space.get('c5474b87-971f-44f3-ba15-82b1f767388b').owner
 

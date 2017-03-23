@@ -44,7 +44,7 @@ export class UiState {
 
   @computed get selectedParams() {
     if (this._navigationIndex>=0 && this._navigationIndex<this.navigation.length) {
-      return this.navigation[this._navigationIndex].params
+      return this.navigation[this._navigationIndex].params || {}
     } else {
       return {}
     }

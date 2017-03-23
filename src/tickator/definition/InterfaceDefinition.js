@@ -41,11 +41,11 @@ export class InterfaceDefinition {
         this._businessObject.addPropertyProblem('otherSideName', "Side names must not be equal")
       }
 
-      if (this.wires.length<1) {
+      if (this.refsWire.length<1) {
         this._businessObject.addPropertyProblem('wires', "There must be at least one wire in interface")
       }
 
-      if (this.wires.length!==(new Set(this.wires.map(w=>w.name))).size) {
+      if (this.refsWire.length!==(new Set(this.refsWire.map(w=>w.name))).size) {
         this._businessObject.addPropertyProblem('wires', "Wire names duplicity")
       }
     })
@@ -55,6 +55,7 @@ export class InterfaceDefinition {
     BusinessObject.definePropertyAccessors(this, this._businessObject, 'otherSideName')
 
     BusinessObject.defineRefsAccessors(this, this._businessObject, 'type')
+    BusinessObject.defineRefsAccessors(this, this._businessObject, 'wire')
   }
 
   get businessObject() {
@@ -71,15 +72,12 @@ export class InterfaceDefinition {
   }
 
   addWire() {
-    WireDefinition.create(this)
-  }
-
-  get wires() {
-    return this._businessObject.findBackRefs(WireDefinition)
+    const wire = WireDefinition.create(this.businessObject.space, this.makeNameUnique('new'))
+    this._businessObject.addRef("wire", wire.businessObject)
   }
 
   makeNameUnique(name) {
-    const isUniq = (n)=>this.wires.every(w=>w.name!==n)
+    const isUniq = (n)=>this.refsWire.every(w=>w.name!==n)
 
     if (isUniq(name)) {
       return name

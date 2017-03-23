@@ -35,7 +35,7 @@ export class InterfaceForm extends React.Component {
 
     this._obj = this.context.space.get(this.context.uiState.selectedParams.uuid).owner;
 
-    [this._obj, ...this._obj.wires, ...this._obj.refsType].forEach(obj=>{
+    [this._obj, ...this._obj.refsWire, ...this._obj.refsType].forEach(obj=>{
       obj.businessObject.observe()
       problems = problems.concat(obj.businessObject.problems())
     })
@@ -62,7 +62,7 @@ export class InterfaceForm extends React.Component {
 
       <div className={styles.pins}>
 
-        <Wires wires={this._obj.wires} />
+        <Wires wires={this._obj.refsWire} />
 
         <div>
           <ImageButton glyph="fa-plus" label="Add wire" huge={true} onClick={e=>this._addWire()}/>

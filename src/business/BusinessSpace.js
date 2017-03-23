@@ -23,7 +23,7 @@ export class BusinessSpace {
 
   remove(object) {
     Validate.isA(object, BusinessObject)
-    Validate.isSet(this._objects, object)
+    Validate.isSet(this._objects, object.uuid)
 
     delete this._objects[object.uuid]
   }

@@ -365,6 +365,13 @@ export class BusinessObject {
     return this._backRefs.filter(ref=>ref.owner instanceof klass).map(ref=>ref.owner)
   }
 
+  findSingletonBackRef(klass) {
+    const refs = this._backRefs.filter(ref=>ref.owner instanceof klass).map(ref=>ref.owner)
+    Validate.ofSize(refs, 1)
+
+    return refs[0]
+  }
+
   problems() {
     const res = []
 
