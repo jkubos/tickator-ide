@@ -9,8 +9,6 @@ import {UiState} from '~/src/business/UiState'
 import {Screens} from '~/src/business/Screens'
 import {BusinessSpace} from '~/src/business/BusinessSpace'
 
-import {InterfaceDefinition} from '~/src/tickator/definition/InterfaceDefinition'
-
 import {Connector} from '~/src/connector/Connector'
 
 import {MainToolbar} from '~/src/ui/molecule/MainToolbar'
@@ -46,14 +44,7 @@ export class IDE extends React.Component {
 
     this.props.space.load()
 
-    this.props.uiState.navigate(Screens.INTERFACE_FORM, {uuid: 'c5474b87-971f-44f3-ba15-82b1f767388b'})
-    this.props.uiState.navigate(Screens.INTERFACE_FORM, {uuid: '069c74ec-0952-4c28-a21d-43ac1ff1f0c5'})
-
-    // this.test = this._space.get('c5474b87-971f-44f3-ba15-82b1f767388b').owner
-
-    // this.test = InterfaceDefinition.create(this._space)
-    // this.test.addType()
-    // this.test.addWire()
+    this.props.uiState.navigate(Screens.SEARCH)
   }
 
   getChildContext() {

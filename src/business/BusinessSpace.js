@@ -50,4 +50,11 @@ export class BusinessSpace {
       this.get(obj.uuid).loadRefs(obj)
     }
   }
+
+  findByTypes(types) {
+    return Object
+      .values(this._objects)
+      .map(o=>o.owner)
+      .filter(o=>types.some(t=>o instanceof t))
+  }
 }

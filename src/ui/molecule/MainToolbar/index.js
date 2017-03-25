@@ -30,7 +30,7 @@ export class MainToolbar extends React.Component {
 
       <ToolbarSeparator/>
 
-      <ToolbarButton icon='fa-search' label='Search' disabled={false} onClick={e=>{}} />
+      <ToolbarButton icon='fa-search' label='Search' disabled={false} onClick={e=>this._openSearch()} />
       <ToolbarButton icon='fa-heart' label='Favorites' disabled={false} onClick={e=>{}} />
       <ToolbarButton icon='fa-sign-in' label='Entry points' disabled={false} onClick={e=>{}} />
 
@@ -80,6 +80,10 @@ export class MainToolbar extends React.Component {
 
   _openHistory() {
     this.context.uiState.navigate(Screens.HISTORY)
+  }
+
+  _openSearch() {
+    this.context.uiState.navigate(Screens.SEARCH)
   }
 
   _fullscreen() {

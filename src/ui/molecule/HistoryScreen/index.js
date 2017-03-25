@@ -14,10 +14,9 @@ export class HistoryScreen extends React.Component {
 
   render() {
     return <div>
-      Tutaj hentaj
       {this.context.uiState.listHistory().map((item, index)=>{
         console.log(item);
-        return <div key={index}>{item.screen}:{item.uuid}</div>
+        return <div key={index}>{item.screen}:{item.params ? item.params.uuid : "?"}</div>
       })}
     </div>
   }
