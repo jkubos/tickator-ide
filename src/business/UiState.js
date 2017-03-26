@@ -1,7 +1,9 @@
 import {observable, computed, createTransformer} from 'mobx'
 import {Validate} from '~/src/util/Validate'
-// import {Definitions} from '~/src/business/Definitions'
+
 import {Screens} from '~/src/business/Screens'
+import {BusinessSpace} from './BusinessSpace'
+import {ComponentDefinition} from '~/src/tickator/definition/ComponentDefinition'
 
 export class UiState {
   @observable width = -1
@@ -13,15 +15,16 @@ export class UiState {
   @observable openedModal = undefined
   _openedModalCallback = undefined
 
-  constructor(/*definitions*/) {
-    // Validate.isA(definitions, Definitions)
-    // this._definitions = definitions
+  constructor(businessSpace) {
+    Validate.isA(businessSpace, BusinessSpace)
+    this._businessSpace = businessSpace
 
     //open help as default
     this.navigate(Screens.HELP)
 
     //temporary
-    // this.navigate(Screens.INTERFACE_FORM)
+    const obj = ComponentDefinition.create(this._businessSpace)
+    this.navigate(Screens.COMPONENT_FORM, {uuid: obj.businessObject.uuid})
     // this.navigate(Screens.HISTORY)
   }
 

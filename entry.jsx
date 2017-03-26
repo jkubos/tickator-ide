@@ -11,10 +11,10 @@ import {BusinessSpace} from '~/src/business/BusinessSpace'
 
 import {IDE} from '~/src/ui/page/Ide'
 
-// const definitions = new Definitions()
-const uiState = new UiState(/*definitions*/)
-
 const businessSpace = new BusinessSpace()
+
+// const definitions = new Definitions()
+const uiState = new UiState(businessSpace)
 
 window.addEventListener("contextmenu", e=>e.preventDefault())
 //definitions={definitions}

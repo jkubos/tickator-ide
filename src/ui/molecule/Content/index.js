@@ -6,16 +6,18 @@ import {Screens} from '~/src/business/Screens'
 
 import {AddedElementTypeSelector} from '~/src/ui/molecule/AddedElementTypeSelector'
 import {InterfaceForm} from '~/src/ui/molecule/InterfaceForm'
+import {ComponentForm} from '~/src/ui/molecule/ComponentForm'
 import {HelpScreen} from '~/src/ui/molecule/HelpScreen'
 import {HistoryScreen} from '~/src/ui/molecule/HistoryScreen'
 import {SearchScreen} from '~/src/ui/molecule/SearchScreen'
 
 const mapping = {}
-mapping[Screens.SELECT_ADDED_ELEMENT_TYPE] = (uuid)=><AddedElementTypeSelector/>
-mapping[Screens.INTERFACE_FORM] = (uuid)=><InterfaceForm/>
-mapping[Screens.HELP] = (uuid)=><HelpScreen/>
-mapping[Screens.HISTORY] = (uuid)=><HistoryScreen/>
-mapping[Screens.SEARCH] = (uuid)=><SearchScreen/>
+mapping[Screens.SELECT_ADDED_ELEMENT_TYPE] = ()=><AddedElementTypeSelector/>
+mapping[Screens.INTERFACE_FORM] = ()=><InterfaceForm/>
+mapping[Screens.COMPONENT_FORM] = ()=><ComponentForm/>
+mapping[Screens.HELP] = ()=><HelpScreen/>
+mapping[Screens.HISTORY] = ()=><HistoryScreen/>
+mapping[Screens.SEARCH] = ()=><SearchScreen/>
 
 @observer
 export class Content extends React.Component {
@@ -26,7 +28,7 @@ export class Content extends React.Component {
 
   render() {
     return <div className={styles.main}>
-      {mapping[this.context.uiState.selectedScreen] && mapping[this.context.uiState.selectedScreen](this.context.uiState.selectedUuid)}
+      {mapping[this.context.uiState.selectedScreen] && mapping[this.context.uiState.selectedScreen]()}
     </div>
   }
 }

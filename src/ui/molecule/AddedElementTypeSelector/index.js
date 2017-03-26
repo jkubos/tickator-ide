@@ -8,6 +8,7 @@ import {Button} from '~/src/ui/quark/Button'
 import {CenteredContent} from '~/src/ui/quark/CenteredContent'
 
 import {InterfaceDefinition} from '~/src/tickator/definition/InterfaceDefinition'
+import {ComponentDefinition} from '~/src/tickator/definition/ComponentDefinition'
 
 export class AddedElementTypeSelector extends React.Component {
 
@@ -45,7 +46,9 @@ export class AddedElementTypeSelector extends React.Component {
 
   _addComponent(e) {
     this.context.uiState.close()
-    alert("Not yet implemented!")
+    const obj = ComponentDefinition.create(this.context.space)
+
+    this.context.uiState.navigate(Screens.COMPONENT_FORM, {uuid: obj.businessObject.uuid})
     e.stopPropagation()
   }
 
