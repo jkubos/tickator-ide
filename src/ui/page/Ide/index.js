@@ -16,6 +16,7 @@ import {Content} from '~/src/ui/molecule/Content'
 
 import {TextInputDialog} from '~/src/ui/atom/TextInputDialog'
 import {SelectionInputDialog} from '~/src/ui/atom/SelectionInputDialog'
+import {SelectObjectDialog} from '~/src/ui/atom/SelectObjectDialog'
 import {ContextMenu} from '~/src/ui/atom/ContextMenu'
 
 @observer
@@ -68,6 +69,7 @@ export class IDE extends React.Component {
     return <div className={styles.main}>
       <TextInputDialog/>
       <SelectionInputDialog/>
+      <SelectObjectDialog/>
       <ContextMenu/>
 
       <MainToolbar/>

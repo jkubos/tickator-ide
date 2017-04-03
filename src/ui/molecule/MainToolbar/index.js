@@ -4,6 +4,7 @@ import {observer} from 'mobx-react'
 import {UiState} from '~/src/business/UiState'
 import {BusinessSpace} from '~/src/business/BusinessSpace'
 import {Screens} from '~/src/business/Screens'
+import {Modals} from '~/src/business/Modals'
 
 import {Toolbar} from '~/src/ui/quark/Toolbar'
 import {ToolbarButton} from '~/src/ui/quark/ToolbarButton'
@@ -83,7 +84,11 @@ export class MainToolbar extends React.Component {
   }
 
   _openSearch() {
-    this.context.uiState.navigate(Screens.SEARCH)
+    this.context.uiState.openModal(Modals.SELECT_OBJECT_MODAL, {}, e=>{
+      if (e.confirmed) {
+        this.context.uiState.navigate(Screens.INTERFACE_FORM, {uuid: e.uuid})
+      }
+    })
   }
 
   _fullscreen() {

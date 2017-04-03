@@ -1,16 +1,17 @@
 import React from 'react'
-import classNames from 'classnames'
+import {observer} from 'mobx-react'
 import styles from './style.less'
 
 import {UiState} from '~/src/business/UiState'
-import {Screens} from '~/src/business/Screens'
 import {BusinessSpace} from '~/src/business/BusinessSpace'
+import {Modals} from '~/src/business/Modals'
 
-import {CenteredContent} from '~/src/ui/quark/CenteredContent'
+import {ImageButton} from '~/src/ui/quark/ImageButton'
 
 import {InterfaceDefinition} from '~/src/tickator/definition/InterfaceDefinition'
 
-export class SearchScreen extends React.Component {
+@observer
+export class SelectObjectDialog extends React.Component {
 
   static contextTypes = {
     uiState: React.PropTypes.instanceOf(UiState).isRequired,
@@ -18,7 +19,11 @@ export class SearchScreen extends React.Component {
   }
 
   render() {
-    return <CenteredContent>
+    if (this.context.uiState.openedModal!=Modals.SELECT_OBJECT_MODAL) {
+      return null;
+    }
+
+    return <div className={styles.main} onClick={e=>this._onCancel(e)}>
         <div>
           <input
             ref="input"
@@ -35,12 +40,22 @@ export class SearchScreen extends React.Component {
           return <div
               className={styles.result}
               key={i}
-              onClick={e=>this.context.uiState.navigate(Screens.INTERFACE_FORM, {uuid: o.businessObject.uuid})}>
+              onClick={e=>this._onSelect(e, o.businessObject.uuid)}>
             {o.name}
           </div>
         })}
       </div>
-    </CenteredContent>
+    </div>
+  }
+
+  _onSelect(e, uuid) {
+    this.context.uiState.closeModal({confirmed: true, uuid})
+    e.stopPropagation()
+  }
+
+  _onCancel(e) {
+    this.context.uiState.closeModal({confirmed: false})
+    e.stopPropagation()
   }
 
   _onFocus() {
