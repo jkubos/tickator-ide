@@ -8,6 +8,8 @@ import {BusinessSpace} from './BusinessSpace'
 import {InterfaceDefinition} from '~/src/tickator/definition/InterfaceDefinition'
 import {TypeDefinition} from '~/src/tickator/definition/TypeDefinition'
 import {WireDefinition} from '~/src/tickator/definition/WireDefinition'
+import {InterfaceUsage} from '~/src/tickator/definition/InterfaceUsage'
+import {ComponentDefinition} from '~/src/tickator/definition/ComponentDefinition'
 
 export class BusinessObject {
 
@@ -74,6 +76,14 @@ export class BusinessObject {
 
       case "WireDefinition":
         new WireDefinition(res)
+        break;
+
+      case "InterfaceUsage":
+        new InterfaceUsage(res)
+        break;
+
+      case "ComponentDefinition":
+        new ComponentDefinition(res)
         break;
 
       default:

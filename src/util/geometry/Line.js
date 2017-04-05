@@ -1,6 +1,11 @@
 import {Point} from "./Point"
 
 export class Line {
+
+  static dotProduct(p1, p2) {
+    return p1.x*p2.x+p1.y*p2.y
+  }
+
   constructor(from, to) {
     this.from = from;
     this.to = to;
@@ -37,5 +42,22 @@ export class Line {
     const dist = Math.sqrt(dx*dx + dy*dy)
 
     return dist
+  }
+
+  projectionRatio(point) {
+    if (!point instanceof Point) {
+      throw `Trying to get distance between line and ${typeof other}`
+    }
+
+    const e1 = new Point(this.to.x-this.from.x, this.to.y-this.from.y)
+    const e2 = new Point(point.x-this.from.x, point.y-this.from.y)
+
+    const valDp = Line.dotProduct(e1, e2)
+
+    const len2 = Math.pow(e1.x, 2)+Math.pow(e1.y, 2)
+
+    const p = new Point(this.from.x+(valDp*e1.x)/len2, this.from.y+(valDp*e1.y)/len2)
+
+    return (new Line(this.from, p).length())/this.length()
   }
 }

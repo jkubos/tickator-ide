@@ -10,6 +10,9 @@ import {Toolbar} from '~/src/ui/quark/Toolbar'
 import {ToolbarButton} from '~/src/ui/quark/ToolbarButton'
 import {ToolbarSeparator} from '~/src/ui/quark/ToolbarSeparator'
 
+import {InterfaceDefinition} from '~/src/tickator/definition/InterfaceDefinition'
+import {ComponentDefinition} from '~/src/tickator/definition/ComponentDefinition'
+
 @observer
 export class MainToolbar extends React.Component {
 
@@ -86,7 +89,16 @@ export class MainToolbar extends React.Component {
   _openSearch() {
     this.context.uiState.openModal(Modals.SELECT_OBJECT_MODAL, {}, e=>{
       if (e.confirmed) {
-        this.context.uiState.navigate(Screens.INTERFACE_FORM, {uuid: e.uuid})
+
+        const o = this.context.space.get(e.uuid).owner
+
+        if (o instanceof InterfaceDefinition) {
+          this.context.uiState.navigate(Screens.INTERFACE_FORM, {uuid: e.uuid})
+        } else if (o instanceof ComponentDefinition) {
+          this.context.uiState.navigate(Screens.COMPONENT_FORM, {uuid: e.uuid})
+        } else {
+            alert('Cannot open this object!')
+        }
       }
     })
   }

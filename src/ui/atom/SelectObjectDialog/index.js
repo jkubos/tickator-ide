@@ -9,6 +9,7 @@ import {Modals} from '~/src/business/Modals'
 import {ImageButton} from '~/src/ui/quark/ImageButton'
 
 import {InterfaceDefinition} from '~/src/tickator/definition/InterfaceDefinition'
+import {ComponentDefinition} from '~/src/tickator/definition/ComponentDefinition'
 
 @observer
 export class SelectObjectDialog extends React.Component {
@@ -36,7 +37,7 @@ export class SelectObjectDialog extends React.Component {
             autoCapitalize="off"
           />
 
-        {this.context.space.findByTypes([InterfaceDefinition]).map((o, i)=>{
+        {this.context.space.findByTypes([InterfaceDefinition, ComponentDefinition]).map((o, i)=>{
           return <div
               className={styles.result}
               key={i}
