@@ -39,9 +39,27 @@ export class ComponentFrame extends React.Component {
   render() {
     const geometry = this._prepareGeometry()
 
-    console.log(geometry)
+    // console.log(geometry)
 
-    return <svg ref='svg' className={styles.componentFrame} width={geometry.area.width} height={geometry.area.height}>
+    return <svg
+      ref='svg'
+      className={styles.componentFrame}
+      width={geometry.area.width}
+      height={geometry.area.height}
+
+      onMouseDown={e=>this._mouseDown(e)}
+      onMouseMove={e=>this._mouseMove(e)}
+      onMouseUp={e=>this._mouseUp(e)}
+    >
+
+      <rect
+        className={styles.outerFrame}
+        x={geometry.boundary.x}
+        y={geometry.boundary.y}
+        width={geometry.boundary.width}
+        height={geometry.boundary.height}
+        onClick={e=>this._frameClick(e)}
+        />
 
       <rect
         className={styles.frame}
@@ -57,6 +75,8 @@ export class ComponentFrame extends React.Component {
           key={interfaceUsage.businessObject.uuid}
           geometry={geometry.items[interfaceUsage.businessObject.uuid]}
           interfaceUsage={interfaceUsage}
+          registerDrag={onMove=>this._registerDrag(onMove)}
+          boundary={geometry.boundary}
         />
       })}
     </svg>
@@ -65,7 +85,7 @@ export class ComponentFrame extends React.Component {
   _prepareGeometry() {
     const _width = 800
     const _height = 600
-    const _padding = 100
+    const _padding = 10
 
     const geometry = {
       area: new Size(_width, _height),
@@ -110,5 +130,30 @@ export class ComponentFrame extends React.Component {
         this.props.componentDefinition.addIterface(this.context.space.get(e.uuid).owner, position.side, position.ratio)
       }
     })
+  }
+
+  _mouseDown(e) {
+    this._inDragAndDrop = true
+  }
+
+  _mouseMove(e) {
+    if (this._inDragAndDrop) {
+      const x = e.clientX-this.refs.svg.getBoundingClientRect().left
+      const y = e.clientY-this.refs.svg.getBoundingClientRect().top
+
+      const point = new Point(x, y)
+
+      this._drags.forEach(onMove=>onMove(point))
+    }
+  }
+
+  _mouseUp(e) {
+    this._inDragAndDrop = false
+    this._drags = []
+  }
+
+  _registerDrag(onMove) {
+    this._drags = this._drags || []
+    this._drags.push(onMove)
   }
 }

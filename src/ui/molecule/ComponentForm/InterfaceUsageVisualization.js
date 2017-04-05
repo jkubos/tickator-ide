@@ -8,6 +8,8 @@ import styles from './style.less'
 import {UiState} from '~/src/business/UiState'
 import {Modals} from '~/src/business/Modals'
 
+import {Rectangle} from '~/src/util/geometry/Rectangle'
+
 import {InterfaceUsage} from '~/src/tickator/definition/InterfaceUsage'
 
 @observer
@@ -15,7 +17,9 @@ export class InterfaceUsageVisualization extends React.Component {
 
   static propTypes = {
     interfaceUsage: React.PropTypes.instanceOf(InterfaceUsage).isRequired,
-    geometry: React.PropTypes.object.isRequired
+    geometry: React.PropTypes.object.isRequired,
+    boundary: React.PropTypes.instanceOf(Rectangle).isRequired,
+    registerDrag: React.PropTypes.func.isRequired
   }
 
   static contextTypes = {
@@ -26,7 +30,7 @@ export class InterfaceUsageVisualization extends React.Component {
 
     const title = `'${this.props.interfaceUsage.name}' of type '${this.props.interfaceUsage.refInterfaceDefinition.name}'`
 
-    return <g className={styles.interfaceArea}>
+    return <g className={styles.interfaceArea} onMouseDown={e=>this._dragStart(e)}>
       <title>{title}</title>
 
       <circle
@@ -62,6 +66,15 @@ export class InterfaceUsageVisualization extends React.Component {
       if (e.confirmed) {
         this.props.interfaceUsage.name = e.value
       }
+    })
+  }
+
+  _dragStart(e) {
+    this.props.registerDrag(point=>{
+      const position = this.props.boundary.findNearestPosition(point)
+
+      this.props.interfaceUsage.side = position.side
+      this.props.interfaceUsage.sideRatio = position.ratio
     })
   }
 }
