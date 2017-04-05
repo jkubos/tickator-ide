@@ -35,6 +35,7 @@ export class ComponentFrame extends React.Component {
     uiState: React.PropTypes.instanceOf(UiState).isRequired,
     space: React.PropTypes.instanceOf(BusinessSpace).isRequired
   }
+  _drags = []
 
   render() {
     const geometry = this._prepareGeometry()
@@ -50,6 +51,8 @@ export class ComponentFrame extends React.Component {
       onMouseDown={e=>this._mouseDown(e)}
       onMouseMove={e=>this._mouseMove(e)}
       onMouseUp={e=>this._mouseUp(e)}
+      onTouchMove={e=>this._touchMove(e)}
+      onTouchEnd={e=>this._touchEnd(e)}
     >
 
       <rect
@@ -147,7 +150,23 @@ export class ComponentFrame extends React.Component {
     }
   }
 
+  _touchMove(e) {
+    if (this._inDragAndDrop) {
+      const x = e.touches[0].clientX-this.refs.svg.getBoundingClientRect().left
+      const y = e.touches[0].clientY-this.refs.svg.getBoundingClientRect().top
+
+      const point = new Point(x, y)
+
+      this._drags.forEach(onMove=>onMove(point))
+    }
+  }
+
   _mouseUp(e) {
+    this._inDragAndDrop = false
+    this._drags = []
+  }
+
+  _touchEnd(e) {
     this._inDragAndDrop = false
     this._drags = []
   }

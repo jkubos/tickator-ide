@@ -53,8 +53,8 @@ export class BusinessSpace {
 
   findByTypes(types) {
     return Object
-      .values(this._objects)
-      .map(o=>o.owner)
+      .keys(this._objects)
+      .map(k=>this._objects[k].owner)
       .filter(o=>types.some(t=>o instanceof t))
   }
 }
