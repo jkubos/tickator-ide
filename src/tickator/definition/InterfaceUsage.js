@@ -44,4 +44,8 @@ export class InterfaceUsage {
   get businessObject() {
     return this._businessObject
   }
+
+  delete() {
+    this._businessObject.delete()
+  }
 }

@@ -30,8 +30,20 @@ export class InterfaceUsageVisualization extends React.Component {
 
     const title = `'${this.props.interfaceUsage.name}' of type '${this.props.interfaceUsage.refInterfaceDefinition.name}'`
 
-    return <g className={styles.interfaceArea} onMouseDown={e=>this._dragStart(e)}>
+    return <g
+      className={styles.interfaceArea}
+      onMouseDown={e=>this._dragStart(e)}
+      onTouchStart={e=>this._dragStart(e)}
+      onClick={e=>this._openMenu(e)}
+    >
       <title>{title}</title>
+
+      <circle
+        className={styles.interfaceHeadOuter}
+        cx={this.props.geometry.headPoint.x}
+        cy={this.props.geometry.headPoint.y}
+        r={this.props.geometry.radius*2}
+      />
 
       <circle
         className={styles.interfaceHead}
@@ -76,5 +88,26 @@ export class InterfaceUsageVisualization extends React.Component {
       this.props.interfaceUsage.side = position.side
       this.props.interfaceUsage.sideRatio = position.ratio
     })
+  }
+
+  _openMenu(e) {
+    const buttons = {
+      buttons: [
+        {glyph: "fa-list", label: "Properties", command: "properties"},
+        {glyph: "fa-trash", label: "Delete", command: "delete"}
+      ]
+    }
+
+    this.context.uiState.openModal(Modals.CONTEXT_MENU, buttons, e=>{
+      if (e.confirmed) {
+        if (e.command==="delete") {
+          this.props.interfaceUsage.delete()
+        } else if (e.command==="properties") {
+          
+        }
+      }
+    })
+
+    e.stopPropagation()
   }
 }

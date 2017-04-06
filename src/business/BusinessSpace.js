@@ -21,6 +21,10 @@ export class BusinessSpace {
     return this._objects[uuid]
   }
 
+  exists(uuid) {
+    return this._objects[uuid]!==undefined
+  }
+
   remove(object) {
     Validate.isA(object, BusinessObject)
     Validate.isSet(this._objects, object.uuid)

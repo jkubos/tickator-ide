@@ -21,13 +21,14 @@ export class UiState {
 
     //open help as default
     this.navigate(Screens.HELP)
+  }
 
-    //temporary
-    // const obj = ComponentDefinition.create(this._businessSpace)
-    // this.navigate(Screens.COMPONENT_FORM, {uuid: obj.businessObject.uuid})
+  init() {
+    const uuid = '433323e3-8d6e-43f8-927c-d61550a00b0c'
 
-    // this.navigate(Screens.COMPONENT_FORM, {uuid: '433323e3-8d6e-43f8-927c-d61550a00b0c'})
-    // this.navigate(Screens.HISTORY)
+    if (this._businessSpace.exists(uuid)) {
+      this.navigate(Screens.COMPONENT_FORM, {uuid})
+    }
   }
 
   updateContentSize(width, height) {

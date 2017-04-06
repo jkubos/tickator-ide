@@ -44,6 +44,7 @@ export class IDE extends React.Component {
     })
 
     this.props.space.load()
+    this.props.uiState.init()
   }
 
   getChildContext() {
