@@ -25,4 +25,8 @@ export class Tools {
       return flat.concat(Array.isArray(toFlatten) ? Tools.flatten(toFlatten) : toFlatten);
     }, []);
   }
+
+  static isTouchDevice() {
+    return !!('ontouchstart' in window)
+  }
 }

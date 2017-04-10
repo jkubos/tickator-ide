@@ -12,8 +12,17 @@ export class ImageButton extends React.Component {
   }
 
   render() {
-    return <div className={classNames(styles.main, this.props.huge ? styles.huge : '')} onClick={this.props.onClick || (e=>{})}>
+    return <div className={classNames(styles.main, this.props.huge ? styles.huge : '')} onClick={e=>this._onClick(e)}>
       <i className={`fa ${this.props.glyph}`}></i>{this.props.label && <span>&nbsp;{this.props.label}</span>}
     </div>
+  }
+
+  _onClick(e) {
+    e.stopPropagation()
+    e.preventDefault()
+
+    if (this.props.onClick) {
+      this.props.onClick()
+    }    
   }
 }

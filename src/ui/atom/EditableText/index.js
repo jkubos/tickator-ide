@@ -42,5 +42,7 @@ export class EditableText extends React.Component {
         this.props.object[this.props.property] = e.value
       }
     })
+
+    e.stopPropagation()
   }
 }

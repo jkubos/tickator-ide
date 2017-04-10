@@ -28,16 +28,12 @@ export class InterfaceUsageVisualization extends React.Component {
 
   render() {
 
-    const title = `'${this.props.interfaceUsage.name}' of type '${this.props.interfaceUsage.refInterfaceDefinition.name}'`
-
     return <g
       className={styles.interfaceArea}
       onMouseDown={e=>this._dragStart(e)}
       onTouchStart={e=>this._dragStart(e)}
       onClick={e=>this._openMenu(e)}
     >
-      <title>{title}</title>
-
       <circle
         className={styles.interfaceHeadOuter}
         cx={this.props.geometry.headPoint.x}
@@ -62,23 +58,27 @@ export class InterfaceUsageVisualization extends React.Component {
 
       <text
         className={styles.interfaceText}
-        x={this.props.geometry.labelPosition.x}
-        y={this.props.geometry.labelPosition.y}
         alignmentBaseline='middle'
-        textAnchor='end'
+        textAnchor='middle'
         onClick={e=>this._editText(e)}
+        transform={`
+          translate(${this.props.geometry.labelPosition.x},${this.props.geometry.labelPosition.y})
+          rotate(${this.props.geometry.labelRotation})
+        `}
       >
         {this.props.interfaceUsage.name}
       </text>
     </g>
   }
 
-  _editText() {
+  _editText(e) {
     this.context.uiState.openModal(Modals.TEXT_MODAL, {value: this.props.interfaceUsage.name}, e=>{
       if (e.confirmed) {
         this.props.interfaceUsage.name = e.value
       }
     })
+
+    e.stopPropagation()
   }
 
   _dragStart(e) {
@@ -91,21 +91,7 @@ export class InterfaceUsageVisualization extends React.Component {
   }
 
   _openMenu(e) {
-    const buttons = {
-      buttons: [
-        {glyph: "fa-list", label: "Properties", command: "properties"},
-        {glyph: "fa-trash", label: "Delete", command: "delete"}
-      ]
-    }
-
-    this.context.uiState.openModal(Modals.CONTEXT_MENU, buttons, e=>{
-      if (e.confirmed) {
-        if (e.command==="delete") {
-          this.props.interfaceUsage.delete()
-        } else if (e.command==="properties") {
-          
-        }
-      }
+    this.context.uiState.openModal(Modals.INTERFACE_USAGE_DIALOG, {interfaceUsage: this.props.interfaceUsage}, e=>{
     })
 
     e.stopPropagation()

@@ -90,7 +90,7 @@ export class ComponentFrame extends React.Component {
   _prepareGeometry() {
     const _width = 800
     const _height = 500
-    const _padding = 10
+    const _padding = 30
 
     const geometry = {
       area: new Size(_width, _height),
@@ -108,13 +108,31 @@ export class ComponentFrame extends React.Component {
       const headPoint = basePoint.added(insideDirection.multiplied(stickLength+radius))
       const headTouchPoint = basePoint.added(insideDirection.multiplied(stickLength))
 
-      const labelPosition = headPoint.added(insideDirection.perpendClockwise().multiplied(-(radius+10)))
+      const labelPosition = basePoint.added(insideDirection.multiplied(-15))
+
+      let labelRotation = 0
+
+      switch (interfaceUsage.side) {
+        case 'left':
+          labelRotation = -90
+          break;
+        case 'right':
+          labelRotation = 90
+          break;
+        case 'top':
+          labelRotation = 0
+          break;
+        case 'bottom':
+          labelRotation = 0
+          break;
+      }
 
       geometry.items[interfaceUsage.businessObject.uuid] = {
         basePoint,
         headPoint,
         headTouchPoint,
         labelPosition,
+        labelRotation,
         radius
       }
     })
@@ -138,14 +156,26 @@ export class ComponentFrame extends React.Component {
   }
 
   _mouseDown(e) {
+    if (Tools.isTouchDevice()) {
+      return
+    }
+
     this._inDragAndDrop = true
   }
 
   _touchStart(e) {
+    if (!Tools.isTouchDevice()) {
+      return
+    }
+
     this._inDragAndDrop = true
   }
 
   _mouseMove(e) {
+    if (Tools.isTouchDevice()) {
+      return
+    }
+
     if (this._inDragAndDrop) {
       const x = e.clientX-this.refs.svg.getBoundingClientRect().left
       const y = e.clientY-this.refs.svg.getBoundingClientRect().top
@@ -157,6 +187,10 @@ export class ComponentFrame extends React.Component {
   }
 
   _touchMove(e) {
+    if (!Tools.isTouchDevice()) {
+      return
+    }
+
     if (this._inDragAndDrop) {
       const x = e.touches[0].clientX-this.refs.svg.getBoundingClientRect().left
       const y = e.touches[0].clientY-this.refs.svg.getBoundingClientRect().top
@@ -170,11 +204,19 @@ export class ComponentFrame extends React.Component {
   }
 
   _mouseUp(e) {
+    if (Tools.isTouchDevice()) {
+      return
+    }
+
     this._inDragAndDrop = false
     this._drags = []
   }
 
   _touchEnd(e) {
+    if (!Tools.isTouchDevice()) {
+      return
+    }
+
     this._inDragAndDrop = false
     this._drags = []
   }

@@ -29,6 +29,8 @@ export class ContextMenu extends React.Component {
       buttons = buttons[this.state.subindex].items
     }
 
+    const renderLabel = this.context.uiState.openedModalParams.renderLabel
+
     return <div className={styles.main} onClick={e=>this._onCancel(e)}>
       <div className={styles.content}>
         {buttons.map((button, index)=>{
