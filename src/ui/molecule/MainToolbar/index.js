@@ -35,7 +35,7 @@ export class MainToolbar extends React.Component {
       <ToolbarSeparator/>
 
       <ToolbarButton icon='fa-search' label='Search' disabled={false} onClick={e=>this._openSearch()} />
-      <ToolbarButton icon='fa-heart' label='Favorites' disabled={false} onClick={e=>{}} />
+      <ToolbarButton icon='fa-heart' label='Favorites' disabled={false} onClick={e=>this._openFavorites()} />
       <ToolbarButton icon='fa-sign-in' label='Entry points' disabled={false} onClick={e=>{}} />
 
       <ToolbarSeparator/>
@@ -87,18 +87,17 @@ export class MainToolbar extends React.Component {
   }
 
   _openSearch() {
-    this.context.uiState.openModal(Modals.SELECT_OBJECT_MODAL, {}, e=>{
+    this.context.uiState.openModal(Modals.SELECT_OBJECT_MODAL, {types: [ComponentDefinition, InterfaceDefinition]}, e=>{
       if (e.confirmed) {
+        this._openEditor(e.uuid)
+      }
+    })
+  }
 
-        const o = this.context.space.get(e.uuid).owner
-
-        if (o instanceof InterfaceDefinition) {
-          this.context.uiState.navigate(Screens.INTERFACE_FORM, {uuid: e.uuid})
-        } else if (o instanceof ComponentDefinition) {
-          this.context.uiState.navigate(Screens.COMPONENT_FORM, {uuid: e.uuid})
-        } else {
-            alert('Cannot open this object!')
-        }
+  _openFavorites() {
+    this.context.uiState.openModal(Modals.FAVORITES_MODAL, {}, e=>{
+      if (e.confirmed) {
+        this._openEditor(e.uuid)
       }
     })
   }
@@ -115,5 +114,17 @@ export class MainToolbar extends React.Component {
 
   _save() {
     this.context.space.save()
+  }
+
+  _openEditor(uuid) {
+    const o = this.context.space.get(uuid).owner
+
+    if (o instanceof InterfaceDefinition) {
+      this.context.uiState.navigate(Screens.INTERFACE_FORM, {uuid})
+    } else if (o instanceof ComponentDefinition) {
+      this.context.uiState.navigate(Screens.COMPONENT_FORM, {uuid})
+    } else {
+        alert('Cannot open this object!')
+    }
   }
 }

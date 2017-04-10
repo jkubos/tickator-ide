@@ -61,4 +61,10 @@ export class BusinessSpace {
       .map(k=>this._objects[k].owner)
       .filter(o=>types.some(t=>o instanceof t))
   }
+
+  getAll() {
+    return Object
+      .keys(this._objects)
+      .map(k=>this._objects[k].owner)
+  }
 }

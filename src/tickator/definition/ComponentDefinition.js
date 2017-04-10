@@ -30,6 +30,8 @@ export class ComponentDefinition {
 
     BusinessObject.definePropertyAccessors(this, this._businessObject, 'name')
 
+    BusinessObject.definePropertyAccessors(this, this._businessObject, 'favorite')
+
     BusinessObject.defineRefsAccessors(this, this._businessObject, 'implementation')
     BusinessObject.defineRefsAccessors(this, this._businessObject, 'interfaceUsage')
   }
@@ -44,7 +46,7 @@ export class ComponentDefinition {
     const interfaceUsage = InterfaceUsage.create(interfaceDefinition)
     interfaceUsage.side = side
     interfaceUsage.sideRatio = sideRatio
-        
+
     this.businessObject.addRef('interfaceUsage', interfaceUsage.businessObject)
   }
 }

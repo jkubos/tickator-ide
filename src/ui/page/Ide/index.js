@@ -19,7 +19,7 @@ import {SelectionInputDialog} from '~/src/ui/atom/SelectionInputDialog'
 import {SelectObjectDialog} from '~/src/ui/atom/SelectObjectDialog'
 import {ContextMenu} from '~/src/ui/atom/ContextMenu'
 import {InterfaceUsageDialog} from '~/src/ui/molecule/InterfaceUsageDialog'
-
+import {FavoritesDialog} from '~/src/ui/atom/FavoritesDialog'
 
 @observer
 export class IDE extends React.Component {
@@ -75,6 +75,7 @@ export class IDE extends React.Component {
       <SelectObjectDialog/>
       <ContextMenu/>
       <InterfaceUsageDialog/>
+      <FavoritesDialog/>
 
       <MainToolbar/>
       <Content/>

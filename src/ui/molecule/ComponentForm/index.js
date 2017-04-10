@@ -37,6 +37,8 @@ export class ComponentForm extends React.Component {
     return <div className={styles.main}>
       <div className={styles.header}>
         <EditableText object={this._obj} property={'name'} default='???'/>
+        {' '}
+        <i className={this._obj.favorite ? "fa fa-heart" : "fa fa-heart-o"} onClick={e=>this._toggleFavorite()}></i>
       </div>
 
       <ComponentFrame componentDefinition={this._obj} />
@@ -49,5 +51,10 @@ export class ComponentForm extends React.Component {
       </div>}
 
     </div>
+  }
+
+  _toggleFavorite() {
+    console.log(this._obj.favorite);
+    this._obj.favorite = this._obj.favorite ? false : true
   }
 }

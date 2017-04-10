@@ -12,7 +12,7 @@ import {InterfaceDefinition} from '~/src/tickator/definition/InterfaceDefinition
 import {ComponentDefinition} from '~/src/tickator/definition/ComponentDefinition'
 
 @observer
-export class SelectObjectDialog extends React.Component {
+export class FavoritesDialog extends React.Component {
 
   static contextTypes = {
     uiState: React.PropTypes.instanceOf(UiState).isRequired,
@@ -20,26 +20,15 @@ export class SelectObjectDialog extends React.Component {
   }
 
   render() {
-    if (this.context.uiState.openedModal!=Modals.SELECT_OBJECT_MODAL) {
+    if (this.context.uiState.openedModal!=Modals.FAVORITES_MODAL) {
       return null;
     }
 
     return <div className={styles.main} onClick={e=>this._onCancel(e)}>
-        <div>
-          <input
-            ref="input"
-            autoFocus
-            className={styles.input}
-            defaultValue=""
-            onClick={e=>e.stopPropagation()}
-            onChange={e=>this._onChange(e)}
-            onFocus={e=>this._onFocus(e)}
-            autoCapitalize="off"
-          />
-
+      <div>
         {this.context.space
-          .findByTypes(this.context.uiState.openedModalParams.types)
-          .filter(o=>o.name.includes(this.state ? this.state.input : ''))
+          .getAll()
+          .filter(o=>o.favorite)
           .map((o, i)=>{
           return <div
               className={styles.result}
@@ -64,13 +53,6 @@ export class SelectObjectDialog extends React.Component {
     e.stopPropagation()
 
     this.setState({input: ''})
-  }
-
-  _onFocus() {
-  }
-
-  _onChange() {
-    this.setState({input: this.refs.input.value})
   }
 
   _renderType(o) {

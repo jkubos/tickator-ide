@@ -148,7 +148,7 @@ export class ComponentFrame extends React.Component {
 
     const position = geometry.boundary.findNearestPosition(new Point(x, y))
 
-    this.context.uiState.openModal(Modals.SELECT_OBJECT_MODAL, {type: InterfaceDefinition}, e=>{
+    this.context.uiState.openModal(Modals.SELECT_OBJECT_MODAL, {types: [InterfaceDefinition]}, e=>{
       if (e.confirmed) {
         this.props.componentDefinition.addIterface(this.context.space.get(e.uuid).owner, position.side, position.ratio)
       }
