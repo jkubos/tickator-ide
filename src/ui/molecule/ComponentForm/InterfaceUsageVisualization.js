@@ -82,8 +82,12 @@ export class InterfaceUsageVisualization extends React.Component {
   }
 
   _dragStart(e) {
+    this._dragInProcess = false
+
     this.props.registerDrag(point=>{
       const position = this.props.boundary.findNearestPosition(point)
+
+      this._dragInProcess = true
 
       this.props.interfaceUsage.side = position.side
       this.props.interfaceUsage.sideRatio = position.ratio
@@ -91,6 +95,10 @@ export class InterfaceUsageVisualization extends React.Component {
   }
 
   _openMenu(e) {
+    if (this._dragInProcess) {
+      return
+    }
+
     this.context.uiState.openModal(Modals.INTERFACE_USAGE_DIALOG, {interfaceUsage: this.props.interfaceUsage}, e=>{
     })
 
