@@ -17,6 +17,8 @@ import {ComponentDefinition} from '~/src/tickator/definition/ComponentDefinition
 import {InterfaceDefinition} from '~/src/tickator/definition/InterfaceDefinition'
 
 import {ImageButton} from '~/src/ui/quark/ImageButton'
+import {ContextMenu} from '~/src/ui/quark/ContextMenu'
+import {ContextMenuItem} from '~/src/ui/quark/ContextMenuItem'
 
 import {EditableText} from '~/src/ui/atom/EditableText'
 
@@ -38,7 +40,18 @@ export class ComponentForm extends React.Component {
       <div className={styles.header}>
         <EditableText object={this._obj} property={'name'} default='???'/>
         {' '}
-        <i className={this._obj.favorite ? "fa fa-heart" : "fa fa-heart-o"} onClick={e=>this._toggleFavorite()}></i>
+        <ContextMenu>
+          <ContextMenuItem
+            glyph={this._obj.favorite?"fa fa-heart":"fa fa-heart-o"}
+            label={this._obj.favorite?"Make plain":"Favoritize"}
+            onClick={e=>this._toggleFavorite()}
+          />
+          <ContextMenuItem
+            glyph="fa-plus"
+            label="Add type"
+            onClick={e=>this._addType()}
+          />
+        </ContextMenu>
       </div>
 
       <ComponentFrame componentDefinition={this._obj} />
@@ -54,7 +67,6 @@ export class ComponentForm extends React.Component {
   }
 
   _toggleFavorite() {
-    console.log(this._obj.favorite);
     this._obj.favorite = this._obj.favorite ? false : true
   }
 }

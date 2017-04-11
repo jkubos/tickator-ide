@@ -15,6 +15,8 @@ export class UiState {
   @observable openedModal = undefined
   _openedModalCallback = undefined
 
+  _handlers = []
+
   constructor(businessSpace) {
     Validate.isA(businessSpace, BusinessSpace)
     this._businessSpace = businessSpace
@@ -109,5 +111,17 @@ export class UiState {
     if (e.key=='Escape') {
       this.closeModal({confirmed: false})
     }
+  }
+
+  onMouseUp(e) {
+    this._handlers.forEach(handler=>handler(e))
+  }
+
+  registerOnGlobalTick(handler) {
+    this._handlers.push(handler)
+  }
+
+  unregisterOnGlobalTick(handler) {
+    this._handlers = this._handlers.filter(item=>handler!=item)
   }
 }

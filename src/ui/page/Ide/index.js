@@ -45,6 +45,10 @@ export class IDE extends React.Component {
       this.onKeyUp(e)
     })
 
+    jQuery(window).mouseup(e=>{
+      this.onMouseUp(e)
+    })
+
     this.props.space.load()
     this.props.uiState.init()
   }
@@ -68,6 +72,10 @@ export class IDE extends React.Component {
     this.props.uiState.onKeyUp(e)
   }
 
+  onMouseUp(e) {
+    this.props.uiState.onMouseUp(e)
+  }
+
   render() {
     return <div className={styles.main}>
       <TextInputDialog/>
@@ -79,20 +87,6 @@ export class IDE extends React.Component {
 
       <MainToolbar/>
       <Content/>
-    </div>
-  }
-
-  _renderSandbox() {
-    return <div className={styles.sandbox}>
-      <div>{this.props.uiState.selectedScreen}:{this.props.uiState.selectedUuid}</div>
-
-      {this.props.uiState.getDefinitions().getConnectorsRepository().all.map(c=>{
-        return <div>
-          {c.name}[{c.uuid}]
-          &nbsp;
-          <button onClick={e=>c.name='karel'}>Rename!</button>
-        </div>
-      })}
     </div>
   }
 

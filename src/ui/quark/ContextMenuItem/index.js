@@ -1,13 +1,13 @@
 import React from 'react'
 import classNames from 'classnames'
+
 import styles from './style.less'
 
-export class ImageButton extends React.Component {
+export class ContextMenuItem extends React.Component {
 
   static propTypes = {
     glyph: React.PropTypes.string.isRequired,
     label: React.PropTypes.string,
-    huge: React.PropTypes.bool,
     onClick: React.PropTypes.func.isRequired
   }
 
