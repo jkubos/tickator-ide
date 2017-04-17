@@ -5,6 +5,7 @@ import {BusinessSpace} from '~/src/business/BusinessSpace'
 
 import {InterfaceDefinition} from './InterfaceDefinition'
 import {InterfaceUsage} from './InterfaceUsage'
+import {TypeDefinition} from './TypeDefinition'
 
 export class ComponentDefinition {
 
@@ -32,6 +33,7 @@ export class ComponentDefinition {
 
     BusinessObject.definePropertyAccessors(this, this._businessObject, 'favorite')
 
+    BusinessObject.defineRefsAccessors(this, this._businessObject, 'type')
     BusinessObject.defineRefsAccessors(this, this._businessObject, 'implementation')
     BusinessObject.defineRefsAccessors(this, this._businessObject, 'interfaceUsage')
   }
@@ -48,5 +50,14 @@ export class ComponentDefinition {
     interfaceUsage.sideRatio = sideRatio
 
     this.businessObject.addRef('interfaceUsage', interfaceUsage.businessObject)
+  }
+
+  addType() {
+    const goodName = ['T', 'U', 'V', 'W', 'X', 'Y', 'Z'].find(name=>{
+      return this.refsType.every(type=>type.name!==name)
+    })
+
+    const type = TypeDefinition.create(this.businessObject.space, goodName || "new")
+    this._businessObject.addRef("type", type.businessObject)
   }
 }

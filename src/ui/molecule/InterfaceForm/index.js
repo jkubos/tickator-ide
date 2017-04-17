@@ -21,6 +21,7 @@ import {ContextMenu} from '~/src/ui/quark/ContextMenu'
 import {ContextMenuItem} from '~/src/ui/quark/ContextMenuItem'
 
 import {EditableText} from '~/src/ui/atom/EditableText'
+import {TypesList} from '~/src/ui/atom/TypesList'
 
 import {Wires} from './Wires'
 
@@ -62,14 +63,7 @@ export class InterfaceForm extends React.Component {
       <div className={styles.subheader}>
         <EditableText object={this._obj} property={'definitionSideName'} default='???'/>
         <span>
-          {this._obj.refsType.map(type=>{
-            return <span
-              className={classNames(styles.type, {[styles.error]: !type.nameIsValid})}
-              key={type.businessObject.uuid}
-              onClick={e=>this._openTypeMenu(e, type)}>
-              &lt;{type.name}&gt;
-            </span>
-          })}
+          <TypesList obj={this._obj}/>
         </span>
         <EditableText object={this._obj} property={'otherSideName'} default='???'/>
       </div>
@@ -94,30 +88,5 @@ export class InterfaceForm extends React.Component {
 
   _addType() {
     this._obj.addType()
-  }
-
-  _openTypeMenu(e, type) {
-    const buttons = {
-      buttons: [
-        {glyph: "fa-i-cursor", label: "Rename", command: "rename"},
-        {glyph: "fa-trash", label: "Delete", command: "delete"}
-      ]
-    }
-
-    this.context.uiState.openModal(Modals.CONTEXT_MENU, buttons, e=>{
-      if (e.confirmed) {
-        if (e.command==="delete") {
-          type.delete()
-        } else if (e.command==="rename") {
-          this.context.uiState.openModal(Modals.TEXT_MODAL, {value: type.name}, e=>{
-            if (e.confirmed) {
-              type.name = e.value
-            }
-          })
-        }
-      }
-    })
-
-    e.stopPropagation()
   }
 }

@@ -41,11 +41,12 @@ export class SelectObjectDialog extends React.Component {
           .findByTypes(this.context.uiState.openedModalParams.types)
           .filter(o=>o.name.includes(this.state ? this.state.input : ''))
           .map((o, i)=>{
-          return <div
-              className={styles.result}
-              key={i}
-              onClick={e=>this._onSelect(e, o.businessObject.uuid)}>
-            {this._renderType(o)} {o.name}
+          return <div key={i}>
+            <div
+                className={styles.result}
+                onClick={e=>this._onSelect(e, o.businessObject.uuid)}>
+              {this._renderType(o)} {o.name}
+            </div>
           </div>
         })}
       </div>

@@ -21,7 +21,7 @@ import {ContextMenu} from '~/src/ui/quark/ContextMenu'
 import {ContextMenuItem} from '~/src/ui/quark/ContextMenuItem'
 
 import {EditableText} from '~/src/ui/atom/EditableText'
-
+import {TypesList} from '~/src/ui/atom/TypesList'
 
 @observer
 export class ComponentForm extends React.Component {
@@ -42,7 +42,7 @@ export class ComponentForm extends React.Component {
         {' '}
         <ContextMenu>
           <ContextMenuItem
-            glyph={this._obj.favorite?"fa fa-heart":"fa fa-heart-o"}
+            glyph={this._obj.favorite?"fa fa-heart-o":"fa fa-heart"}
             label={this._obj.favorite?"Make plain":"Favoritize"}
             onClick={e=>this._toggleFavorite()}
           />
@@ -53,6 +53,8 @@ export class ComponentForm extends React.Component {
           />
         </ContextMenu>
       </div>
+
+      <TypesList obj={this._obj}/>
 
       <ComponentFrame componentDefinition={this._obj} />
 
@@ -68,5 +70,9 @@ export class ComponentForm extends React.Component {
 
   _toggleFavorite() {
     this._obj.favorite = this._obj.favorite ? false : true
+  }
+
+  _addType() {
+    this._obj.addType()
   }
 }
