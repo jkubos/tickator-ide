@@ -3,6 +3,8 @@ import {observable} from 'mobx'
 import {observer} from 'mobx-react'
 import classNames from 'classnames'
 
+import {Validate} from '~/src/util/Validate'
+
 import styles from './style.less'
 
 import {ComponentFrame} from './ComponentFrame'
@@ -31,20 +33,62 @@ export class ComponentForm extends React.Component {
     space: React.PropTypes.instanceOf(BusinessSpace).isRequired
   }
 
-  render() {
-    let problems = []
+  state = {}
 
+  componentWillMount() {
+    this.prepare(this.state)
+  }
+
+  componentWillUpdate(nextProps, nextState) {
+    this.prepare(nextState)
+  }
+
+  prepare(state) {
     this._obj = this.context.space.get(this.context.uiState.selectedParams.uuid).owner
+
+    Validate.notNull(this._obj)
+
+    this._impl = this._obj.refsImplementation.find(impl=>impl.businessObject.uuid==state.implUuid)
+
+    if (this._impl==null) {
+      this._impl = this._obj.refsImplementation[0]
+    }
+
+    Validate.notNull(this._impl)
+  }
+
+  render() {
+    let problems = [];
+
+    [this._obj, ...this._obj.refsInterfaceUsage].forEach(obj=>{
+      obj.businessObject.observe()
+      problems = problems.concat(obj.businessObject.problems())
+    })
 
     return <div className={styles.main}>
       <div className={styles.header}>
         <EditableText object={this._obj} property={'name'} default='???'/>
-        {' '}
+        {this._obj.refsImplementation.length>1 && <span>
+          {' : '}
+          <EditableText object={this._impl} property={'name'} default='???'/>
+          {' '}
+          <ImageButton
+            glyph='fa fa-caret-down'
+            onClick={e=>this._selectImplementation()}
+            huge />
+          <i className=""/>
+        </span>}
+        {'   '}
         <ContextMenu>
           <ContextMenuItem
             glyph={this._obj.favorite?"fa fa-heart-o":"fa fa-heart"}
             label={this._obj.favorite?"Make plain":"Favoritize"}
             onClick={e=>this._toggleFavorite()}
+          />
+          <ContextMenuItem
+            glyph="fa-plus"
+            label="Add implementation"
+            onClick={e=>this._addImplementation()}
           />
           <ContextMenuItem
             glyph="fa-plus"
@@ -54,7 +98,7 @@ export class ComponentForm extends React.Component {
         </ContextMenu>
       </div>
 
-      <TypesList obj={this._obj}/>
+      {/*<TypesList obj={this._obj}/>*/}
 
       <ComponentFrame componentDefinition={this._obj} />
 
@@ -72,7 +116,26 @@ export class ComponentForm extends React.Component {
     this._obj.favorite = this._obj.favorite ? false : true
   }
 
+  _addImplementation() {
+    this._obj.addImplementation()
+  }
+
   _addType() {
     this._obj.addType()
+  }
+
+  _selectImplementation() {
+    let options = [];
+
+    options = this._obj.refsImplementation.map(impl=>({
+      label: impl.name,
+      value: {uuid: impl.businessObject.uuid}
+    }))
+
+    this.context.uiState.openModal(Modals.CHOICE_MODAL, {options}, e=>{
+      if (e.confirmed) {
+        this.setState({implUuid: e.value.uuid})
+      }
+    })
   }
 }

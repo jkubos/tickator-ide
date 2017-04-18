@@ -6,6 +6,7 @@ import {BusinessSpace} from '~/src/business/BusinessSpace'
 import {InterfaceDefinition} from './InterfaceDefinition'
 import {InterfaceUsage} from './InterfaceUsage'
 import {TypeDefinition} from './TypeDefinition'
+import {ComponentImplementation} from './ComponentImplementation'
 
 export class ComponentDefinition {
 
@@ -14,6 +15,7 @@ export class ComponentDefinition {
 
     const businessObject = new BusinessObject(businessSpace, 'ComponentDefinition')
     businessObject.setProperty("name", "new component")
+    businessObject.addRef("implementation", ComponentImplementation.create(businessSpace).businessObject)
 
     return new ComponentDefinition(businessObject)
   }
@@ -27,13 +29,16 @@ export class ComponentDefinition {
       if (!this.name) {
         this._businessObject.addPropertyProblem('name', 'Name must not be blank')
       }
+
+      if (this.refsImplementation.length!==(new Set(this.refsImplementation.map(w=>w.name))).size) {
+        this._businessObject.addPropertyProblem('implementation', "Implementation names duplicity")
+      }
     })
 
     BusinessObject.definePropertyAccessors(this, this._businessObject, 'name')
 
     BusinessObject.definePropertyAccessors(this, this._businessObject, 'favorite')
 
-    BusinessObject.defineRefsAccessors(this, this._businessObject, 'type')
     BusinessObject.defineRefsAccessors(this, this._businessObject, 'implementation')
     BusinessObject.defineRefsAccessors(this, this._businessObject, 'interfaceUsage')
   }
@@ -52,12 +57,8 @@ export class ComponentDefinition {
     this.businessObject.addRef('interfaceUsage', interfaceUsage.businessObject)
   }
 
-  addType() {
-    const goodName = ['T', 'U', 'V', 'W', 'X', 'Y', 'Z'].find(name=>{
-      return this.refsType.every(type=>type.name!==name)
-    })
-
-    const type = TypeDefinition.create(this.businessObject.space, goodName || "new")
-    this._businessObject.addRef("type", type.businessObject)
+  addImplementation() {
+    const impl = ComponentImplementation.create(this._businessObject.space)
+    this.businessObject.addRef("implementation", impl.businessObject)
   }
 }

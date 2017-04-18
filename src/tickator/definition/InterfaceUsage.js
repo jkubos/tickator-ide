@@ -37,7 +37,7 @@ export class InterfaceUsage {
     BusinessObject.definePropertyAccessors(this, this._businessObject, 'name')
     BusinessObject.definePropertyAccessors(this, this._businessObject, 'side')
     BusinessObject.definePropertyAccessors(this, this._businessObject, 'sideRatio')
-    
+
     BusinessObject.definePropertyAccessors(this, this._businessObject, 'definitionSide')
 
     BusinessObject.defineRefsAccessors(this, this._businessObject, 'interfaceDefinition')

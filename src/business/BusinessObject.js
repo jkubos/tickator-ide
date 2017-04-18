@@ -10,6 +10,7 @@ import {TypeDefinition} from '~/src/tickator/definition/TypeDefinition'
 import {WireDefinition} from '~/src/tickator/definition/WireDefinition'
 import {InterfaceUsage} from '~/src/tickator/definition/InterfaceUsage'
 import {ComponentDefinition} from '~/src/tickator/definition/ComponentDefinition'
+import {ComponentImplementation} from '~/src/tickator/definition/ComponentImplementation'
 
 export class BusinessObject {
 
@@ -84,6 +85,10 @@ export class BusinessObject {
 
       case "ComponentDefinition":
         new ComponentDefinition(res)
+        break;
+
+      case "ComponentImplementation":
+        new ComponentImplementation(res)
         break;
 
       default:

@@ -16,7 +16,6 @@ import {InterfaceDefinition} from '~/src/tickator/definition/InterfaceDefinition
 import {Point} from '~/src/util/geometry/Point'
 import {Vector} from '~/src/util/geometry/Vector'
 
-import {ImageButton} from '~/src/ui/quark/ImageButton'
 import {ContextMenu} from '~/src/ui/quark/ContextMenu'
 import {ContextMenuItem} from '~/src/ui/quark/ContextMenuItem'
 
