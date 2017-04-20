@@ -11,12 +11,14 @@ import {Modals} from '~/src/business/Modals'
 import {Rectangle} from '~/src/util/geometry/Rectangle'
 
 import {InterfaceUsage} from '~/src/tickator/definition/InterfaceUsage'
+import {ComponentImplementation} from '~/src/tickator/definition/ComponentImplementation'
 
 @observer
 export class InterfaceUsageVisualization extends React.Component {
 
   static propTypes = {
     interfaceUsage: React.PropTypes.instanceOf(InterfaceUsage).isRequired,
+    componentImplementation: React.PropTypes.instanceOf(ComponentImplementation).isRequired,
     geometry: React.PropTypes.object.isRequired,
     boundary: React.PropTypes.instanceOf(Rectangle).isRequired,
     registerDrag: React.PropTypes.func.isRequired
@@ -99,7 +101,10 @@ export class InterfaceUsageVisualization extends React.Component {
       return
     }
 
-    this.context.uiState.openModal(Modals.INTERFACE_USAGE_DIALOG, {interfaceUsage: this.props.interfaceUsage}, e=>{
+    this.context.uiState.openModal(Modals.INTERFACE_USAGE_DIALOG, {
+      interfaceUsage: this.props.interfaceUsage,
+      componentImplementation: this.props.componentImplementation
+    }, e=>{
     })
 
     e.stopPropagation()

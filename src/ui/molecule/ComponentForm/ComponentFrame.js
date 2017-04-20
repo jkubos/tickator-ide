@@ -13,6 +13,7 @@ import {Tools} from '~/src/util/Tools'
 
 import {ComponentDefinition} from '~/src/tickator/definition/ComponentDefinition'
 import {InterfaceDefinition} from '~/src/tickator/definition/InterfaceDefinition'
+import {ComponentImplementation} from '~/src/tickator/definition/ComponentImplementation'
 
 import {ImageButton} from '~/src/ui/quark/ImageButton'
 
@@ -28,7 +29,8 @@ import {InterfaceUsageVisualization} from './InterfaceUsageVisualization'
 export class ComponentFrame extends React.Component {
 
   static propTypes = {
-    componentDefinition: React.PropTypes.instanceOf(ComponentDefinition).isRequired
+    componentDefinition: React.PropTypes.instanceOf(ComponentDefinition).isRequired,
+    componentImplementation: React.PropTypes.instanceOf(ComponentImplementation).isRequired
   }
 
   static contextTypes = {
@@ -80,6 +82,7 @@ export class ComponentFrame extends React.Component {
           key={interfaceUsage.businessObject.uuid}
           geometry={geometry.items[interfaceUsage.businessObject.uuid]}
           interfaceUsage={interfaceUsage}
+          componentImplementation={this.props.componentImplementation}
           registerDrag={onMove=>this._registerDrag(onMove)}
           boundary={geometry.boundary}
         />

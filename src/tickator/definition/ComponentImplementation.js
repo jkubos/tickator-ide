@@ -6,6 +6,7 @@ import {BusinessSpace} from '~/src/business/BusinessSpace'
 import {InterfaceDefinition} from './InterfaceDefinition'
 import {InterfaceUsage} from './InterfaceUsage'
 import {TypeDefinition} from './TypeDefinition'
+import {TypeAssignment} from './TypeAssignment'
 
 export class ComponentImplementation {
 
@@ -32,6 +33,7 @@ export class ComponentImplementation {
     BusinessObject.definePropertyAccessors(this, this._businessObject, 'name')
 
     BusinessObject.defineRefsAccessors(this, this._businessObject, 'type')
+    BusinessObject.defineRefsAccessors(this, this._businessObject, 'typeAssignment')
   }
 
   get businessObject() {
@@ -45,5 +47,32 @@ export class ComponentImplementation {
 
     const type = TypeDefinition.create(this.businessObject.space, goodName || "new")
     this._businessObject.addRef("type", type.businessObject)
+  }
+
+  delete() {
+    this.refsType.forEach(type=>type.delete())
+    this._businessObject.delete()
+  }
+
+  findTypeAssignment(interfaceUsage, type) {
+    Validate.isA(interfaceUsage, InterfaceUsage)
+    Validate.isA(type, TypeDefinition)
+
+    return this.refsTypeAssignment.find(typeAssing=>
+      typeAssing.refsTargetType.length>0
+      && typeAssing.refTargetType===type
+      && typeAssing.refContext===interfaceUsage
+    )
+  }
+
+  assureTypeAssignment(interfaceUsage, type) {
+    let res = this.findTypeAssignment(interfaceUsage, type)
+
+    if (!res) {
+      res = TypeAssignment.create(this.businessObject.space, type, interfaceUsage)
+      this.businessObject.addRef('typeAssignment', res.businessObject)
+    }
+
+    return res
   }
 }

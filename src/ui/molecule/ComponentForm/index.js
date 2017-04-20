@@ -90,6 +90,13 @@ export class ComponentForm extends React.Component {
             label="Add implementation"
             onClick={e=>this._addImplementation()}
           />
+
+        {this._obj.refsImplementation.length>=2 && <ContextMenuItem
+            glyph="fa-minus"
+            label="Delete implementation"
+            onClick={e=>this._deleteImplementation()}
+          />}
+
           <ContextMenuItem
             glyph="fa-plus"
             label="Add type"
@@ -98,9 +105,9 @@ export class ComponentForm extends React.Component {
         </ContextMenu>
       </div>
 
-      {/*<TypesList obj={this._obj}/>*/}
+      <TypesList obj={this._impl}/>
 
-      <ComponentFrame componentDefinition={this._obj} />
+      <ComponentFrame componentDefinition={this._obj} componentImplementation={this._impl} />
 
       {problems.length>0 && <div className={styles.problems}>
         <h3>Problems:</h3>
@@ -120,8 +127,12 @@ export class ComponentForm extends React.Component {
     this._obj.addImplementation()
   }
 
+  _deleteImplementation() {
+    this._impl.delete()
+  }
+
   _addType() {
-    this._obj.addType()
+    this._impl.addType()
   }
 
   _selectImplementation() {
