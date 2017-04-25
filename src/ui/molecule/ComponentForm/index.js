@@ -82,7 +82,7 @@ export class ComponentForm extends React.Component {
         <ContextMenu>
           <ContextMenuItem
             glyph={this._obj.favorite?"fa fa-heart-o":"fa fa-heart"}
-            label={this._obj.favorite?"Make plain":"Favoritize"}
+            label={this._obj.favorite?"Remove from favorites":"Add to favorites"}
             onClick={e=>this._toggleFavorite()}
           />
           <ContextMenuItem
