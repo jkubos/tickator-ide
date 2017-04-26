@@ -248,7 +248,7 @@ export class ComponentFrame extends React.Component {
 
   _onClick(e) {
 
-    if (new Date()-this._dragStartTime>500) {
+    if (new Date()-this._dragStartTime>200) {
       return
     }
 

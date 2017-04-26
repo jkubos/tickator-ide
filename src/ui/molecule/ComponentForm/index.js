@@ -35,20 +35,12 @@ export class ComponentForm extends React.Component {
 
   state = {}
 
-  componentWillMount() {
-    this.prepare(this.state)
-  }
-
-  componentWillUpdate(nextProps, nextState) {
-    this.prepare(nextState)
-  }
-
   prepare(state) {
     this._obj = this.context.space.get(this.context.uiState.selectedParams.uuid).owner
 
     Validate.notNull(this._obj)
 
-    this._impl = this._obj.refsImplementation.find(impl=>impl.businessObject.uuid==state.implUuid)
+    this._impl = this._obj.refsImplementation.find(impl=>impl.businessObject.uuid==this.state.implUuid)
 
     if (this._impl==null) {
       if (this._obj.refsImplementation.length<1) {
@@ -62,7 +54,9 @@ export class ComponentForm extends React.Component {
   }
 
   render() {
-    let problems = [];
+    let problems = []
+
+    this.prepare();
 
     [this._obj, ...this._obj.refsInterfaceUsage].forEach(obj=>{
       obj.businessObject.observe()
