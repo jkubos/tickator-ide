@@ -51,6 +51,10 @@ export class ComponentForm extends React.Component {
     this._impl = this._obj.refsImplementation.find(impl=>impl.businessObject.uuid==state.implUuid)
 
     if (this._impl==null) {
+      if (this._obj.refsImplementation.length<1) {
+        this._obj.addImplementation()
+      }
+
       this._impl = this._obj.refsImplementation[0]
     }
 

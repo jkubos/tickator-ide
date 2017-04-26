@@ -8,6 +8,9 @@ import {InterfaceUsage} from './InterfaceUsage'
 import {TypeDefinition} from './TypeDefinition'
 import {TypeAssignment} from './TypeAssignment'
 
+import {ComponentUsage} from './ComponentUsage'
+import {ComponentDefinition} from './ComponentDefinition'
+
 export class ComponentImplementation {
 
   static create(businessSpace) {
@@ -34,6 +37,7 @@ export class ComponentImplementation {
 
     BusinessObject.defineRefsAccessors(this, this._businessObject, 'type')
     BusinessObject.defineRefsAccessors(this, this._businessObject, 'typeAssignment')
+    BusinessObject.defineRefsAccessors(this, this._businessObject, 'componentUsage')
   }
 
   get businessObject() {
@@ -74,5 +78,13 @@ export class ComponentImplementation {
     }
 
     return res
+  }
+
+  addComponent(componentDefinition, x, y) {
+    Validate.isA(componentDefinition, ComponentDefinition)
+
+    const componentUsage = ComponentUsage.create(componentDefinition, x, y)
+
+    this.businessObject.addRef('componentUsage', componentUsage.businessObject)
   }
 }

@@ -24,6 +24,7 @@ import {Size} from '~/src/util/geometry/Size'
 import {Point} from '~/src/util/geometry/Point'
 
 import {InterfaceUsageVisualization} from './InterfaceUsageVisualization'
+import {ComponentUsageVisualization} from './ComponentUsageVisualization'
 
 @observer
 export class ComponentFrame extends React.Component {
@@ -57,6 +58,8 @@ export class ComponentFrame extends React.Component {
       onTouchStart={e=>this._touchStart(e)}
       onTouchMove={e=>this._touchMove(e)}
       onTouchEnd={e=>this._touchEnd(e)}
+
+      onClick={e=>this._onClick(e)}
     >
 
       <rect
@@ -85,6 +88,16 @@ export class ComponentFrame extends React.Component {
           componentImplementation={this.props.componentImplementation}
           registerDrag={onMove=>this._registerDrag(onMove)}
           boundary={geometry.boundary}
+        />
+      })}
+
+      {this.props.componentImplementation.refsComponentUsage.map(componentUsage=>{
+        return <ComponentUsageVisualization
+          key={componentUsage.businessObject.uuid}
+          geometry={geometry.items[componentUsage.businessObject.uuid]}
+          componentUsage={componentUsage}
+          componentImplementation={this.props.componentImplementation}
+          registerDrag={onMove=>this._registerDrag(onMove)}
         />
       })}
     </svg>
@@ -144,6 +157,8 @@ export class ComponentFrame extends React.Component {
   }
 
   _frameClick(e) {
+    e.stopPropagation()
+
     const x = e.clientX-this.refs.svg.getBoundingClientRect().left
     const y = e.clientY-this.refs.svg.getBoundingClientRect().top
 
@@ -164,6 +179,7 @@ export class ComponentFrame extends React.Component {
     }
 
     this._inDragAndDrop = true
+    this._dragStartTime = new Date()
   }
 
   _touchStart(e) {
@@ -172,6 +188,7 @@ export class ComponentFrame extends React.Component {
     }
 
     this._inDragAndDrop = true
+    this._dragStartTime = new Date()
   }
 
   _mouseMove(e) {
@@ -227,5 +244,23 @@ export class ComponentFrame extends React.Component {
   _registerDrag(onMove) {
     this._drags = this._drags || []
     this._drags.push(onMove)
+  }
+
+  _onClick(e) {
+
+    if (new Date()-this._dragStartTime>500) {
+      return
+    }
+
+    const x = e.clientX-this.refs.svg.getBoundingClientRect().left
+    const y = e.clientY-this.refs.svg.getBoundingClientRect().top
+
+    this.context.uiState.openModal(Modals.SELECT_OBJECT_MODAL, {types: [ComponentDefinition]}, e=>{
+      if (e.confirmed) {
+        const componentDef = this.context.space.get(e.uuid).owner
+
+        this.props.componentImplementation.addComponent(componentDef, x, y)
+      }
+    })
   }
 }

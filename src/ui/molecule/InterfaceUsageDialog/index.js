@@ -112,6 +112,8 @@ export class InterfaceUsageDialog extends React.Component {
       }
     }))
 
+    this.context.uiState.closeModal({})
+
     this.context.uiState.openModal(Modals.CHOICE_MODAL, {options}, e=>{
       if (e.confirmed) {
         if (e.value.type) {

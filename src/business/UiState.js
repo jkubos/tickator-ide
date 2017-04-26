@@ -26,7 +26,8 @@ export class UiState {
   }
 
   init() {
-    const uuid = '433323e3-8d6e-43f8-927c-d61550a00b0c'
+    // const uuid = '433323e3-8d6e-43f8-927c-d61550a00b0c'
+    const uuid = '5165e65b-55d2-40e3-a698-b3f5f2f00e42'
 
     if (this._businessSpace.exists(uuid)) {
       this.navigate(Screens.COMPONENT_FORM, {uuid})
@@ -92,6 +93,8 @@ export class UiState {
   }
 
   openModal(name, params, onDone) {
+    Validate.isNull(this.openedModal, "Try to open dialog when one is already opened!")
+
     this.openedModalParams = params
     this._openedModalCallback = onDone
     this.openedModal = name

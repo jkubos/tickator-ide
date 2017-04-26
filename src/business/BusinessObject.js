@@ -12,6 +12,7 @@ import {InterfaceUsage} from '~/src/tickator/definition/InterfaceUsage'
 import {ComponentDefinition} from '~/src/tickator/definition/ComponentDefinition'
 import {ComponentImplementation} from '~/src/tickator/definition/ComponentImplementation'
 import {TypeAssignment} from '~/src/tickator/definition/TypeAssignment'
+import {ComponentUsage} from '~/src/tickator/definition/ComponentUsage'
 
 export class BusinessObject {
 
@@ -94,6 +95,10 @@ export class BusinessObject {
 
       case "TypeAssignment":
         new TypeAssignment(res)
+        break;
+
+      case "ComponentUsage":
+        new ComponentUsage(res)
         break;
 
       default:
