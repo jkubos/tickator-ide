@@ -13,6 +13,8 @@ import {Rectangle} from '~/src/util/geometry/Rectangle'
 import {ComponentUsage} from '~/src/tickator/definition/ComponentUsage'
 import {ComponentImplementation} from '~/src/tickator/definition/ComponentImplementation'
 
+import {InterfaceUsageVisualization} from './InterfaceUsageVisualization'
+
 @observer
 export class ComponentUsageVisualization extends React.Component {
 
@@ -28,6 +30,7 @@ export class ComponentUsageVisualization extends React.Component {
   }
 
   render() {
+    const {geometry} = this.props
 
     return <g
         onMouseDown={e=>this._dragStart(e)}
@@ -35,20 +38,31 @@ export class ComponentUsageVisualization extends React.Component {
       >
       <rect
         className={styles.usageFrame}
-        x={this.props.componentUsage.x-50}
-        y={this.props.componentUsage.y-50}
-        width={100}
-        height={100}
+        x={geometry.boundary.x}
+        y={geometry.boundary.y}
+        width={geometry.boundary.width}
+        height={geometry.boundary.height}
         />
 
       <text
         className={styles.centeredLabel}
-        x={this.props.componentUsage.x}
-        y={this.props.componentUsage.y}
+        x={geometry.center.x}
+        y={geometry.center.y}
         onClick={e=>this._editText(e)}
       >
         {this.props.componentUsage.name}
       </text>
+
+      {this.props.componentUsage.refComponentDefinition.refsInterfaceUsage.map(interfaceUsage=>{
+        return <InterfaceUsageVisualization
+          key={interfaceUsage.businessObject.uuid}
+          geometry={geometry.items[interfaceUsage.businessObject.uuid]}
+          interfaceUsage={interfaceUsage}
+          componentImplementation={this.props.componentImplementation}
+          registerDrag={this.props.registerDrag}
+          boundary={geometry.boundary}
+        />
+      })}
     </g>
   }
 

@@ -114,46 +114,70 @@ export class ComponentFrame extends React.Component {
       items: {}
     }
 
-    this.props.componentDefinition.refsInterfaceUsage.forEach(interfaceUsage=>{
-
-      const insideDirection = geometry.boundary.insideDirection(interfaceUsage.side)
-      const radius = 10
-      const stickLength = 30
-
-      const basePoint = geometry.boundary.findPosition(interfaceUsage.side, interfaceUsage.sideRatio)
-      const headPoint = basePoint.added(insideDirection.multiplied(stickLength+radius))
-      const headTouchPoint = basePoint.added(insideDirection.multiplied(stickLength))
-
-      const labelPosition = basePoint.added(insideDirection.multiplied(-15))
-
-      let labelRotation = 0
-
-      switch (interfaceUsage.side) {
-        case 'left':
-          labelRotation = -90
-          break;
-        case 'right':
-          labelRotation = 90
-          break;
-        case 'top':
-          labelRotation = 0
-          break;
-        case 'bottom':
-          labelRotation = 0
-          break;
-      }
-
-      geometry.items[interfaceUsage.businessObject.uuid] = {
-        basePoint,
-        headPoint,
-        headTouchPoint,
-        labelPosition,
-        labelRotation,
-        radius
-      }
-    })
+    this._prepareInterfaceUsagesGeometry(geometry)
+    this._prepareComponentUsagesGeometry(geometry)
 
     return geometry
+  }
+
+  _prepareInterfaceUsagesGeometry(geometry) {
+    this.props.componentDefinition.refsInterfaceUsage.forEach(interfaceUsage=>{
+      this._prepareInterfaceUsageGeometry(geometry, interfaceUsage, true)
+    })
+  }
+
+  _prepareInterfaceUsageGeometry(geometry, interfaceUsage, isFrame) {
+    const insideDirection = geometry.boundary.insideDirection(interfaceUsage.side).multiplied(isFrame?1:-1)
+    const radius = 10
+    const stickLength = 30
+
+    const basePoint = geometry.boundary.findPosition(interfaceUsage.side, interfaceUsage.sideRatio)
+    const headPoint = basePoint.added(insideDirection.multiplied(stickLength+radius))
+    const headTouchPoint = basePoint.added(insideDirection.multiplied(stickLength))
+
+    const labelPosition = basePoint.added(insideDirection.multiplied(-15))
+
+    let labelRotation = 0
+
+    switch (interfaceUsage.side) {
+      case 'left':
+        labelRotation = -90
+        break;
+      case 'right':
+        labelRotation = 90
+        break;
+      case 'top':
+        labelRotation = 0
+        break;
+      case 'bottom':
+        labelRotation = 0
+        break;
+    }
+
+    geometry.items[interfaceUsage.businessObject.uuid] = {
+      basePoint,
+      headPoint,
+      headTouchPoint,
+      labelPosition,
+      labelRotation,
+      radius
+    }
+  }
+
+  _prepareComponentUsagesGeometry(geometry) {
+    this.props.componentImplementation.refsComponentUsage.forEach(componentUsage=>{
+      const localGeometry = {
+        boundary: new Rectangle(componentUsage.x-50, componentUsage.y-50, 100, 100),
+        center: new Point(componentUsage.x, componentUsage.y),
+        items: {}
+      }
+
+      geometry.items[componentUsage.businessObject.uuid] = localGeometry
+
+      componentUsage.refComponentDefinition.refsInterfaceUsage.forEach(interfaceUsage=>{
+        this._prepareInterfaceUsageGeometry(localGeometry, interfaceUsage, false)
+      })
+    })
   }
 
   _frameClick(e) {
