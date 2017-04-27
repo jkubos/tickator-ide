@@ -128,8 +128,8 @@ export class ComponentFrame extends React.Component {
 
   _prepareInterfaceUsageGeometry(geometry, interfaceUsage, isFrame) {
     const insideDirection = geometry.boundary.insideDirection(interfaceUsage.side).multiplied(isFrame?1:-1)
-    const radius = 10
-    const stickLength = 30
+    const radius = 8
+    const stickLength = 10
 
     const basePoint = geometry.boundary.findPosition(interfaceUsage.side, interfaceUsage.sideRatio)
     const headPoint = basePoint.added(insideDirection.multiplied(stickLength+radius))
@@ -167,7 +167,7 @@ export class ComponentFrame extends React.Component {
   _prepareComponentUsagesGeometry(geometry) {
     this.props.componentImplementation.refsComponentUsage.forEach(componentUsage=>{
       const localGeometry = {
-        boundary: new Rectangle(componentUsage.x-50, componentUsage.y-50, 100, 100),
+        boundary: new Rectangle(componentUsage.x-70, componentUsage.y-70, 140, 140),
         center: new Point(componentUsage.x, componentUsage.y),
         items: {}
       }
@@ -210,7 +210,6 @@ export class ComponentFrame extends React.Component {
     if (!Tools.isTouchDevice()) {
       return
     }
-
     this._inDragAndDrop = true
     this._dragStartTime = new Date()
   }

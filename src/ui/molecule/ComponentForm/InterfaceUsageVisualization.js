@@ -21,7 +21,12 @@ export class InterfaceUsageVisualization extends React.Component {
     componentImplementation: React.PropTypes.instanceOf(ComponentImplementation).isRequired,
     geometry: React.PropTypes.object.isRequired,
     boundary: React.PropTypes.instanceOf(Rectangle).isRequired,
-    registerDrag: React.PropTypes.func.isRequired
+    registerDrag: React.PropTypes.func.isRequired,
+    passive: React.PropTypes.bool
+  }
+
+  static defaultProps = {
+    passive: false
   }
 
   static contextTypes = {
@@ -59,7 +64,7 @@ export class InterfaceUsageVisualization extends React.Component {
       />
 
       <text
-        className={styles.interfaceText}
+        className={this.props.passive ? styles.interfaceSmallText : styles.interfaceText}
         alignmentBaseline='middle'
         textAnchor='middle'
         onClick={e=>this._editText(e)}
@@ -74,6 +79,10 @@ export class InterfaceUsageVisualization extends React.Component {
   }
 
   _editText(e) {
+    if (this.props.passive) {
+      return
+    }
+
     this.context.uiState.openModal(Modals.TEXT_MODAL, {value: this.props.interfaceUsage.name}, e=>{
       if (e.confirmed) {
         this.props.interfaceUsage.name = e.value
@@ -84,6 +93,10 @@ export class InterfaceUsageVisualization extends React.Component {
   }
 
   _dragStart(e) {
+    if (this.props.passive) {
+      return
+    }
+
     this._dragInProcess = false
 
     this.props.registerDrag(point=>{
@@ -96,7 +109,11 @@ export class InterfaceUsageVisualization extends React.Component {
     })
   }
 
-  _openMenu(e) {
+  _openMenu(e) {    
+    if (this.props.passive) {
+      return
+    }
+
     if (this._dragInProcess) {
       return
     }

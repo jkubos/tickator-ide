@@ -61,6 +61,7 @@ export class ComponentUsageVisualization extends React.Component {
           componentImplementation={this.props.componentImplementation}
           registerDrag={this.props.registerDrag}
           boundary={geometry.boundary}
+          passive
         />
       })}
     </g>
