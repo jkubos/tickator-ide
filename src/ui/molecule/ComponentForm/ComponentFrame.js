@@ -98,6 +98,7 @@ export class ComponentFrame extends React.Component {
           componentUsage={componentUsage}
           componentImplementation={this.props.componentImplementation}
           registerDrag={onMove=>this._registerDrag(onMove)}
+          clientToPoint={(x, y)=>this._clientToPoint(x, y)}
         />
       })}
     </svg>
@@ -180,15 +181,21 @@ export class ComponentFrame extends React.Component {
     })
   }
 
+  _clientToPoint(x, y) {
+    return new Point(
+      x-this.refs.svg.getBoundingClientRect().left,
+      y-this.refs.svg.getBoundingClientRect().top
+    )
+  }
+
   _frameClick(e) {
     e.stopPropagation()
 
-    const x = e.clientX-this.refs.svg.getBoundingClientRect().left
-    const y = e.clientY-this.refs.svg.getBoundingClientRect().top
+    const point = this._clientToPoint(e.clientX, e.clientY)
 
     const geometry = this._prepareGeometry()
 
-    const position = geometry.boundary.findNearestPosition(new Point(x, y))
+    const position = geometry.boundary.findNearestPosition(point)
 
     this.context.uiState.openModal(Modals.SELECT_OBJECT_MODAL, {types: [InterfaceDefinition]}, e=>{
       if (e.confirmed) {
@@ -220,10 +227,7 @@ export class ComponentFrame extends React.Component {
     }
 
     if (this._inDragAndDrop) {
-      const x = e.clientX-this.refs.svg.getBoundingClientRect().left
-      const y = e.clientY-this.refs.svg.getBoundingClientRect().top
-
-      const point = new Point(x, y)
+      const point = this._clientToPoint(e.clientX, e.clientY)
 
       this._drags.forEach(onMove=>onMove(point))
     }
@@ -235,10 +239,7 @@ export class ComponentFrame extends React.Component {
     }
 
     if (this._inDragAndDrop) {
-      const x = e.touches[0].clientX-this.refs.svg.getBoundingClientRect().left
-      const y = e.touches[0].clientY-this.refs.svg.getBoundingClientRect().top
-
-      const point = new Point(x, y)
+      const point = this._clientToPoint(e.touches[0].clientX, e.touches[0].clientY)
 
       this._drags.forEach(onMove=>onMove(point))
 
@@ -275,14 +276,13 @@ export class ComponentFrame extends React.Component {
       return
     }
 
-    const x = e.clientX-this.refs.svg.getBoundingClientRect().left
-    const y = e.clientY-this.refs.svg.getBoundingClientRect().top
+    const point = this._clientToPoint(e.clientX, e.clientY)
 
     this.context.uiState.openModal(Modals.SELECT_OBJECT_MODAL, {types: [ComponentDefinition]}, e=>{
       if (e.confirmed) {
         const componentDef = this.context.space.get(e.uuid).owner
 
-        this.props.componentImplementation.addComponent(componentDef, x, y)
+        this.props.componentImplementation.addComponent(componentDef, point.x, point.y)
       }
     })
   }

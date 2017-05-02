@@ -22,7 +22,8 @@ export class ComponentUsageVisualization extends React.Component {
     componentUsage: React.PropTypes.instanceOf(ComponentUsage).isRequired,
     componentImplementation: React.PropTypes.instanceOf(ComponentImplementation).isRequired,
     geometry: React.PropTypes.object.isRequired,
-    registerDrag: React.PropTypes.func.isRequired
+    registerDrag: React.PropTypes.func.isRequired,
+    clientToPoint: React.PropTypes.func.isRequired
   }
 
   static contextTypes = {
@@ -84,11 +85,16 @@ export class ComponentUsageVisualization extends React.Component {
   _dragStart(e) {
     this._dragInProcess = false
 
+    const startPoint = this.props.clientToPoint(e.clientX, e.clientY)
+
+    const dx = startPoint.x-this.props.componentUsage.x
+    const dy = startPoint.y-this.props.componentUsage.y
+
     this.props.registerDrag(point=>{
       this._dragInProcess = true
 
-      this.props.componentUsage.x = point.x
-      this.props.componentUsage.y = point.y
+      this.props.componentUsage.x = point.x-dx
+      this.props.componentUsage.y = point.y-dy
     })
   }
 }
