@@ -33,16 +33,15 @@ export class ComponentUsageVisualization extends React.Component {
   render() {
     const {geometry} = this.props
 
-    return <g
-        onMouseDown={e=>this._dragStart(e)}
-        onTouchStart={e=>this._dragStart(e)}
-      >
+    return <g>
       <rect
         className={styles.usageFrame}
         x={geometry.boundary.x}
         y={geometry.boundary.y}
         width={geometry.boundary.width}
         height={geometry.boundary.height}
+        onMouseDown={e=>this._dragStart(e)}
+        onTouchStart={e=>this._dragStart(e)}
         />
 
       <text
@@ -55,15 +54,20 @@ export class ComponentUsageVisualization extends React.Component {
       </text>
 
       {this.props.componentUsage.refComponentDefinition.refsInterfaceUsage.map(interfaceUsage=>{
-        return <InterfaceUsageVisualization
-          key={interfaceUsage.businessObject.uuid}
-          geometry={geometry.items[interfaceUsage.businessObject.uuid]}
-          interfaceUsage={interfaceUsage}
-          componentImplementation={this.props.componentImplementation}
-          registerDrag={this.props.registerDrag}
-          boundary={geometry.boundary}
-          passive
-        />
+        return <g
+          onMouseDown={e=>this._dragWireStart(e)}
+          onTouchStart={e=>this._dragWireStart(e)}
+        >
+          <InterfaceUsageVisualization
+            key={interfaceUsage.businessObject.uuid}
+            geometry={geometry.items[interfaceUsage.businessObject.uuid]}
+            interfaceUsage={interfaceUsage}
+            componentImplementation={this.props.componentImplementation}
+            registerDrag={this.props.registerDrag}
+            boundary={geometry.boundary}
+            passive
+          />
+        </g>
       })}
     </g>
   }
@@ -95,6 +99,18 @@ export class ComponentUsageVisualization extends React.Component {
 
       this.props.componentUsage.x = point.x-dx
       this.props.componentUsage.y = point.y-dy
+    })
+  }
+
+  _dragWireStart(e) {
+    this._dragInProcess = false
+
+    const startPoint = this.props.clientToPoint(e.clientX, e.clientY)
+
+    this.props.registerDrag(point=>{
+      this._dragInProcess = true
+
+      console.log("from", startPoint, point)
     })
   }
 }
