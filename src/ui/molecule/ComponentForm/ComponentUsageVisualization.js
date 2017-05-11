@@ -12,6 +12,8 @@ import {Rectangle} from '~/src/util/geometry/Rectangle'
 
 import {ComponentUsage} from '~/src/tickator/definition/ComponentUsage'
 import {ComponentImplementation} from '~/src/tickator/definition/ComponentImplementation'
+import {Connection} from '~/src/tickator/definition/Connection'
+import {InterfaceUsage} from '~/src/tickator/definition/InterfaceUsage'
 
 import {InterfaceUsageVisualization} from './InterfaceUsageVisualization'
 
@@ -23,6 +25,7 @@ export class ComponentUsageVisualization extends React.Component {
     componentImplementation: React.PropTypes.instanceOf(ComponentImplementation).isRequired,
     geometry: React.PropTypes.object.isRequired,
     registerDrag: React.PropTypes.func.isRequired,
+    reportDropTarget: React.PropTypes.func.isRequired,
     clientToPoint: React.PropTypes.func.isRequired
   }
 
@@ -53,10 +56,11 @@ export class ComponentUsageVisualization extends React.Component {
         {this.props.componentUsage.name}
       </text>
 
-      {this.props.componentUsage.refComponentDefinition.refsInterfaceUsage.map(interfaceUsage=>{
+      {this.props.componentUsage.refComponentDefinition.refsInterfaceUsage.map((interfaceUsage, i)=>{
         return <g
-          onMouseDown={e=>this._dragWireStart(e)}
-          onTouchStart={e=>this._dragWireStart(e)}
+          key={i}
+          onMouseDown={e=>this._dragWireStart(e, interfaceUsage)}
+          onTouchStart={e=>this._dragWireStart(e, interfaceUsage)}
         >
           <InterfaceUsageVisualization
             key={interfaceUsage.businessObject.uuid}
@@ -64,6 +68,7 @@ export class ComponentUsageVisualization extends React.Component {
             interfaceUsage={interfaceUsage}
             componentImplementation={this.props.componentImplementation}
             registerDrag={this.props.registerDrag}
+            reportDropTarget={this.props.reportDropTarget}
             boundary={geometry.boundary}
             passive
           />
@@ -102,15 +107,28 @@ export class ComponentUsageVisualization extends React.Component {
     })
   }
 
-  _dragWireStart(e) {
+  _dragWireStart(e, interfaceUsage) {
     this._dragInProcess = false
 
     const startPoint = this.props.clientToPoint(e.clientX, e.clientY)
 
-    this.props.registerDrag(point=>{
+    this.props.registerDrag((point, targets, finish)=>{
       this._dragInProcess = true
 
-      console.log("from", startPoint, point)
+      if (finish) {
+        let target = undefined
+        targets.forEach(uuid=>{
+          const o = interfaceUsage.businessObject.space.get(uuid).owner
+
+          if (o instanceof InterfaceUsage) {
+            target = o
+          }
+        })
+
+        if (target) {
+          Connection.create(interfaceUsage.businessObject.space, interfaceUsage, target)
+        }
+      }
     })
   }
 }

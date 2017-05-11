@@ -57,6 +57,12 @@ export class BusinessObject {
         return businessObject.getRefs(name)[0]
       }
     })
+
+    Object.defineProperty(object, "hasSingleRef"+(name.charAt(0).toUpperCase() + name.slice(1)), {
+      get: ()=>{
+        return businessObject.getRefs(name).length===1
+      }
+    })
   }
 
   static fromJson(space, obj) {

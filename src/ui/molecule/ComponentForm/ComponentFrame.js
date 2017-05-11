@@ -2,6 +2,7 @@ import React from 'react'
 import {observable} from 'mobx'
 import {observer} from 'mobx-react'
 import classNames from 'classnames'
+import PathFinding from 'pathfinding'
 
 import styles from './style.less'
 
@@ -38,12 +39,12 @@ export class ComponentFrame extends React.Component {
     uiState: React.PropTypes.instanceOf(UiState).isRequired,
     space: React.PropTypes.instanceOf(BusinessSpace).isRequired
   }
+
   _drags = []
+  _targets = []
 
   render() {
     const geometry = this._prepareGeometry()
-
-    // console.log(geometry)
 
     return <svg
       ref='svg'
@@ -87,6 +88,7 @@ export class ComponentFrame extends React.Component {
           interfaceUsage={interfaceUsage}
           componentImplementation={this.props.componentImplementation}
           registerDrag={onMove=>this._registerDrag(onMove)}
+          reportDropTarget={(uuid, on)=>this._reportDropTarget(uuid, on)}
           boundary={geometry.boundary}
         />
       })}
@@ -98,16 +100,39 @@ export class ComponentFrame extends React.Component {
           componentUsage={componentUsage}
           componentImplementation={this.props.componentImplementation}
           registerDrag={onMove=>this._registerDrag(onMove)}
+          reportDropTarget={(uuid, on)=>this._reportDropTarget(uuid, on)}
           clientToPoint={(x, y)=>this._clientToPoint(x, y)}
         />
       })}
+
+      {/*this._renderGrid(geometry)*/}
     </svg>
+  }
+
+  _renderGrid(geometry) {
+    let res = []
+
+    for (let x=0;x<geometry.grid.width;++x) {
+      for (let y=0;y<geometry.grid.height;++y) {
+        res.push(<rect
+          key={res.length}
+          x={x*2}
+          y={y*2}
+          width={2}
+          height={2}
+          fill={geometry.grid.isWalkableAt(x, y)?'white':'red'}
+          />)
+      }
+    }
+
+    return res
   }
 
   _prepareGeometry() {
     const _width = 800
     const _height = 500
     const _padding = 30
+    const gridStep = 5
 
     const geometry = {
       area: new Size(_width, _height),
@@ -118,7 +143,53 @@ export class ComponentFrame extends React.Component {
     this._prepareInterfaceUsagesGeometry(geometry)
     this._prepareComponentUsagesGeometry(geometry)
 
+    const gridWidth = Math.ceil(_width/gridStep)
+    const gridHeight = Math.ceil(_height/gridStep)
+
+    const grid = new PathFinding.Grid(gridWidth, gridHeight)
+
+    const setPixel = (x, y)=>{
+        const rx = Math.round(x/gridStep)
+        const ry = Math.round(y/gridStep)
+
+        if (rx>=0 && ry>=0) {
+          if (rx<gridWidth && ry<gridHeight) {
+            grid.setWalkableAt(rx, ry, false)
+          }
+        }
+    }
+
+    for (let x=0;x<geometry.area.width;++x) {
+      for (let y=0;y<geometry.area.height;++y) {
+        if (!geometry.boundary.contains(new Point(x, y))) {
+          setPixel(x, y)
+        }
+      }
+    }
+
+    this._fillRectangles(geometry.items, setPixel)
+
+    geometry.grid = grid
+
     return geometry
+  }
+
+  _fillRectangles(items, setPixel) {
+    Object.values(items).forEach(o=>this._fillRectangle(o, setPixel))
+  }
+
+  _fillRectangle(item, setPixel) {
+    if (item.boundary) {
+      for (let x=0;x<item.boundary.width;++x) {
+        for (let y=0;y<item.boundary.height;++y) {
+          setPixel(item.boundary.x+x, item.boundary.y+y)
+        }
+      }
+    }
+
+    if (item.items) {
+      this._fillRectangles(item.items, setPixel)
+    }
   }
 
   _prepareInterfaceUsagesGeometry(geometry) {
@@ -155,13 +226,23 @@ export class ComponentFrame extends React.Component {
         break;
     }
 
+    const boundCorner1 = basePoint.added(insideDirection.perpendAntiClockwise().multiplied(radius))
+    const boundCorner2 = headPoint
+      .added(insideDirection.multiplied(radius))
+      .added(insideDirection.perpendClockwise().multiplied(radius))
+
     geometry.items[interfaceUsage.businessObject.uuid] = {
       basePoint,
       headPoint,
       headTouchPoint,
       labelPosition,
       labelRotation,
-      radius
+      radius,
+      boundary: new Rectangle(
+        Math.min(boundCorner1.x, boundCorner2.x),
+        Math.min(boundCorner1.y, boundCorner2.y),
+        Math.max(1, Math.abs(boundCorner1.x-boundCorner2.x)),
+        Math.max(1, Math.abs(boundCorner1.y-boundCorner2.y)))
     }
   }
 
@@ -229,7 +310,7 @@ export class ComponentFrame extends React.Component {
     if (this._inDragAndDrop) {
       const point = this._clientToPoint(e.clientX, e.clientY)
 
-      this._drags.forEach(onMove=>onMove(point))
+      this._drags.forEach(onMove=>onMove(point, this._targets, false))
     }
   }
 
@@ -241,7 +322,7 @@ export class ComponentFrame extends React.Component {
     if (this._inDragAndDrop) {
       const point = this._clientToPoint(e.touches[0].clientX, e.touches[0].clientY)
 
-      this._drags.forEach(onMove=>onMove(point))
+      this._drags.forEach(onMove=>onMove(point, this._targets, false))
 
       e.preventDefault()
     }
@@ -250,6 +331,12 @@ export class ComponentFrame extends React.Component {
   _mouseUp(e) {
     if (Tools.isTouchDevice()) {
       return
+    }
+
+    if (this._inDragAndDrop) {
+      const point = this._clientToPoint(e.clientX, e.clientY)
+
+      this._drags.forEach(onMove=>onMove(point, this._targets, true))
     }
 
     this._inDragAndDrop = false
@@ -261,6 +348,12 @@ export class ComponentFrame extends React.Component {
       return
     }
 
+    if (this._inDragAndDrop) {
+      const point = this._clientToPoint(e.touches[0].clientX, e.touches[0].clientY)
+
+      this._drags.forEach(onMove=>onMove(point, this._targets, true))
+    }
+
     this._inDragAndDrop = false
     this._drags = []
   }
@@ -268,6 +361,16 @@ export class ComponentFrame extends React.Component {
   _registerDrag(onMove) {
     this._drags = this._drags || []
     this._drags.push(onMove)
+  }
+
+  _reportDropTarget(uuid, on) {
+    if (on) {
+      if (!this._targets.includes(uuid)) {
+        this._targets.push(uuid)
+      }
+    } else {
+      this._targets = this._targets.filter(act=>act!==uuid)
+    }
   }
 
   _onClick(e) {

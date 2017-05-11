@@ -22,6 +22,7 @@ export class InterfaceUsageVisualization extends React.Component {
     geometry: React.PropTypes.object.isRequired,
     boundary: React.PropTypes.instanceOf(Rectangle).isRequired,
     registerDrag: React.PropTypes.func.isRequired,
+    reportDropTarget: React.PropTypes.func.isRequired,
     passive: React.PropTypes.bool
   }
 
@@ -40,6 +41,8 @@ export class InterfaceUsageVisualization extends React.Component {
       onMouseDown={e=>this._dragStart(e)}
       onTouchStart={e=>this._dragStart(e)}
       onClick={e=>this._openMenu(e)}
+      onMouseMove={e=>this._reportDropTarget(e)}
+      onMouseLeave={e=>this._cleanDropTarget(e)}
     >
       <circle
         className={styles.interfaceHeadOuter}
@@ -109,7 +112,7 @@ export class InterfaceUsageVisualization extends React.Component {
     })
   }
 
-  _openMenu(e) {    
+  _openMenu(e) {
     if (this.props.passive) {
       return
     }
@@ -125,5 +128,15 @@ export class InterfaceUsageVisualization extends React.Component {
     })
 
     e.stopPropagation()
+  }
+
+  _reportDropTarget(e) {
+    if (e.button===0) {
+      this.props.reportDropTarget(this.props.interfaceUsage.businessObject.uuid, true)
+    }
+  }
+
+  _cleanDropTarget(e) {
+    this.props.reportDropTarget(this.props.interfaceUsage.businessObject.uuid, false)
   }
 }
