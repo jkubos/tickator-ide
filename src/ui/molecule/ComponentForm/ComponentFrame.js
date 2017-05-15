@@ -171,7 +171,17 @@ export class ComponentFrame extends React.Component {
 
     geometry.grid = grid
 
+    this._prepareConnectionsGeometry(geometry)
+
     return geometry
+  }
+
+  _prepareConnectionsGeometry(geometry) {
+    this.props.componentImplementation.refsConnectionsLayer.forEach(layer=>{
+      layer.refsConnection.forEach(connection=>{
+        console.log("okay");
+      })
+    })
   }
 
   _fillRectangles(items, setPixel) {

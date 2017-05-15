@@ -13,6 +13,8 @@ import {ComponentDefinition} from '~/src/tickator/definition/ComponentDefinition
 import {ComponentImplementation} from '~/src/tickator/definition/ComponentImplementation'
 import {TypeAssignment} from '~/src/tickator/definition/TypeAssignment'
 import {ComponentUsage} from '~/src/tickator/definition/ComponentUsage'
+import {Connection} from '~/src/tickator/definition/Connection'
+import {ConnectionsLayer} from '~/src/tickator/definition/ConnectionsLayer'
 
 export class BusinessObject {
 
@@ -46,19 +48,21 @@ export class BusinessObject {
     })
   }
 
-  static defineRefsAccessors(object, businessObject, name) {
-    Object.defineProperty(object, "refs"+(name.charAt(0).toUpperCase() + name.slice(1)), {
-      get: ()=>businessObject.getRefs(name)
+  static defineRefsAccessors(object, businessObject, name, accessorName) {
+    accessorName = accessorName || name
+
+    Object.defineProperty(object, "refs"+(accessorName.charAt(0).toUpperCase() + accessorName.slice(1)), {
+      get: ()=>businessObject.getRefs(name)||[]
     })
 
-    Object.defineProperty(object, "ref"+(name.charAt(0).toUpperCase() + name.slice(1)), {
+    Object.defineProperty(object, "ref"+(accessorName.charAt(0).toUpperCase() + accessorName.slice(1)), {
       get: ()=>{
         Validate.ofSize(businessObject.getRefs(name), 1)
         return businessObject.getRefs(name)[0]
       }
     })
 
-    Object.defineProperty(object, "hasSingleRef"+(name.charAt(0).toUpperCase() + name.slice(1)), {
+    Object.defineProperty(object, "hasSingleRef"+(accessorName.charAt(0).toUpperCase() + accessorName.slice(1)), {
       get: ()=>{
         return businessObject.getRefs(name).length===1
       }
@@ -105,6 +109,14 @@ export class BusinessObject {
 
       case "ComponentUsage":
         new ComponentUsage(res)
+        break;
+
+      case "ConnectionsLayer":
+        new ConnectionsLayer(res)
+        break;
+
+      case "Connection":
+        new Connection(res)
         break;
 
       default:

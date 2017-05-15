@@ -9,6 +9,7 @@ import {TypeDefinition} from './TypeDefinition'
 import {TypeAssignment} from './TypeAssignment'
 
 import {ComponentUsage} from './ComponentUsage'
+import {ConnectionsLayer} from './ConnectionsLayer'
 import {ComponentDefinition} from './ComponentDefinition'
 
 export class ComponentImplementation {
@@ -38,6 +39,7 @@ export class ComponentImplementation {
     BusinessObject.defineRefsAccessors(this, this._businessObject, 'type')
     BusinessObject.defineRefsAccessors(this, this._businessObject, 'typeAssignment')
     BusinessObject.defineRefsAccessors(this, this._businessObject, 'componentUsage')
+    BusinessObject.defineRefsAccessors(this, this._businessObject, 'connectionsLayer')
   }
 
   get businessObject() {
@@ -86,5 +88,14 @@ export class ComponentImplementation {
     const componentUsage = ComponentUsage.create(componentDefinition, x, y)
 
     this.businessObject.addRef('componentUsage', componentUsage.businessObject)
+  }
+
+  assureDefaultConnectionsLayer() {
+    if (this.refsConnectionsLayer.length<=0) {
+      let res = ConnectionsLayer.create(this.businessObject.space)
+      this.businessObject.addRef('connectionsLayer', res.businessObject)
+    }
+
+    return this.refConnectionsLayer
   }
 }

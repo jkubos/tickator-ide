@@ -41,4 +41,8 @@ export class Connection {
     BusinessObject.defineRefsAccessors(this, this._businessObject, 'from')
     BusinessObject.defineRefsAccessors(this, this._businessObject, 'to')
   }
+
+  get businessObject() {
+    return this._businessObject
+  }
 }

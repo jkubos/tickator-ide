@@ -126,7 +126,9 @@ export class ComponentUsageVisualization extends React.Component {
         })
 
         if (target) {
-          Connection.create(interfaceUsage.businessObject.space, interfaceUsage, target)
+          const layer = this.props.componentImplementation.assureDefaultConnectionsLayer()
+
+          layer.createConnection(interfaceUsage, target)
         }
       }
     })
