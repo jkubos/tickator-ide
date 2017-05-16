@@ -26,6 +26,7 @@ import {Point} from '~/src/util/geometry/Point'
 
 import {InterfaceUsageVisualization} from './InterfaceUsageVisualization'
 import {ComponentUsageVisualization} from './ComponentUsageVisualization'
+import {ConnectionVisualization} from './ConnectionVisualization'
 
 @observer
 export class ComponentFrame extends React.Component {
@@ -105,6 +106,22 @@ export class ComponentFrame extends React.Component {
         />
       })}
 
+      {this.props.componentImplementation.refsConnectionsLayer.map(layer=>{
+        return layer.refsConnection.map(connection=>{
+          return <ConnectionVisualization
+            key={connection.businessObject.uuid}
+            geometry={geometry.items[connection.businessObject.uuid]}
+            connection={connection}
+            componentImplementation={this.props.componentImplementation}
+            registerDrag={onMove=>this._registerDrag(onMove)}
+            reportDropTarget={(uuid, on)=>this._reportDropTarget(uuid, on)}
+            clientToPoint={(x, y)=>this._clientToPoint(x, y)}
+          />
+        })
+      })}
+
+      ConnectionVisualization
+
       {/*this._renderGrid(geometry)*/}
     </svg>
   }
@@ -171,17 +188,59 @@ export class ComponentFrame extends React.Component {
 
     geometry.grid = grid
 
-    this._prepareConnectionsGeometry(geometry)
+    this._prepareConnectionsGeometry(geometry, gridStep)
 
     return geometry
   }
 
-  _prepareConnectionsGeometry(geometry) {
+  _prepareConnectionsGeometry(geometry, gridStep) {
+    const convertPosition = (p)=>Math.round(p/gridStep)
+
     this.props.componentImplementation.refsConnectionsLayer.forEach(layer=>{
       layer.refsConnection.forEach(connection=>{
-        console.log("okay");
+        const from = this._lookup(geometry, connection.refFrom.businessObject.uuid).headOuterPoint
+        const to = this._lookup(geometry, connection.refTo.businessObject.uuid).headOuterPoint
+
+        const finder = new PathFinding.AStarFinder({
+          weight: 50
+        })
+
+        const gridBackup = geometry.grid.clone()
+
+        var path = finder.findPath(
+          convertPosition(from.x),
+          convertPosition(from.y),
+          convertPosition(to.x),
+          convertPosition(to.y),
+          gridBackup)
+
+        let pathPoints = [].concat(
+          from,
+          path.map(p=>new Point(p[0]*gridStep, p[1]*gridStep)),
+          to
+        )
+
+        geometry.items[connection.businessObject.uuid] = {
+          pathPoints
+        }
       })
     })
+  }
+
+  _lookup(geometry, uuid) {
+    let res = undefined
+
+    if (geometry.items) {
+      if (geometry.items[uuid])  {
+        res = geometry.items[uuid]
+      } else {
+        Object.values(geometry.items).forEach(item=>{
+          res = res || this._lookup(item, uuid)
+        })
+      }
+    }
+
+    return res
   }
 
   _fillRectangles(items, setPixel) {
@@ -215,6 +274,7 @@ export class ComponentFrame extends React.Component {
 
     const basePoint = geometry.boundary.findPosition(interfaceUsage.side, interfaceUsage.sideRatio)
     const headPoint = basePoint.added(insideDirection.multiplied(stickLength+radius))
+    const headOuterPoint = basePoint.added(insideDirection.multiplied(stickLength+2.5*radius))
     const headTouchPoint = basePoint.added(insideDirection.multiplied(stickLength))
 
     const labelPosition = basePoint.added(insideDirection.multiplied(-15))
@@ -245,6 +305,7 @@ export class ComponentFrame extends React.Component {
       basePoint,
       headPoint,
       headTouchPoint,
+      headOuterPoint,
       labelPosition,
       labelRotation,
       radius,
