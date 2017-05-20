@@ -94,7 +94,10 @@ export class ComponentUsageVisualization extends React.Component {
   _dragStart(e) {
     this._dragInProcess = false
 
-    const startPoint = this.props.clientToPoint(e.clientX, e.clientY)
+    const startPoint = e.clientX!==undefined ?
+      this.props.clientToPoint(e.clientX, e.clientY)
+      :
+      this.props.clientToPoint(e.touches[0].clientX, e.touches[0].clientY)
 
     const dx = startPoint.x-this.props.componentUsage.x
     const dy = startPoint.y-this.props.componentUsage.y
@@ -110,7 +113,10 @@ export class ComponentUsageVisualization extends React.Component {
   _dragWireStart(e, interfaceUsage) {
     this._dragInProcess = false
 
-    const startPoint = this.props.clientToPoint(e.clientX, e.clientY)
+    const startPoint = e.clientX!==undefined ?
+      this.props.clientToPoint(e.clientX, e.clientY)
+      :
+      this.props.clientToPoint(e.touches[0].clientX, e.touches[0].clientY)
 
     this.props.registerDrag((point, targets, finish)=>{
       this._dragInProcess = true

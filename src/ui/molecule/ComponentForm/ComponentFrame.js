@@ -417,7 +417,7 @@ export class ComponentFrame extends React.Component {
       return
     }
 
-    if (this._inDragAndDrop) {
+    if (this._inDragAndDrop && e.touches[0]) {
       const point = this._clientToPoint(e.touches[0].clientX, e.touches[0].clientY)
 
       this._drags.forEach(onMove=>onMove(point, this._targets, true))
