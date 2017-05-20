@@ -29,11 +29,19 @@ export class ConnectionVisualization extends React.Component {
   }
 
   render() {
-    return <g>
+    return <g onClick={e=>this._openMenu(e)}>
       <polyline
         points={this.props.geometry.pathPoints.map(p=>`${p.x},${p.y}`).join(" ")}
-        style={{fill: 'none', stroke: 'red', strokeWidth: 4}} />
+        className={styles.connectionOuter} />
+
+      <polyline
+        points={this.props.geometry.pathPoints.map(p=>`${p.x},${p.y}`).join(" ")}
+        className={styles.connection} />
     </g>
   }
 
+  _openMenu(e) {
+    e.stopPropagation()
+    console.log("tuut");
+  }
 }
