@@ -78,6 +78,8 @@ export class ComponentUsageVisualization extends React.Component {
   }
 
   _editText(e) {
+    e.stopPropagation()
+
     if (this._dragInProcess) {
       return
     }
@@ -87,8 +89,6 @@ export class ComponentUsageVisualization extends React.Component {
         this.props.componentUsage.name = e.value
       }
     })
-
-    e.stopPropagation()
   }
 
   _dragStart(e) {
@@ -102,8 +102,8 @@ export class ComponentUsageVisualization extends React.Component {
     const dx = startPoint.x-this.props.componentUsage.x
     const dy = startPoint.y-this.props.componentUsage.y
 
-    this.props.registerDrag(point=>{
-      this._dragInProcess = true
+    this.props.registerDrag((point, targets, last)=>{
+      this._dragInProcess = !last
 
       this.props.componentUsage.x = point.x-dx
       this.props.componentUsage.y = point.y-dy
@@ -133,7 +133,7 @@ export class ComponentUsageVisualization extends React.Component {
 
         if (target) {
           const layer = this.props.componentImplementation.assureDefaultConnectionsLayer()
-
+          console.log("adding", interfaceUsage.businessObject.uuid, target.businessObject.uuid);
           layer.createConnection(interfaceUsage, target)
         }
       }

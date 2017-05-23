@@ -82,20 +82,6 @@ export class ComponentFrame extends React.Component {
         onClick={e=>this._frameClick(e)}
         />
 
-      {this.props.componentImplementation.refsConnectionsLayer.map(layer=>{
-        return layer.refsConnection.map(connection=>{
-          return <ConnectionVisualization
-            key={connection.businessObject.uuid}
-            geometry={geometry.items[connection.businessObject.uuid]}
-            connection={connection}
-            componentImplementation={this.props.componentImplementation}
-            registerDrag={onMove=>this._registerDrag(onMove)}
-            reportDropTarget={(uuid, on)=>this._reportDropTarget(uuid, on)}
-            clientToPoint={(x, y)=>this._clientToPoint(x, y)}
-          />
-        })
-      })}
-
       {this.props.componentDefinition.refsInterfaceUsage.map(interfaceUsage=>{
         return <InterfaceUsageVisualization
           key={interfaceUsage.businessObject.uuid}
@@ -118,6 +104,20 @@ export class ComponentFrame extends React.Component {
           reportDropTarget={(uuid, on)=>this._reportDropTarget(uuid, on)}
           clientToPoint={(x, y)=>this._clientToPoint(x, y)}
         />
+      })}
+
+      {this.props.componentImplementation.refsConnectionsLayer.map(layer=>{
+        return layer.refsConnection.map(connection=>{
+          return <ConnectionVisualization
+            key={connection.businessObject.uuid}
+            geometry={geometry.items[connection.businessObject.uuid]}
+            connection={connection}
+            componentImplementation={this.props.componentImplementation}
+            registerDrag={onMove=>this._registerDrag(onMove)}
+            reportDropTarget={(uuid, on)=>this._reportDropTarget(uuid, on)}
+            clientToPoint={(x, y)=>this._clientToPoint(x, y)}
+          />
+        })
       })}
 
       {/*this._renderGrid(geometry)*/}
@@ -380,6 +380,7 @@ export class ComponentFrame extends React.Component {
       const point = this._clientToPoint(e.clientX, e.clientY)
 
       this._drags.forEach(onMove=>onMove(point, this._targets, false))
+      this._lastDragPoint = undefined
     }
   }
 
@@ -392,6 +393,7 @@ export class ComponentFrame extends React.Component {
       const point = this._clientToPoint(e.touches[0].clientX, e.touches[0].clientY)
 
       this._drags.forEach(onMove=>onMove(point, this._targets, false))
+      this._lastDragPoint = point
 
       e.preventDefault()
     }
@@ -417,10 +419,8 @@ export class ComponentFrame extends React.Component {
       return
     }
 
-    if (this._inDragAndDrop && e.touches[0]) {
-      const point = this._clientToPoint(e.touches[0].clientX, e.touches[0].clientY)
-
-      this._drags.forEach(onMove=>onMove(point, this._targets, true))
+    if (this._inDragAndDrop && this._lastDragPoint) {
+      this._drags.forEach(onMove=>onMove(this._lastDragPoint, this._targets, true))
     }
 
     this._inDragAndDrop = false

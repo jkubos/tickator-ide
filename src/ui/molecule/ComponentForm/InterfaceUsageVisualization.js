@@ -37,11 +37,17 @@ export class InterfaceUsageVisualization extends React.Component {
   render() {
 
     return <g
+      ref='myRoot'
+
+      data-uuid={this.props.interfaceUsage.businessObject.uuid}
+
       className={styles.interfaceArea}
+
       onMouseDown={e=>this._dragStart(e)}
       onTouchStart={e=>this._dragStart(e)}
       onClick={e=>this._openMenu(e)}
       onMouseMove={e=>this._reportDropTarget(e)}
+      onTouchMove={e=>this._reportDropTarget(e)}
       onMouseLeave={e=>this._cleanDropTarget(e)}
     >
       <circle
@@ -133,6 +139,21 @@ export class InterfaceUsageVisualization extends React.Component {
   _reportDropTarget(e) {
     if (e.button===0) {
       this.props.reportDropTarget(this.props.interfaceUsage.businessObject.uuid, true)
+    } else if (e.touches!==undefined) {
+      let act = document.elementFromPoint(e.touches[0].pageX, e.touches[0].pageY)
+
+      while (act) {
+        if (act.dataset && act.dataset.uuid) {
+          this.props.reportDropTarget(act.dataset.uuid, true)
+          break
+        }
+
+        act = act.parentNode
+      }
+
+      if (act===undefined) {
+        this._cleanDropTarget(e)
+      }
     }
   }
 
