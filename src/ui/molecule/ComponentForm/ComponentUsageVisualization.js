@@ -78,8 +78,6 @@ export class ComponentUsageVisualization extends React.Component {
   }
 
   _editText(e) {
-    e.stopPropagation()
-
     if (this._dragInProcess) {
       return
     }
@@ -89,6 +87,8 @@ export class ComponentUsageVisualization extends React.Component {
         this.props.componentUsage.name = e.value
       }
     })
+
+    e.stopPropagation()
   }
 
   _dragStart(e) {

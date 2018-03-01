@@ -41,6 +41,10 @@ export class BusinessSpace {
   }
 
   load() {
+    if (localStorage.length<=0) {
+      return
+    }
+
     for(var key in localStorage) {
       const obj = JSON.parse(localStorage[key])
 
